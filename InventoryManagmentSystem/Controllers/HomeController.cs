@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InventoryManagmentSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,8 +9,24 @@ namespace InventoryManagmentSystem.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly InventorySystemEntities _DbContext;
+        public HomeController(InventorySystemEntities inventorySystemEntities)
+        {
+            this._DbContext = inventorySystemEntities;
+        }
+
         public ActionResult Index()
         {
+            string Key = "Session";
+            var Cookie = Request.Cookies[Key];
+            if (Cookie != null)
+            {
+                var isCheckCookie = _DbContext.UserSessions.FirstOrDefault(x => x.SessionKey == Cookie.Value);
+                if (isCheckCookie != null)
+                {
+                    return RedirectToAction("Main", "Main");
+                }
+            }
             return View();
         }
 

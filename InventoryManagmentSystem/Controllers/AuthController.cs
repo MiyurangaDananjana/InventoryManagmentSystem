@@ -19,7 +19,6 @@ namespace InventoryManagmentSystem.Controllers
             this._DbContext = inventorySystemEntities;
         }
 
-        // GET: Auth
         public ActionResult Index()
         {
             return View();
@@ -52,10 +51,6 @@ namespace InventoryManagmentSystem.Controllers
                 {
                     DateTime currentDate = DateTime.Now;
                     string Value = RandomStringGenerator.GenerateRandomString(20);
-                    CookieOptions option = new CookieOptions
-                    {
-                        Expires = DateTime.Now.AddDays(1)
-                    };
 
                     var isSession = await _DbContext.UserSessions.FirstOrDefaultAsync(x => x.UserId == isUser.Id);
                     if (isSession != null)
@@ -75,8 +70,12 @@ namespace InventoryManagmentSystem.Controllers
                          _DbContext.UserSessions.Add(sesstion);
                         await _DbContext.SaveChangesAsync();
                     }
-                    Response.Cookies.Append(Key, Value, option);
 
+                    HttpCookie cookie = new HttpCookie("Session", Value)
+                    {
+                        Expires = DateTime.Now.AddDays(1)
+                    };
+                    Response.Cookies.Add(cookie);
                     return RedirectToAction("Main", "Main");
                 }
                 else
