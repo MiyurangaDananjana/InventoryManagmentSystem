@@ -1,0 +1,99 @@
+﻿@model InventoryManagmentSystem.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Sing In";
+}
+<style>
+    label {
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+        margin-bottom: 5px;
+    }
+
+    h5 {
+        margin: 2rem 0rem 2rem 0rem;
+    }
+
+    .form-group {
+        text-align: left;
+        margin-left: 5px;
+    }
+    .link {
+        margin: 10px;
+        transition: color 0.3s ease-in-out;
+    }
+        .link:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
+</style>
+<div class="text-center">
+    <section>
+        <div class="container mt-5 pt-5">
+            <div class="row">
+                <div class="col-12 col-sm-8 col-md-6 m-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Sing In</h5>
+                            @using (Html.BeginForm("Login", "Auth", FormMethod.Post))
+                            {
+                                if (TempData["Message"] != null)
+                                {
+                                    <div class="alert alert-primary" role="alert">
+                                        @TempData["Message"]
+                                    </div>
+                                }
+
+                                <div class="form-group">
+                                    <label for="EpfNumber" class="text-end">EPF Number</label>
+                                    <div class="input-group mb-3">
+                                        @Html.TextBoxFor(model => model.EpfNumber, new { @class = "form-control" })
+                                    </div>
+                                    @*@Html.ValidationMessageFor(model => model.EpfNumber, "", new { @class = "text-danger" })*@
+                                    <label id="epfNumberError" class="text-danger"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Password" class="text-end">Password</label>
+                                    <div class="input-group mb-3">
+                                        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                                    </div>
+                                    @*@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })*@
+                                    <label id="passwordError" class="text-danger"></label>
+                                </div>
+                                <div class="text-center">
+                                    <input type="submit" value="Login" class="btn btn-primary btn-sm" />
+                                    @Html.ActionLink("Create New Account", "UserRegister", "Auth", null, new { @class = "nav-link link" })
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("form").submit(function (e) {
+            var epfNumber = $("#EpfNumber").val();
+            var password = $("#Password").val();
+            var isValid = true;
+            if (epfNumber.trim() === "") {
+                $("#epfNumberError").text("Please enter your EPF Number.");
+                isValid = false;
+            } else {
+                $("#epfNumberError").text(""); 
+            }
+            if (password.trim() === "") {
+                $("#passwordError").text("Please enter your Password.");
+                isValid = false;
+            } else {
+                $("#passwordError").text(""); 
+            }
+            if (!isValid) {
+                e.preventDefault(); 
+            }
+        });
+    });
+</script>
+

@@ -1,0 +1,176 @@
+﻿@model InventoryManagmentSystem.Models.UserViewModel
+@{
+    ViewData["Title"] = "Sing Up";
+}
+
+<style>
+    .text-end {
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+        margin-bottom: 5px;
+    }
+
+    .form-group {
+        text-align: left;
+        margin-left: 5px;
+    }
+</style>
+
+<div class="text-center">
+    <section>
+        <div class="container mt-5 pt-5">
+            <div class="row">
+                <div class="col-12 col-sm-8 col-md-6 m-auto">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Sing Up</h5>
+
+                            @using (Html.BeginForm("RegisterNewUser", "Auth", FormMethod.Post))
+                            {
+                                if (TempData["Message"] != null)
+                                {
+                                    <div class="alert alert-primary" role="alert">
+                                        @TempData["Message"]
+                                    </div>
+                                }
+
+                                <div class="form-group">
+                                    <label class="text-end">User Name</label>
+                                    <div class="input-group mb-3">
+                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                                    </div>
+                                    <label id="userName" class="text-danger"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-end">EPF Number</label>
+                                    <div class="input-group mb-3">
+                                        @Html.TextBoxFor(model => model.EPFNumber, new { @class = "form-control" })
+                                    </div>
+                                    <label id="epfNumber" class="text-danger"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-end">NIC</label>
+                                    <div class="input-group mb-3">
+                                        @Html.TextBoxFor(model => model.Nic, new { @class = "form-control" })
+                                    </div>
+                                    <label id="Nic" class="text-danger"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-end">Address</label>
+                                    <div class="input-group mb-3">
+                                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", rows = 3 })
+                                    </div>
+                                    <label id="address" class="text-danger"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-end">Contact Number</label>
+                                    <div class="input-group mb-3">
+                                        @Html.TextBoxFor(model => model.ContactNumber, new { @class = "form-control", type = "number" })
+                                    </div>
+                                    <label id="contactNumber" class="text-danger"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <!--Password-->
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4 pb-2">
+                                            <div class="form-outline">
+                                                <label class="form-label">Password</label>
+                                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                                            </div>
+                                            <label id="password" class="text-danger"></label>
+                                        </div>
+                                        <div class="col-md-6 mb-4 pb-2">
+                                            <div class="form-outline">
+                                                <label class="form-label">Confirm Password</label>
+                                                @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                                            </div>
+                                            <label id="confirmPassword" class="text-danger"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <input class="btn btn-primary btn-sm" type="submit" value="Create" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("form").submit(function (e) {
+            var userName = $("#UserName").val();
+            var epfNumber = $("#EPFNumber").val();
+            var Nic = $("#Nic").val();
+            var address = $("#Address").val();
+            var contactNumber = $("#ContactNumber").val();
+            var password = $("#Password").val();
+            var confirmPassword = $("#ConfirmPassword").val();
+            var isValid = true;
+
+            if (userName.trim() === "") {
+                $("#userName").text("Please enter your User Name.");
+                isValid = false;
+            } else {
+                $("#userName").text("");
+            }
+
+            if (epfNumber.trim() === "") {
+                $("#epfNumber").text("Please enter your EPF Number.");
+                isValid = false;
+            } else {
+                $("#epfNumber").text("");
+            }
+
+            if (Nic.trim() === "") {
+                $("#nic").text("Please enter your NIC.");
+                isValid = false;
+            } else {
+                $("#nic").text("");
+            }
+
+            if (address.trim() === "") {
+                $("#address").text("Please enter your Address.");
+                isValid = false;
+            } else {
+                $("#address").text("");
+            }
+
+            if (contactNumber.trim() === "") {
+                $("#contactNumber").text("Please enter your Contact Number.");
+                isValid = false;
+            } else {
+                $("#contactNumber").text("");
+            }
+
+            if (password.trim() === "") {
+                $("#password").text("Please enter your Password.");
+                isValid = false;
+            } else {
+                $("#password").text("");
+            }
+
+            if (confirmPassword.trim() === "") {
+                $("#confirmPassword").text("Please confirm your Password.");
+                isValid = false;
+            } else {
+                $("#confirmPassword").text("");
+            }
+
+            if (password !== confirmPassword) {
+                $("#confirmPassword").text("Passwords do not match.");
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
