@@ -25,7 +25,7 @@ namespace InventoryManagmentSystem.Controllers
                 if (isCheckCookie != null)
                 {
                     return RedirectToAction("Main", "Main");
-                }
+                }   
             }
             return View();
         }

@@ -15,12 +15,10 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     <style>
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #f8f9fa;
-            padding: 0; 
+        .link {
+            display: none;
+            cursor: pointer;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -33,6 +31,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <img class="logoImg" src="~/Img/ICBT Logo.jpg" alt="Logo" width="50" height="50">
+            <div class="navbar-nav">
+                @Html.ActionLink("Logout", "RemoveCookie", "Auth", new { area = "" }, new { @class = "link", id = "logoutLink" })
+            </div>
+
         </div>
     </nav>
     <div class="container body-content">
@@ -48,3 +50,18 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        function checkCookieExists(cookieName) {
+            return document.cookie.indexOf(cookieName + '=') !== -1;
+        }
+        const cookieName = "Session";
+        const cookieExists = checkCookieExists(cookieName);
+        if (cookieExists) {
+            $("#logoutLink").show();
+        } else {
+            $("#logoutLink").hide();
+        }
+    });
+</script>

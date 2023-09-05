@@ -1,5 +1,6 @@
 ﻿using InventoryManagmentSystem.Models;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -131,6 +132,18 @@ namespace InventoryManagmentSystem.Controllers
                 TempData["Message"] = "Password is not Metch!";
                 return RedirectToAction("UserRegister", "Auth");
             }
+        }
+
+        public ActionResult RemoveCookie()
+        {
+            string value = string.Empty;
+            HttpCookie cookie = new HttpCookie("Session", value)
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            };
+            Response.Cookies.Add(cookie);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
