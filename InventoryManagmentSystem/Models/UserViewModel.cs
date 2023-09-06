@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Web;
 
 namespace InventoryManagmentSystem.Models
 {
@@ -26,5 +28,7 @@ namespace InventoryManagmentSystem.Models
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
         [Required(ErrorMessage = "Confirm Password is required.")]
         public string ConfirmPassword { get; set; }
+
+        public HttpPostedFileBase Profile { get; set; }
     }
 }

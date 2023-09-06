@@ -14,6 +14,9 @@
         text-align: left;
         margin-left: 5px;
     }
+    #imagePreview{
+        margin-bottom:1rem;
+    }
 </style>
 
 <div class="text-center">
@@ -25,7 +28,7 @@
                         <div class="card-body">
                             <h5 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center">Sing Up</h5>
 
-                            @using (Html.BeginForm("RegisterNewUser", "Auth", FormMethod.Post))
+                            @using (Html.BeginForm("RegisterNewUser", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
                             {
                                 if (TempData["Message"] != null)
                                 {
@@ -41,6 +44,7 @@
                                     </div>
                                     <label id="userName" class="text-danger"></label>
                                 </div>
+
                                 <div class="form-group">
                                     <label class="text-end">EPF Number</label>
                                     <div class="input-group mb-3">
@@ -48,6 +52,7 @@
                                     </div>
                                     <label id="epfNumber" class="text-danger"></label>
                                 </div>
+
                                 <div class="form-group">
                                     <label class="text-end">NIC</label>
                                     <div class="input-group mb-3">
@@ -55,6 +60,7 @@
                                     </div>
                                     <label id="Nic" class="text-danger"></label>
                                 </div>
+
                                 <div class="form-group">
                                     <label class="text-end">Address</label>
                                     <div class="input-group mb-3">
@@ -62,6 +68,7 @@
                                     </div>
                                     <label id="address" class="text-danger"></label>
                                 </div>
+
                                 <div class="form-group">
                                     <label class="text-end">Contact Number</label>
                                     <div class="input-group mb-3">
@@ -89,6 +96,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="text-end">Contact Number</label>
+                                    <div class="input-group mb-3">
+                                        @Html.TextBoxFor(model => model.Profile, new { type = "file", @class = "form-control", accept = ".png, .jpeg, .jpg", id = "imageInput" })
+                                    </div>
+                                    <label id="contactNumber" class="text-danger"></label>
+                                </div>
+
+                                <div id="imagePreview">
+                                    <!-- Image preview will be displayed here -->
+                                </div>
                                 <div class="text-center">
                                     <input class="btn btn-primary btn-sm" type="submit" value="Create" />
                                 </div>
@@ -100,7 +118,6 @@
         </div>
     </section>
 </div>
-
 <script>
     $(document).ready(function () {
 
@@ -172,5 +189,30 @@
                 e.preventDefault();
             }
         });
+    });
+
+    var imageInput = document.getElementById('imageInput');
+    var imagePreview = document.getElementById('imagePreview');
+    imageInput.addEventListener('change', function () {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var image = document.createElement('img');
+                image.src = e.target.result;
+                image.classList.add('preview-image');
+                image.style.width = '200px';
+                image.style.height = '200px';
+                while (imagePreview.firstChild) {
+                    imagePreview.removeChild(imagePreview.firstChild);
+                }
+                imagePreview.appendChild(image);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            while (imagePreview.firstChild) {
+                imagePreview.removeChild(imagePreview.firstChild);
+            }
+        }
     });
 </script>

@@ -1,5 +1,8 @@
-﻿using InventoryManagmentSystem.Models;
+﻿using InventoryManagmentSystem.BLL;
+using InventoryManagmentSystem.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,13 +16,12 @@ namespace InventoryManagmentSystem.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly InventorySystemEntities _DbContext;
-        public AuthController(InventorySystemEntities inventorySystemEntities)
+        private readonly InventorySystemEntities1 _DbContext;
+        public AuthController(InventorySystemEntities1 inventorySystemEntities)
         {
             this._DbContext = inventorySystemEntities;
         }
 
-        // GET: Auth
         public ActionResult Index()
         {
             return View();
@@ -52,10 +54,6 @@ namespace InventoryManagmentSystem.Controllers
                 {
                     DateTime currentDate = DateTime.Now;
                     string Value = RandomStringGenerator.GenerateRandomString(20);
-                    CookieOptions option = new CookieOptions
-                    {
-                        Expires = DateTime.Now.AddDays(1)
-                    };
 
                     var isSession = await _DbContext.UserSessions.FirstOrDefaultAsync(x => x.UserId == isUser.Id);
                     if (isSession != null)
@@ -75,8 +73,12 @@ namespace InventoryManagmentSystem.Controllers
                          _DbContext.UserSessions.Add(sesstion);
                         await _DbContext.SaveChangesAsync();
                     }
-                    Response.Cookies.Append(Key, Value, option);
 
+                    HttpCookie cookie = new HttpCookie("Session", Value)
+                    {
+                        Expires = DateTime.Now.AddDays(1)
+                    };
+                    Response.Cookies.Add(cookie);
                     return RedirectToAction("Main", "Main");
                 }
                 else
@@ -107,6 +109,17 @@ namespace InventoryManagmentSystem.Controllers
                 TempData["Message"] = "User already exists";
                 return RedirectToAction("UserRegister", "Auth");
             }
+
+            // Upload User Profile 
+            var imgLocation = "C:\\Users\\dananjanaA\\Desktop\\InventoryManagmentSystem\\InventoryManagmentSystem\\Img\\ProfileImg";
+            string nameWithImage = "Profile";
+            string NewFileNameWithType = UserBLL.RenameImage(userViewModel.Profile, imgLocation, nameWithImage);
+            if (NewFileNameWithType == null)
+            {
+                TempData["Message"] = "Set the image";
+                return RedirectToAction("UserRegister", "Auth");
+            }
+
             if (!string.IsNullOrEmpty(userViewModel.Password) && userViewModel.Password == userViewModel.ConfirmPassword)
             {
                 string salt = RandomStringGenerator.ComputeSHA256Hash(RandomStringGenerator.GenerateRandomString(5));
@@ -122,6 +135,7 @@ namespace InventoryManagmentSystem.Controllers
                     SaltPass = salt,
                     Password = modifyPass + salt
                 };
+
                 _DbContext.UserRegisters.Add(userDetails);
                 await _DbContext.SaveChangesAsync();
                 TempData["Message"] = "New User Saved Success!";
@@ -132,6 +146,18 @@ namespace InventoryManagmentSystem.Controllers
                 TempData["Message"] = "Password is not Metch!";
                 return RedirectToAction("UserRegister", "Auth");
             }
+        }
+
+        public ActionResult RemoveCookie()
+        {
+            string value = string.Empty;
+            HttpCookie cookie = new HttpCookie("Session", value)
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            };
+            Response.Cookies.Add(cookie);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

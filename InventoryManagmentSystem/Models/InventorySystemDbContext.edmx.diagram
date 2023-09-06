@@ -4,10 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f2e38b9c1ca743d9abc423729e6697e1" Name="Diagram1">
-        <EntityTypeShape EntityType="InventorySystemModel.C__EFMigrationsHistory" Width="1.5" PointX="6.375" PointY="3.5" IsExpanded="true" />
+      <Diagram DiagramId="feef44b855494419bc12f42b9d2596df" Name="Diagram1">
+        <EntityTypeShape EntityType="InventorySystemModel.C__EFMigrationsHistory" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InventorySystemModel.UserRegister" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.UserSession" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.UserSession" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <AssociationConnector Association="InventorySystemModel.FK__UserSessi__UserI__4D94879B" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

@@ -22,7 +22,7 @@ namespace InventoryManagmentSystem
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             var container = new UnityContainer();
-            container.RegisterType<InventorySystemEntities>();
+            container.RegisterType<InventorySystemEntities1>();
             // Other registrations...
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
