@@ -1,12 +1,10 @@
 ﻿using InventoryManagmentSystem.BLL;
 using InventoryManagmentSystem.Models;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -17,6 +15,9 @@ namespace InventoryManagmentSystem.Controllers
     public class AuthController : Controller
     {
         private readonly InventorySystemEntities1 _DbContext;
+
+        private const string PATH_PROFILE_PHOTO_UPLOAD = "C:\\Users\\dananjanaA\\Desktop\\InventoryManagmentSystem\\InventoryManagmentSystem\\Img\\ProfileImg";
+
         public AuthController(InventorySystemEntities1 inventorySystemEntities)
         {
             this._DbContext = inventorySystemEntities;
@@ -70,7 +71,7 @@ namespace InventoryManagmentSystem.Controllers
                             SessionDate = currentDate,
                             expireDate = currentDate.AddDays(1)
                         };
-                         _DbContext.UserSessions.Add(sesstion);
+                        _DbContext.UserSessions.Add(sesstion);
                         await _DbContext.SaveChangesAsync();
                     }
 
@@ -92,8 +93,6 @@ namespace InventoryManagmentSystem.Controllers
                 TempData["Message"] = "Check Password!";
                 return RedirectToAction("Index", "Home");
             }
-
-
         }
 
         [HttpPost]
@@ -110,10 +109,8 @@ namespace InventoryManagmentSystem.Controllers
                 return RedirectToAction("UserRegister", "Auth");
             }
 
-            // Upload User Profile 
-            var imgLocation = "C:\\Users\\dananjanaA\\Desktop\\InventoryManagmentSystem\\InventoryManagmentSystem\\Img\\ProfileImg";
-            string nameWithImage = "Profile";
-            string NewFileNameWithType = UserBLL.RenameImage(userViewModel.Profile, imgLocation, nameWithImage);
+            // Upload User Profile      
+            string NewFileNameWithType = UserBLL.RenameImage(userViewModel.Profile, PATH_PROFILE_PHOTO_UPLOAD);
             if (NewFileNameWithType == null)
             {
                 TempData["Message"] = "Set the image";
@@ -133,7 +130,8 @@ namespace InventoryManagmentSystem.Controllers
                     RegisterDate = DateTime.Now,
                     UserStatus = 1,
                     SaltPass = salt,
-                    Password = modifyPass + salt
+                    Password = modifyPass + salt,
+                    ProfileImgName = NewFileNameWithType
                 };
 
                 _DbContext.UserRegisters.Add(userDetails);
@@ -158,6 +156,45 @@ namespace InventoryManagmentSystem.Controllers
             Response.Cookies.Add(cookie);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult GetTheUserDetailsBySession(string session)
+        {
+            if(session != null)
+            {
+                var isSession = _DbContext.UserSessions.FirstOrDefault(x => x.SessionKey == session);
+                var isUserDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == isSession.UserId);
+                var userDetails = new
+                {
+                    UserName = isUserDetails.UserName,
+                    ImageName = isUserDetails.ProfileImgName
+                };
+                return Json(userDetails, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(400);
+            }
+
+        }
+
+
+        //http://localhost:55811/Auth/GetImage?imageName=profile%20(1)_dd9e4fde-e176-4ecd-a38c-825199bcc2bb.png example url
+        //<img src = "@Url.Action("GetImage", "YourController", new { imageName = "example.jpg" })" alt="Image">
+
+        [HttpGet]
+        public ActionResult GetImage(string imageName)
+        {
+            string imagePath = Path.Combine(PATH_PROFILE_PHOTO_UPLOAD, imageName);
+            if (System.IO.File.Exists(imagePath))
+            {
+                return File(imagePath, "image/jpeg");
+            }
+            else
+            {
+                return Content("Image not found");
+            }
         }
     }
 }

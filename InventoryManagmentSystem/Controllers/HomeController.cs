@@ -9,6 +9,12 @@ namespace InventoryManagmentSystem.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly InventorySystemEntities1 _DbContext;
+        public HomeController(InventorySystemEntities1 inventorySystemEntities)
+        {
+            this._DbContext = inventorySystemEntities;
+        }
+
         public ActionResult Index()
         {
             string Key = "Session";
@@ -19,7 +25,7 @@ namespace InventoryManagmentSystem.Controllers
                 if (isCheckCookie != null)
                 {
                     return RedirectToAction("Main", "Main");
-                }   
+                }
             }
             return View();
         }

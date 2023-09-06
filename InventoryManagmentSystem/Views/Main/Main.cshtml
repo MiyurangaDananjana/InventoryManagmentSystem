@@ -1,4 +1,72 @@
 ﻿
-@{
-    ViewBag.Title = "Main";
-}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="~/wwwroot/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/wwwroot/css/custom.css" rel="stylesheet" />
+<!--google material icon-->
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
+
+
+<body>
+    <div class="wrapper">
+
+        <div class="body-overlay"></div>
+
+        <!--Side menu start-->
+        @Html.Partial("DashBoardLayout/_SideMenu")
+        <!--Side menu end-->
+        <!-------page-content start----------->
+
+    <div id="content">
+
+        <!------top-navbar-start----------->
+        @Html.Partial("DashBoardLayout/_NavBar")
+        <!------top-navbar-end----------->
+        <!------main-content-start----------->
+
+        <div class="main-content">
+            @Html.Partial("User/ViewUser")
+        </div>
+
+        <!------main-content-end----------->
+        <!--footer start-->
+        @Html.Partial("DashBoardLayout/_Footer")
+        <!--footer end-->
+
+
+
+    </div>
+
+    </div>
+
+
+
+    <!-------complete html----------->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="~/wwwroot/js/jquery-3.3.1.min.js"></script>
+    <script src="~/wwwroot/js/popper.min.js"></script>
+    <script src="~/wwwroot/js/bootstrap.min.js"></script>
+    <script src="~/wwwroot/js/jquery-3.3.1.slim.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".xp-menubar").on('click', function () {
+                $("#sidebar").toggleClass('active');
+                $("#content").toggleClass('active');
+            });
+
+            $('.xp-menubar,.body-overlay').on('click', function () {
+                $("#sidebar,.body-overlay").toggleClass('show-nav');
+            });
+
+        });
+    </script>
+
+
+
+
+
+</body>

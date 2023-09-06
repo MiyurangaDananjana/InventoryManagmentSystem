@@ -9,12 +9,12 @@ namespace InventoryManagmentSystem.BLL
 {
     public class UserBLL
     {
-        public static string RenameImage(HttpPostedFileBase profile, string targetDirectory, string NameProfile)
+        public static string RenameImage(HttpPostedFileBase profile, string targetDirectory)
         {
             if (profile != null && profile.ContentLength > 0)
             {
                 // Get the original file name
-                string originalFileName = Path.GetFileName(NameProfile);
+                string originalFileName = Path.GetFileName(profile.FileName);
 
                 // Rename the file as needed (e.g., add a timestamp or a unique identifier)
                 string newFileName = GenerateUniqueFileName(originalFileName);

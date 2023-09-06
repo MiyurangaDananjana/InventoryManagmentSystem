@@ -1,0 +1,118 @@
+﻿<style>
+    .nav-profile {
+        width: 40px;
+        border-radius: 50%;
+    }
+</style>
+<div class="top-navbar">
+    <div class="xd-topbar">
+        <div class="row">
+            <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                <div class="xp-menubar">
+                    <span class="material-icons text-white">signal_cellular_alt</span>
+                </div>
+            </div>
+
+            <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                <div class="xp-searchbar">
+                    <form>
+                    </form>
+                </div>
+            </div>
+            <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+                <div class="xp-profilebar text-right">
+                    <nav class="navbar p-0">
+                        <ul class="nav navbar-nav flex-row ml-auto">
+                            <li class="dropdown nav-item active">
+                                <a class="nav-link" data-toggle="dropdown">
+                                    <span class="material-icons">notifications</span>
+                                    <span class="notification">4</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a>You Have 4 New Messages</a></li>
+                                    <li><a>You Have 4 New Messages</a></li>
+                                    <li><a>You Have 4 New Messages</a></li>
+                                    <li><a>You Have 4 New Messages</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown nav-item">
+                                <a class="nav-link" data-toggle="dropdown">
+                                    <img  id="imageName" class="nav-profile" alt="Image">
+                                    <span class="xp-user-live"></span>
+                                </a>
+                                <ul class="dropdown-menu small-menu">
+                                    <li>
+                                        <a>
+                                            @Html.ActionLink("Logout", "RemoveCookie", "Auth", new { area = "" }, new { @class = "link", id = "logoutLink" })
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="xp-breadcrumbbar text-center">
+            <h4 class="page-title">INVENTORY MANAGEMENT SYSTEM</h4>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-curent="page"></li>
+            </ol>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function checkCookieExists(cookieName) {
+            return document.cookie.indexOf(cookieName + '=') !== -1;
+        }
+        const cookieName = "Session";
+        const cookieExists = checkCookieExists(cookieName);
+        if (cookieExists) {
+            $("#logoutLink").show();
+        } else {
+            $("#logoutLink").hide();
+        }
+    });
+
+    $(document).ready(function () {
+        var sessionKey = Cookies.get('Session');
+        if (sessionKey) {
+            $.ajax({
+                url: '/Auth/GetTheUserDetailsBySession',
+                type: 'GET',
+                data: { session: sessionKey },
+                dataType: 'json',
+                success: function (data) {
+                    if (data) {
+                        $('#userName').text(data.UserName);
+                        fetchImage(data.ImageName);
+                    } else {
+                        console.log('Session not found.');
+                    }
+                },
+                error: function () {
+                    console.log('Error occurred during the AJAX request.');
+                }
+            });
+        }
+        else
+        {
+            console.log('Session cookie not found.');
+        }
+    });
+
+    function fetchImage(imageName) {
+        var imageElement = document.getElementById('imageName');
+        var imageUrl = 'http://localhost:55811/Auth/GetImage?imageName=' + imageName; // Replace with the actual image URL
+        imageElement.src = imageUrl;
+    }
+
+
+</script>

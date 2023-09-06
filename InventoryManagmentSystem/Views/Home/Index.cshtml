@@ -3,6 +3,15 @@
     ViewData["Title"] = "Sing In";
 }
 <style>
+    .card {
+        background-color: #c5eceb;
+    }
+    .nav-link {
+        margin-top: 2rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+        color: #57375D;
+    }
     label {
         font-weight: bold;
         font-family: 'Roboto', sans-serif;
@@ -17,15 +26,28 @@
         text-align: left;
         margin-left: 5px;
     }
+
     .link {
         margin: 10px;
         transition: color 0.3s ease-in-out;
     }
+
         .link:hover {
             color: #007bff;
             text-decoration: underline;
         }
 </style>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+        @Html.ActionLink("Inventory Managment System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <img class="logoImg" src="~/Img/ICBT Logo.jpg" alt="Logo" width="50" height="50">
+
+    </div>
+</nav>
 <div class="text-center">
     <section>
         <div class="container mt-5 pt-5">
@@ -42,7 +64,6 @@
                                         @TempData["Message"]
                                     </div>
                                 }
-
                                 <div class="form-group">
                                     <label for="EpfNumber" class="text-end">EPF Number</label>
                                     <div class="input-group mb-3">
@@ -82,16 +103,16 @@
                 $("#epfNumberError").text("Please enter your EPF Number.");
                 isValid = false;
             } else {
-                $("#epfNumberError").text(""); 
+                $("#epfNumberError").text("");
             }
             if (password.trim() === "") {
                 $("#passwordError").text("Please enter your Password.");
                 isValid = false;
             } else {
-                $("#passwordError").text(""); 
+                $("#passwordError").text("");
             }
             if (!isValid) {
-                e.preventDefault(); 
+                e.preventDefault();
             }
         });
     });
