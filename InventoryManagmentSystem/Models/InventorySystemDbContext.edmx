@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="InventorySystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="InventorySystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__EFMigrationsHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -49,6 +49,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="UserDetailsSp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="InventorySystemModelStoreContainer">
           <EntitySet Name="__EFMigrationsHistory" EntityType="Self.__EFMigrationsHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRegister" EntityType="Self.UserRegister" Schema="dbo" store:Type="Tables" />
@@ -58,8 +59,7 @@
             <End Role="UserSession" EntitySet="UserSession" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="InventorySystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -117,7 +117,15 @@
             <End Role="UserRegister" EntitySet="UserRegisters" />
             <End Role="UserSession" EntitySet="UserSessions" />
           </AssociationSet>
+          <FunctionImport Name="UserDetailsSp" ReturnType="Collection(InventorySystemModel.UserDetailsSp_Result)" />
         </EntityContainer>
+        <ComplexType Name="UserDetailsSp_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="true" />
+          <Property Type="String" Name="EPFNumber" Nullable="true" />
+          <Property Type="String" Name="Nic" Nullable="true" />
+          <Property Type="String" Name="Address" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -159,6 +167,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="UserDetailsSp" FunctionName="InventorySystemModel.Store.UserDetailsSp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="InventorySystemModel.UserDetailsSp_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EPFNumber" ColumnName="EPFNumber" />
+                <ScalarProperty Name="Nic" ColumnName="Nic" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

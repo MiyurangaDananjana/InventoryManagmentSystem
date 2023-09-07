@@ -12,6 +12,8 @@ namespace InventoryManagmentSystem.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class InventorySystemEntities1 : DbContext
     {
@@ -28,5 +30,10 @@ namespace InventoryManagmentSystem.Models
         public virtual DbSet<C__EFMigrationsHistory> C__EFMigrationsHistory { get; set; }
         public virtual DbSet<UserRegister> UserRegisters { get; set; }
         public virtual DbSet<UserSession> UserSessions { get; set; }
+    
+        public virtual ObjectResult<UserDetailsSp_Result> UserDetailsSp()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserDetailsSp_Result>("UserDetailsSp");
+        }
     }
 }

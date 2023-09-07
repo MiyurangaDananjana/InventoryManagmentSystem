@@ -7,7 +7,9 @@
 <!--google material icon-->
 <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 
-
+@{
+    ViewData["Title"] = "Dashbord";
+}
 
 <body>
     <div class="wrapper">
@@ -19,25 +21,25 @@
         <!--Side menu end-->
         <!-------page-content start----------->
 
-    <div id="content">
+        <div id="content">
 
-        <!------top-navbar-start----------->
-        @Html.Partial("DashBoardLayout/_NavBar")
-        <!------top-navbar-end----------->
-        <!------main-content-start----------->
+            <!------top-navbar-start----------->
+            @Html.Partial("DashBoardLayout/_NavBar")
+            <!------top-navbar-end----------->
+            <!------main-content-start----------->
 
-        <div class="main-content">
-            @Html.Partial("User/ViewUser")
+            <div class="main-content">
+                @Html.Partial("User/ViewUser")
+            </div>
+
+            <!------main-content-end----------->
+            <!--footer start-->
+            @Html.Partial("DashBoardLayout/_Footer")
+            <!--footer end-->
+
+
+
         </div>
-
-        <!------main-content-end----------->
-        <!--footer start-->
-        @Html.Partial("DashBoardLayout/_Footer")
-        <!--footer end-->
-
-
-
-    </div>
 
     </div>
 

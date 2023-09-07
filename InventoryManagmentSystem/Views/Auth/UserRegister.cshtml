@@ -14,14 +14,27 @@
         text-align: left;
         margin-left: 5px;
     }
-    #imagePreview{
-        margin-bottom:1rem;
+
+    #imagePreview {
+        margin-bottom: 1rem;
+        border-radius: 50%;
     }
+
     .card {
         background-color: #c5eceb;
     }
 </style>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+        @Html.ActionLink("Inventory Managment System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <img class="logoImg" src="~/Img/ICBT Logo.jpg" alt="Logo" width="50" height="50">
 
+    </div>
+</nav>
 <div class="text-center">
     <section>
         <div class="container mt-5 pt-5">
@@ -39,7 +52,6 @@
                                         @TempData["Message"]
                                     </div>
                                 }
-
                                 <div class="form-group">
                                     <label class="text-end">User Name</label>
                                     <div class="input-group mb-3">
@@ -47,7 +59,6 @@
                                     </div>
                                     <label id="userName" class="text-danger"></label>
                                 </div>
-
                                 <div class="form-group">
                                     <label class="text-end">EPF Number</label>
                                     <div class="input-group mb-3">
@@ -85,15 +96,15 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-4 pb-2">
                                             <div class="form-outline">
-                                                <label class="form-label">Password</label>
-                                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                                                <label class="text-end">Password</label>
+                                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", type = "password" })
                                             </div>
                                             <label id="password" class="text-danger"></label>
                                         </div>
                                         <div class="col-md-6 mb-4 pb-2">
                                             <div class="form-outline">
-                                                <label class="form-label">Confirm Password</label>
-                                                @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                                                <label class="text-end">Confirm Password</label>
+                                                @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control", type = "password" })
                                             </div>
                                             <label id="confirmPassword" class="text-danger"></label>
                                         </div>
@@ -106,7 +117,6 @@
                                     </div>
                                     <label id="contactNumber" class="text-danger"></label>
                                 </div>
-
                                 <div id="imagePreview">
                                     <!-- Image preview will be displayed here -->
                                 </div>
@@ -132,61 +142,52 @@
             var password = $("#Password").val();
             var confirmPassword = $("#ConfirmPassword").val();
             var isValid = true;
-
             if (userName.trim() === "") {
                 $("#userName").text("Please enter your User Name.");
                 isValid = false;
             } else {
                 $("#userName").text("");
             }
-
             if (epfNumber.trim() === "") {
                 $("#epfNumber").text("Please enter your EPF Number.");
                 isValid = false;
             } else {
                 $("#epfNumber").text("");
             }
-
             if (Nic.trim() === "") {
                 $("#nic").text("Please enter your NIC.");
                 isValid = false;
             } else {
                 $("#nic").text("");
             }
-
             if (address.trim() === "") {
                 $("#address").text("Please enter your Address.");
                 isValid = false;
             } else {
                 $("#address").text("");
             }
-
             if (contactNumber.trim() === "") {
                 $("#contactNumber").text("Please enter your Contact Number.");
                 isValid = false;
             } else {
                 $("#contactNumber").text("");
             }
-
             if (password.trim() === "") {
                 $("#password").text("Please enter your Password.");
                 isValid = false;
             } else {
                 $("#password").text("");
             }
-
             if (confirmPassword.trim() === "") {
                 $("#confirmPassword").text("Please confirm your Password.");
                 isValid = false;
             } else {
                 $("#confirmPassword").text("");
             }
-
             if (password !== confirmPassword) {
                 $("#confirmPassword").text("Passwords do not match.");
                 isValid = false;
             }
-
             if (!isValid) {
                 e.preventDefault();
             }
