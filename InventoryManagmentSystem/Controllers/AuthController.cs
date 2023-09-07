@@ -40,8 +40,10 @@ namespace InventoryManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(400, "Bad Request");
             }
+
+            // Check if the user with the provided EPFNumber exists in the database.
             var isUser = await _DbContext.UserRegisters.FirstOrDefaultAsync(x => x.EPFNumber == loginViewModel.EpfNumber);
-            if (isUser == null)
+            if (isUser == null) // If the user is not found in the database.
             {
                 TempData["Message"] = "EPF Number is not registered!";
                 return RedirectToAction("Index", "Home");
@@ -60,7 +62,7 @@ namespace InventoryManagmentSystem.Controllers
                     if (isSession != null)
                     {
                         isSession.SessionKey = Value;
-                        await _DbContext.SaveChangesAsync();
+                        await _DbContext.SaveChangesAsync(); // Update the existing session key. 
                     }
                     else
                     {
@@ -72,7 +74,7 @@ namespace InventoryManagmentSystem.Controllers
                             expireDate = currentDate.AddDays(1)
                         };
                         _DbContext.UserSessions.Add(sesstion);
-                        await _DbContext.SaveChangesAsync();
+                        await _DbContext.SaveChangesAsync(); // Create a new session record.
                     }
 
                     HttpCookie cookie = new HttpCookie("Session", Value)
