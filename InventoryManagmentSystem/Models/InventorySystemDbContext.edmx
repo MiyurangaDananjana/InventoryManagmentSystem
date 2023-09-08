@@ -26,6 +26,7 @@
           <Property Name="Password" Type="nvarchar" MaxLength="128" />
           <Property Name="SaltPass" Type="nvarchar" MaxLength="100" />
           <Property Name="ProfileImgName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastUpdateUserId" Type="int" />
         </EntityType>
         <EntityType Name="UserSession">
           <Key>
@@ -49,7 +50,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="getSessionSp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SessionKey" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="UserDetailsSp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UserLoginSp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EpfNumber" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="InventorySystemModelStoreContainer">
           <EntitySet Name="__EFMigrationsHistory" EntityType="Self.__EFMigrationsHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRegister" EntityType="Self.UserRegister" Schema="dbo" store:Type="Tables" />
@@ -85,6 +92,7 @@
           <Property Name="SaltPass" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ProfileImgName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserSessions" Relationship="Self.FK__UserSessi__UserI__4D94879B" FromRole="UserRegister" ToRole="UserSession" />
+          <Property Name="LastUpdateUserId" Type="Int32" />
         </EntityType>
         <EntityType Name="UserSession">
           <Key>
@@ -118,6 +126,12 @@
             <End Role="UserSession" EntitySet="UserSessions" />
           </AssociationSet>
           <FunctionImport Name="UserDetailsSp" ReturnType="Collection(InventorySystemModel.UserDetailsSp_Result)" />
+          <FunctionImport Name="getSessionSp" ReturnType="Collection(Int32)">
+          <Parameter Name="SessionKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserLoginSp" ReturnType="Collection(InventorySystemModel.UserLoginSp_Result)">
+          <Parameter Name="EpfNumber" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="UserDetailsSp_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -125,6 +139,13 @@
           <Property Type="String" Name="EPFNumber" Nullable="true" />
           <Property Type="String" Name="Nic" Nullable="true" />
           <Property Type="String" Name="Address" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UserLoginSp_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="true" />
+          <Property Type="String" Name="EPFNumber" Nullable="true" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="SaltPass" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -143,6 +164,7 @@
           <EntitySetMapping Name="UserRegisters">
             <EntityTypeMapping TypeName="InventorySystemModel.UserRegister">
               <MappingFragment StoreEntitySet="UserRegister">
+                <ScalarProperty Name="LastUpdateUserId" ColumnName="LastUpdateUserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="EPFNumber" ColumnName="EPFNumber" />
@@ -175,6 +197,18 @@
                 <ScalarProperty Name="EPFNumber" ColumnName="EPFNumber" />
                 <ScalarProperty Name="Nic" ColumnName="Nic" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getSessionSp" FunctionName="InventorySystemModel.Store.getSessionSp" />
+          <FunctionImportMapping FunctionImportName="UserLoginSp" FunctionName="InventorySystemModel.Store.UserLoginSp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="InventorySystemModel.UserLoginSp_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EPFNumber" ColumnName="EPFNumber" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="SaltPass" ColumnName="SaltPass" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

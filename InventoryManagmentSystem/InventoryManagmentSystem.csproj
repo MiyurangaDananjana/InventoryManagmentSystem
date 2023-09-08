@@ -206,6 +206,9 @@
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserDetailsView.cs" />
+    <Compile Include="Models\UserLoginSp_Result.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserRegister.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
@@ -468,8 +471,9 @@
     <Content Include="Views\Main\DashBoardLayout\_NavBar.cshtml" />
     <Content Include="Views\Main\DashBoardLayout\_Footer.cshtml" />
     <Content Include="Views\Main\User\ViewUser.cshtml" />
-    <Content Include="Views\Main\User\AddUser.cshtml" />
     <Content Include="Views\Main\HomePage.cshtml" />
+    <Content Include="Views\Main\SystemUsersView.cshtml" />
+    <Content Include="Views\Main\Customer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

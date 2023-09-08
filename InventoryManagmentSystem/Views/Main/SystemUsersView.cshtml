@@ -115,8 +115,8 @@
                         '<td>' + item.EPFNumber + '</td>' +
                         '<td>' + item.Address + '</td>' +
                         '<td>' +
-                        '<button class="btn btn-sm btn-secondary edit-button" data-id="' + item.Id + '">Edit</button>' +
-                        '<button class="btn btn-sm btn-secondary delete-button" data-id="' + item.Id + '">Delete</button>' +
+                        '<button class="btn btn-info edit-button" data-id="' + item.Id + '">Edit</button>' +
+                        '<button class="btn btn-danger delete-button" data-id="' + item.Id + '">Delete</button>' +
                         '</td>' +
                         '</tr>';
                     $('#userDetailsTable tbody').append(row);
@@ -191,7 +191,7 @@
                     var userName = $("#editUserName").val();
                     var Nic = $("#editNic").val();
                     var epfNumber = $("#editEpfNumber").val();
-                    var address = $("#editAddress").val(); 
+                    var address = $("#editAddress").val();
 
                     // create a data object to send server
                     var Data = {
@@ -204,7 +204,7 @@
                     }
                     // Send an ajax request to update the user details
                     $.ajax({
-                        url: "/Main/EditUserDetails", 
+                        url: "/Main/EditUserDetails",
                         method: "POST",
                         data: Data,
                         success: function (response) {
@@ -229,3 +229,4 @@
         });
     });
 </script>
+

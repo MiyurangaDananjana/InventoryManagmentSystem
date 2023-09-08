@@ -35,5 +35,23 @@ namespace InventoryManagmentSystem.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserDetailsSp_Result>("UserDetailsSp");
         }
+    
+        public virtual ObjectResult<Nullable<int>> getSessionSp(string sessionKey)
+        {
+            var sessionKeyParameter = sessionKey != null ?
+                new ObjectParameter("SessionKey", sessionKey) :
+                new ObjectParameter("SessionKey", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("getSessionSp", sessionKeyParameter);
+        }
+    
+        public virtual ObjectResult<UserLoginSp_Result> UserLoginSp(string epfNumber)
+        {
+            var epfNumberParameter = epfNumber != null ?
+                new ObjectParameter("EpfNumber", epfNumber) :
+                new ObjectParameter("EpfNumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserLoginSp_Result>("UserLoginSp", epfNumberParameter);
+        }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using InventoryManagmentSystem.Models;
-using System;
-using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 
 namespace InventoryManagmentSystem.DAL
 {
@@ -14,8 +12,32 @@ namespace InventoryManagmentSystem.DAL
         {
             this._DbContext = inventorySystemEntities;
         }
-       
 
+
+        public int GetUserIdBySessionKey(string session)
+        {
+            var userIds = _DbContext.getSessionSp(session).ToList();
+
+            if (userIds.Count > 0)
+            {
+                int? userIdNullable = userIds[0];
+
+                if (userIdNullable.HasValue)
+                {
+                    int userId = userIdNullable.Value;
+                    return userId;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
 
     }
 }

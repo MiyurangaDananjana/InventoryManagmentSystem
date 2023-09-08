@@ -30,6 +30,7 @@ namespace InventoryManagmentSystem.Models
         public string Password { get; set; }
         public string SaltPass { get; set; }
         public string ProfileImgName { get; set; }
+        public Nullable<int> LastUpdateUserId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserSession> UserSessions { get; set; }

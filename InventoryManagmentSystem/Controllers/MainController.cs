@@ -1,4 +1,5 @@
-﻿using InventoryManagmentSystem.Models;
+﻿using InventoryManagmentSystem.DAL;
+using InventoryManagmentSystem.Models;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -18,6 +19,12 @@ namespace InventoryManagmentSystem.Controllers
             return View();
         }
 
+        public ActionResult SystemUsersView()
+        {
+            return View();
+        }
+
+        //get user details 
         [HttpGet]
         public ActionResult UserDetails()
         {
@@ -25,6 +32,7 @@ namespace InventoryManagmentSystem.Controllers
             return Json(userDetails, JsonRequestBehavior.AllowGet);
         }
 
+        //Get user details order by the User-Id
         [HttpGet]
         public ActionResult GetUserDetailsById(int Id)
         {
@@ -51,36 +59,59 @@ namespace InventoryManagmentSystem.Controllers
             }
         }
 
+        //User Details Delete
         [HttpPost]
         public ActionResult DeleteUser(int userId)
         {
-            var userDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == userId);
-            if (userDetails != null)
+            var isSession = _DbContext.UserSessions.FirstOrDefault(x => x.UserId == userId);
+            if(isSession != null)
             {
-                _DbContext.UserRegisters.Remove(userDetails);
+                _DbContext.UserSessions.Remove(isSession);
                 _DbContext.SaveChanges();
-                return Content("Delete");
+                var userDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == userId);
+                if (userDetails != null)
+                {
+                    _DbContext.UserRegisters.Remove(userDetails);
+                    _DbContext.SaveChanges();
+                    return Content("Delete");
+                }
+                return Content("Fail");
             }
-            return Content("Fail");
+            else
+            {
+                var userDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == userId);
+                if (userDetails != null)
+                {
+                    _DbContext.UserRegisters.Remove(userDetails);
+                    _DbContext.SaveChanges();
+                    return Content("Delete");
+                }
+            }
+            return Content("fail");
         }
 
+        //User Details Edit
         [HttpPost]
         public ActionResult EditUserDetails(UserDetailsView model)
         {
-            var userDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == model.Id);
-
-            if (userDetails != null)
+            UserDAL user = new UserDAL(_DbContext);
+            int userId = user.GetUserIdBySessionKey(model.SessionKey);
+            if (userId > 0)
             {
-                userDetails.UserName = model.UserName;
-                userDetails.EPFNumber = model.EPFNumber;
-                userDetails.Nic = model.Nic;
-                userDetails.Address = model.Address;
-                _DbContext.SaveChanges();
+                var userDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == model.Id);
+                if (userDetails != null)
+                {
+                    userDetails.UserName = model.UserName;
+                    userDetails.EPFNumber = model.EPFNumber;
+                    userDetails.Nic = model.Nic;
+                    userDetails.Address = model.Address;
+                    userDetails.LastUpdateUserId = userId;
+                    _DbContext.SaveChanges();
+                    return Content("success");
+                }
+                return Content("Fail");
             }
             return Content("Fail");
         }
-
-
-
     }
 }
