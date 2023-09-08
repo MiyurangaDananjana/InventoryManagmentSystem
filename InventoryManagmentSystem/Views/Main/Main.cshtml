@@ -43,8 +43,7 @@
                         <i class="material-icons">folder_shared</i>Customer
                     </a>
                     <ul class="collapse list-unstyled menu" id="homeSubmenu2">
-                        <li><a>Add</a></li>
-                        <li><a>View</a></li>
+                        <li><a href="/Main/Customer">Add</a></li>
                     </ul>
                 </li>
 
@@ -115,6 +114,8 @@
     <script src="~/wwwroot/js/bootstrap.min.js"></script>
     <script src="~/wwwroot/js/jquery-3.3.1.slim.min.js"></script>
     <script type="text/javascript">
+
+
         $(document).ready(function () {
             $(".xp-menubar").on('click', function () {
                 $("#sidebar").toggleClass('active');
@@ -124,28 +125,43 @@
                 $("#sidebar,.body-overlay").toggleClass('show-nav');
             });
         });
-  
-            $(document).ready(function () {
-                // Handle click event on the "View" link inside the "Users" dropdown
-                $('.collapse#homeSubmenu1 li a[href="/Main/SystemUsersView"]').click(function (e) {
-                    e.preventDefault(); // Prevent the default behavior of the link
 
-                    // Make an AJAX request to fetch the content from the specified URL
-                    $.ajax({
-                        url: '/Main/SystemUsersView', // Replace with your actual URL
-                        method: 'GET',
-                        dataType: 'html', // Expect HTML content
-                        success: function (data) {
-                            // Update the main-content div with the retrieved content
-                            $('.main-content').html(data);
-                        },
-                        error: function () {
-                            // Handle any error that occurs during the AJAX request
-                            alert('Error loading content.');
-                        }
-                    });
+        $(document).ready(function () {
+            $('.collapse#homeSubmenu1 li a[href="/Main/SystemUsersView"]').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/Main/SystemUsersView',
+                    method: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        $('.main-content').html(data);
+                    },
+                    error: function () {
+                        alert('Error loading content.');
+                    }
                 });
+            });
+
+
         });
+
+
+        $('.collapse#homeSubmenu2 li a[href="/Main/Customer"]').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Main/Customer',
+                method: 'GET',
+                dataType: 'html',
+                success: function (data) {
+                    $('.main-content').html(data);
+                },
+                error: function () {
+                    alert('Error loading content.');
+                }
+            });
+        });
+
+
     </script>
 
 

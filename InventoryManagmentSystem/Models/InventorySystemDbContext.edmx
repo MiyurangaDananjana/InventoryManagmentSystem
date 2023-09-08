@@ -12,6 +12,19 @@
           <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'InventorySystem.dbo.CustomeDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CustomeDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CustomerName" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CustomerContactInfo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="UserRegister">
           <Key>
             <PropertyRef Name="Id" />
@@ -61,6 +74,15 @@
           <EntitySet Name="__EFMigrationsHistory" EntityType="Self.__EFMigrationsHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRegister" EntityType="Self.UserRegister" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSession" EntityType="Self.UserSession" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomeDetails" EntityType="Self.CustomeDetails" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CustomeDetails].[Id] AS [Id], 
+    [CustomeDetails].[CustomerName] AS [CustomerName], 
+    [CustomeDetails].[CustomerContactInfo] AS [CustomerContactInfo], 
+    [CustomeDetails].[CustomerAddress] AS [CustomerAddress], 
+    [CustomeDetails].[CreatDate] AS [CreatDate]
+    FROM [dbo].[CustomeDetails] AS [CustomeDetails]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__UserSessi__UserI__4D94879B" Association="Self.FK__UserSessi__UserI__4D94879B">
             <End Role="UserRegister" EntitySet="UserRegister" />
             <End Role="UserSession" EntitySet="UserSession" />
@@ -132,6 +154,7 @@
           <FunctionImport Name="UserLoginSp" ReturnType="Collection(InventorySystemModel.UserLoginSp_Result)">
           <Parameter Name="EpfNumber" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="CustomeDetails" EntityType="InventorySystemModel.CustomeDetail" />
         </EntityContainer>
         <ComplexType Name="UserDetailsSp_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -147,6 +170,17 @@
           <Property Type="String" Name="Password" Nullable="true" MaxLength="128" />
           <Property Type="String" Name="SaltPass" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="CustomeDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CustomerName" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerContactInfo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -212,6 +246,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CustomeDetails">
+            <EntityTypeMapping TypeName="InventorySystemModel.CustomeDetail">
+              <MappingFragment StoreEntitySet="CustomeDetails">
+                <ScalarProperty Name="CreatDate" ColumnName="CreatDate" />
+                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+                <ScalarProperty Name="CustomerContactInfo" ColumnName="CustomerContactInfo" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

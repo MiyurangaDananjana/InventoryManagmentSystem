@@ -7,8 +7,9 @@
       <Diagram DiagramId="feef44b855494419bc12f42b9d2596df" Name="Diagram1">
         <EntityTypeShape EntityType="InventorySystemModel.C__EFMigrationsHistory" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InventorySystemModel.UserRegister" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.UserSession" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.UserSession" Width="1.5" PointX="3.375" PointY="0.625" IsExpanded="true" />
         <AssociationConnector Association="InventorySystemModel.FK__UserSessi__UserI__4D94879B" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="InventorySystemModel.CustomeDetail" Width="1.875" PointX="5.25" PointY="0.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

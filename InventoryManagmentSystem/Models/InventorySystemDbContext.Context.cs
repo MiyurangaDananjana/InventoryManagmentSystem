@@ -30,6 +30,7 @@ namespace InventoryManagmentSystem.Models
         public virtual DbSet<C__EFMigrationsHistory> C__EFMigrationsHistory { get; set; }
         public virtual DbSet<UserRegister> UserRegisters { get; set; }
         public virtual DbSet<UserSession> UserSessions { get; set; }
+        public virtual DbSet<CustomeDetail> CustomeDetails { get; set; }
     
         public virtual ObjectResult<UserDetailsSp_Result> UserDetailsSp()
         {

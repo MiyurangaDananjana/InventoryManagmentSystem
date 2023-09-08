@@ -177,12 +177,17 @@
     <Compile Include="BLL\AuthBLL.cs" />
     <Compile Include="BLL\UserBLL.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomeDetail.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomerView.cs" />
     <Compile Include="Models\C__EFMigrationsHistory.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
@@ -479,6 +484,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Img\ProfileImg\" />
     <Folder Include="Models\Domain\" />
+    <Folder Include="Views\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
