@@ -17,19 +17,22 @@ CREATE TABLE Brands(
 	BrandUpdateBy INT FOREIGN KEY REFERENCES dbo.UserRegister(Id) NOT NULL
 );
 
-CREATE TABLE ProductVariante(
-	ProductVariant INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	BrandId INT FOREIGN KEY REFERENCES Brands(BrandId) NOT NULL,
-	SLU NVARCHAR(50),
-	Description NVARCHAR(200),
-	CreateBy INT FOREIGN KEY REFERENCES dbo.UserRegister(Id) NOT NULL,
-);
-
 CREATE TABLE Products(
 	ProductId INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	BrandId INT FOREIGN KEY REFERENCES Brands(BrandId) NOT NULL,
 	ProductName NVARCHAR(100) NOT NULL,
-	QuantityOnHand INT NOT NULL,
 	ProductDescription NVARCHAR(200),
+	Price DECIMAL(10,2),
+);
+
+CREATE TABLE ProductVariante(
+	ProductVariantId INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	ProductsId INT FOREIGN KEY REFERENCES Products(ProductId) NOT NULL,
+	VariantDescription NVARCHAR(200),
+	Description NVARCHAR(200),
+	CreateBy INT FOREIGN KEY REFERENCES dbo.UserRegister(Id) NOT NULL,
+	PriceModifier DECIMAL(10,2),
+	StockQuantity INT
 );
 
 CREATE TABLE Supplier(
@@ -67,7 +70,7 @@ CREATE TABLE Orders(
 CREATE TABLE OrderItems(
 	OrderItemsId INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	OrderId INT FOREIGN KEY REFERENCES Orders(OrderId),
-	ProductId INT FOREIGN KEY REFERENCES Products(ProductId),
+	ProductId INT FOREIGN KEY REFERENCES ProductVariante(ProductVarianteId),
 	Quantity INT NOT NULL,
 	UnitPrice DECIMAL(10,2)
 	
