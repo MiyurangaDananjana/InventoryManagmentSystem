@@ -29,6 +29,11 @@ namespace InventoryManagmentSystem.Controllers
             return View();
         }
 
+        public ActionResult Supplier()
+        {
+            return View();
+        }
+
         //get user details 
         [HttpGet]
         public ActionResult UserDetails()
@@ -51,7 +56,6 @@ namespace InventoryManagmentSystem.Controllers
                              Nic = user.Nic,
                              Address = user.Address
                          }).FirstOrDefault();
-
             if (query != null)
             {
                 // Return the userRegister object in JSON format
@@ -69,7 +73,7 @@ namespace InventoryManagmentSystem.Controllers
         public ActionResult DeleteUser(int userId)
         {
             var isSession = _DbContext.UserSessions.FirstOrDefault(x => x.UserId == userId);
-            if(isSession != null)
+            if (isSession != null)
             {
                 _DbContext.UserSessions.Remove(isSession);
                 _DbContext.SaveChanges();

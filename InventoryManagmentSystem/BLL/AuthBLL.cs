@@ -34,8 +34,6 @@ namespace InventoryManagmentSystem.BLL
                     return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
                 }
             }
-
-
         }
     }
 }

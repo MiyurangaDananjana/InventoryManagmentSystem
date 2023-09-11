@@ -12,18 +12,114 @@
           <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'InventorySystem.dbo.CustomeDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="CustomeDetails">
+        <EntityType Name="Brands">
           <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="BrandId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BrandUpdateBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerDetails">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="CustomerContactInfo" Type="nvarchar" MaxLength="50" />
-          <Property Name="CustomerAddress" Type="nvarchar" MaxLength="100" />
-          <Property Name="CreatDate" Type="datetime" />
+          <Property Name="CustomerPhoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="CustomerAddress" Type="nvarchar" MaxLength="200" />
+          <Property Name="CrateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OrderItems">
+          <Key>
+            <PropertyRef Name="OrderItemsId" />
+          </Key>
+          <Property Name="OrderItemsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="OrderStatus" Type="int" Nullable="false" />
+          <Property Name="TotalAmount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="PaymentMethod" Type="int" Nullable="false" />
+          <Property Name="OrderCreateBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderStatus">
+          <Key>
+            <PropertyRef Name="OrderStatusId" />
+          </Key>
+          <Property Name="OrderStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderStatus" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PayMentMethods">
+          <Key>
+            <PropertyRef Name="PaymentMethodsId" />
+          </Key>
+          <Property Name="PaymentMethodsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentMethod" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandId" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProductDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="SupplierID" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductVariante">
+          <Key>
+            <PropertyRef Name="ProductVariantId" />
+          </Key>
+          <Property Name="ProductVariantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductsId" Type="int" Nullable="false" />
+          <Property Name="VariantDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreateBy" Type="int" Nullable="false" />
+          <Property Name="PriceModifier" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="StockQuantity" Type="int" />
+        </EntityType>
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="SaleId" />
+          </Key>
+          <Property Name="SaleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuantityOfSales" Type="int" Nullable="false" />
+          <Property Name="PricePerUnit" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="SalesByUserId" Type="int" Nullable="false" />
+          <Property Name="SalesDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+          </Key>
+          <Property Name="SupplierID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="SupplierDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="SupplierStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="UserRegister">
           <Key>
@@ -51,6 +147,150 @@ warning 6002: The table/view 'InventorySystem.dbo.CustomeDetails' does not have 
           <Property Name="expireDate" Type="datetime" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Brands__BrandUpd__6477ECF3">
+          <End Role="UserRegister" Type="Self.UserRegister" Multiplicity="1" />
+          <End Role="Brands" Type="Self.Brands" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Brands">
+              <PropertyRef Name="BrandUpdateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Order__7F2BE32F">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Produ__00200768">
+          <End Role="ProductVariante" Type="Self.ProductVariante" Multiplicity="0..1" />
+          <End Role="OrderItems" Type="Self.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductVariante">
+              <PropertyRef Name="ProductVariantId" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Customer__797309D9">
+          <End Role="CustomerDetails" Type="Self.CustomerDetails" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerDetails">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__OrderCre__7C4F7684">
+          <End Role="UserRegister" Type="Self.UserRegister" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="OrderCreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__OrderSta__7A672E12">
+          <End Role="OrderStatus" Type="Self.OrderStatus" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatus">
+              <PropertyRef Name="OrderStatusId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="OrderStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__PaymentM__7B5B524B">
+          <End Role="PayMentMethods" Type="Self.PayMentMethods" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayMentMethods">
+              <PropertyRef Name="PaymentMethodsId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="PaymentMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__BrandI__6754599E">
+          <End Role="Brands" Type="Self.Brands" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brands">
+              <PropertyRef Name="BrandId" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Suppli__14270015">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductVa__Creat__6B24EA82">
+          <End Role="UserRegister" Type="Self.UserRegister" Multiplicity="1" />
+          <End Role="ProductVariante" Type="Self.ProductVariante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductVariante">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductVa__Produ__6A30C649">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="ProductVariante" Type="Self.ProductVariante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductVariante">
+              <PropertyRef Name="ProductsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sales__SalesByUs__60A75C0F">
+          <End Role="UserRegister" Type="Self.UserRegister" Multiplicity="1" />
+          <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sales">
+              <PropertyRef Name="SalesByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__UserSessi__UserI__4D94879B">
           <End Role="UserRegister" Type="Self.UserRegister" Multiplicity="1" />
           <End Role="UserSession" Type="Self.UserSession" Multiplicity="*" />
@@ -63,26 +303,107 @@ warning 6002: The table/view 'InventorySystem.dbo.CustomeDetails' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="getSessionSp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SessionKey" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UserDetailsSp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UserLoginSp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EpfNumber" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="InventorySystemModelStoreContainer">
           <EntitySet Name="__EFMigrationsHistory" EntityType="Self.__EFMigrationsHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerDetails" EntityType="Self.CustomerDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderStatus" EntityType="Self.OrderStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PayMentMethods" EntityType="Self.PayMentMethods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductVariante" EntityType="Self.ProductVariante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRegister" EntityType="Self.UserRegister" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserSession" EntityType="Self.UserSession" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CustomeDetails" EntityType="Self.CustomeDetails" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CustomeDetails].[Id] AS [Id], 
-    [CustomeDetails].[CustomerName] AS [CustomerName], 
-    [CustomeDetails].[CustomerContactInfo] AS [CustomerContactInfo], 
-    [CustomeDetails].[CustomerAddress] AS [CustomerAddress], 
-    [CustomeDetails].[CreatDate] AS [CreatDate]
-    FROM [dbo].[CustomeDetails] AS [CustomeDetails]</DefiningQuery>
-          </EntitySet>
+          <AssociationSet Name="FK__Brands__BrandUpd__6477ECF3" Association="Self.FK__Brands__BrandUpd__6477ECF3">
+            <End Role="UserRegister" EntitySet="UserRegister" />
+            <End Role="Brands" EntitySet="Brands" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Order__7F2BE32F" Association="Self.FK__OrderItem__Order__7F2BE32F">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Produ__00200768" Association="Self.FK__OrderItem__Produ__00200768">
+            <End Role="ProductVariante" EntitySet="ProductVariante" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Customer__797309D9" Association="Self.FK__Orders__Customer__797309D9">
+            <End Role="CustomerDetails" EntitySet="CustomerDetails" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__OrderCre__7C4F7684" Association="Self.FK__Orders__OrderCre__7C4F7684">
+            <End Role="UserRegister" EntitySet="UserRegister" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__OrderSta__7A672E12" Association="Self.FK__Orders__OrderSta__7A672E12">
+            <End Role="OrderStatus" EntitySet="OrderStatus" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__PaymentM__7B5B524B" Association="Self.FK__Orders__PaymentM__7B5B524B">
+            <End Role="PayMentMethods" EntitySet="PayMentMethods" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__BrandI__6754599E" Association="Self.FK__Products__BrandI__6754599E">
+            <End Role="Brands" EntitySet="Brands" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Suppli__14270015" Association="Self.FK__Products__Suppli__14270015">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductVa__Creat__6B24EA82" Association="Self.FK__ProductVa__Creat__6B24EA82">
+            <End Role="UserRegister" EntitySet="UserRegister" />
+            <End Role="ProductVariante" EntitySet="ProductVariante" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductVa__Produ__6A30C649" Association="Self.FK__ProductVa__Produ__6A30C649">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductVariante" EntitySet="ProductVariante" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sales__SalesByUs__60A75C0F" Association="Self.FK__Sales__SalesByUs__60A75C0F">
+            <End Role="UserRegister" EntitySet="UserRegister" />
+            <End Role="Sales" EntitySet="Sales" />
+          </AssociationSet>
           <AssociationSet Name="FK__UserSessi__UserI__4D94879B" Association="Self.FK__UserSessi__UserI__4D94879B">
             <End Role="UserRegister" EntitySet="UserRegister" />
             <End Role="UserSession" EntitySet="UserSession" />
@@ -115,6 +436,10 @@ warning 6002: The table/view 'InventorySystem.dbo.CustomeDetails' does not have 
           <Property Name="ProfileImgName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserSessions" Relationship="Self.FK__UserSessi__UserI__4D94879B" FromRole="UserRegister" ToRole="UserSession" />
           <Property Name="LastUpdateUserId" Type="Int32" />
+          <NavigationProperty Name="Brands" Relationship="InventorySystemModel.FK__Brands__BrandUpd__6477ECF3" FromRole="UserRegister" ToRole="Brand" />
+          <NavigationProperty Name="Orders" Relationship="InventorySystemModel.FK__Orders__OrderCre__7C4F7684" FromRole="UserRegister" ToRole="Order" />
+          <NavigationProperty Name="ProductVariantes" Relationship="InventorySystemModel.FK__ProductVa__Creat__6B24EA82" FromRole="UserRegister" ToRole="ProductVariante" />
+          <NavigationProperty Name="Sales" Relationship="InventorySystemModel.FK__Sales__SalesByUs__60A75C0F" FromRole="UserRegister" ToRole="Sale" />
         </EntityType>
         <EntityType Name="UserSession">
           <Key>
@@ -154,7 +479,95 @@ warning 6002: The table/view 'InventorySystem.dbo.CustomeDetails' does not have 
           <FunctionImport Name="UserLoginSp" ReturnType="Collection(InventorySystemModel.UserLoginSp_Result)">
           <Parameter Name="EpfNumber" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="CustomeDetails" EntityType="InventorySystemModel.CustomeDetail" />
+          <EntitySet Name="Brands" EntityType="InventorySystemModel.Brand" />
+          <EntitySet Name="CustomerDetails" EntityType="InventorySystemModel.CustomerDetail" />
+          <EntitySet Name="OrderItems" EntityType="InventorySystemModel.OrderItem" />
+          <EntitySet Name="Orders" EntityType="InventorySystemModel.Order" />
+          <EntitySet Name="OrderStatus" EntityType="InventorySystemModel.OrderStatu" />
+          <EntitySet Name="PayMentMethods" EntityType="InventorySystemModel.PayMentMethod" />
+          <EntitySet Name="Products" EntityType="InventorySystemModel.Product" />
+          <EntitySet Name="ProductVariantes" EntityType="InventorySystemModel.ProductVariante" />
+          <EntitySet Name="Sales" EntityType="InventorySystemModel.Sale" />
+          <EntitySet Name="Suppliers" EntityType="InventorySystemModel.Supplier" />
+          <EntitySet Name="sysdiagrams" EntityType="InventorySystemModel.sysdiagram" />
+          <AssociationSet Name="FK__Brands__BrandUpd__6477ECF3" Association="InventorySystemModel.FK__Brands__BrandUpd__6477ECF3">
+            <End Role="UserRegister" EntitySet="UserRegisters" />
+            <End Role="Brand" EntitySet="Brands" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__BrandI__6754599E" Association="InventorySystemModel.FK__Products__BrandI__6754599E">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Customer__797309D9" Association="InventorySystemModel.FK__Orders__Customer__797309D9">
+            <End Role="CustomerDetail" EntitySet="CustomerDetails" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Order__7F2BE32F" Association="InventorySystemModel.FK__OrderItem__Order__7F2BE32F">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Produ__00200768" Association="InventorySystemModel.FK__OrderItem__Produ__00200768">
+            <End Role="ProductVariante" EntitySet="ProductVariantes" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__OrderCre__7C4F7684" Association="InventorySystemModel.FK__Orders__OrderCre__7C4F7684">
+            <End Role="UserRegister" EntitySet="UserRegisters" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__OrderSta__7A672E12" Association="InventorySystemModel.FK__Orders__OrderSta__7A672E12">
+            <End Role="OrderStatu" EntitySet="OrderStatus" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__PaymentM__7B5B524B" Association="InventorySystemModel.FK__Orders__PaymentM__7B5B524B">
+            <End Role="PayMentMethod" EntitySet="PayMentMethods" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__Suppli__14270015" Association="InventorySystemModel.FK__Products__Suppli__14270015">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductVa__Produ__6A30C649" Association="InventorySystemModel.FK__ProductVa__Produ__6A30C649">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductVariante" EntitySet="ProductVariantes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductVa__Creat__6B24EA82" Association="InventorySystemModel.FK__ProductVa__Creat__6B24EA82">
+            <End Role="UserRegister" EntitySet="UserRegisters" />
+            <End Role="ProductVariante" EntitySet="ProductVariantes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Sales__SalesByUs__60A75C0F" Association="InventorySystemModel.FK__Sales__SalesByUs__60A75C0F">
+            <End Role="UserRegister" EntitySet="UserRegisters" />
+            <End Role="Sale" EntitySet="Sales" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(InventorySystemModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(InventorySystemModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
         <ComplexType Name="UserDetailsSp_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -170,17 +583,290 @@ warning 6002: The table/view 'InventorySystem.dbo.CustomeDetails' does not have 
           <Property Type="String" Name="Password" Nullable="true" MaxLength="128" />
           <Property Type="String" Name="SaltPass" Nullable="true" MaxLength="100" />
         </ComplexType>
-        <EntityType Name="CustomeDetail">
+        <EntityType Name="Brand">
           <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="CustomerName" />
+            <PropertyRef Name="BrandId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerContactInfo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatDate" Type="DateTime" Precision="3" />
+          <Property Name="BrandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BrandUpdateBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserRegister" Relationship="InventorySystemModel.FK__Brands__BrandUpd__6477ECF3" FromRole="Brand" ToRole="UserRegister" />
+          <NavigationProperty Name="Products" Relationship="InventorySystemModel.FK__Products__BrandI__6754599E" FromRole="Brand" ToRole="Product" />
         </EntityType>
+        <EntityType Name="CustomerDetail">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerPhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CrateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Orders" Relationship="InventorySystemModel.FK__Orders__Customer__797309D9" FromRole="CustomerDetail" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="OrderItemsId" />
+          </Key>
+          <Property Name="OrderItemsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Order" Relationship="InventorySystemModel.FK__OrderItem__Order__7F2BE32F" FromRole="OrderItem" ToRole="Order" />
+          <NavigationProperty Name="ProductVariante" Relationship="InventorySystemModel.FK__OrderItem__Produ__00200768" FromRole="OrderItem" ToRole="ProductVariante" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="OrderStatus" Type="Int32" Nullable="false" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="PaymentMethod" Type="Int32" Nullable="false" />
+          <Property Name="OrderCreateBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustomerDetail" Relationship="InventorySystemModel.FK__Orders__Customer__797309D9" FromRole="Order" ToRole="CustomerDetail" />
+          <NavigationProperty Name="OrderItems" Relationship="InventorySystemModel.FK__OrderItem__Order__7F2BE32F" FromRole="Order" ToRole="OrderItem" />
+          <NavigationProperty Name="UserRegister" Relationship="InventorySystemModel.FK__Orders__OrderCre__7C4F7684" FromRole="Order" ToRole="UserRegister" />
+          <NavigationProperty Name="OrderStatu" Relationship="InventorySystemModel.FK__Orders__OrderSta__7A672E12" FromRole="Order" ToRole="OrderStatu" />
+          <NavigationProperty Name="PayMentMethod1" Relationship="InventorySystemModel.FK__Orders__PaymentM__7B5B524B" FromRole="Order" ToRole="PayMentMethod" />
+        </EntityType>
+        <EntityType Name="OrderStatu">
+          <Key>
+            <PropertyRef Name="OrderStatusId" />
+          </Key>
+          <Property Name="OrderStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Orders" Relationship="InventorySystemModel.FK__Orders__OrderSta__7A672E12" FromRole="OrderStatu" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="PayMentMethod">
+          <Key>
+            <PropertyRef Name="PaymentMethodsId" />
+          </Key>
+          <Property Name="PaymentMethodsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentMethod1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Orders" Relationship="InventorySystemModel.FK__Orders__PaymentM__7B5B524B" FromRole="PayMentMethod" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandId" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProductDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SupplierID" Type="Int32" />
+          <NavigationProperty Name="Brand" Relationship="InventorySystemModel.FK__Products__BrandI__6754599E" FromRole="Product" ToRole="Brand" />
+          <NavigationProperty Name="Supplier" Relationship="InventorySystemModel.FK__Products__Suppli__14270015" FromRole="Product" ToRole="Supplier" />
+          <NavigationProperty Name="ProductVariantes" Relationship="InventorySystemModel.FK__ProductVa__Produ__6A30C649" FromRole="Product" ToRole="ProductVariante" />
+        </EntityType>
+        <EntityType Name="ProductVariante">
+          <Key>
+            <PropertyRef Name="ProductVariantId" />
+          </Key>
+          <Property Name="ProductVariantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductsId" Type="Int32" Nullable="false" />
+          <Property Name="VariantDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreateBy" Type="Int32" Nullable="false" />
+          <Property Name="PriceModifier" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="StockQuantity" Type="Int32" />
+          <NavigationProperty Name="OrderItems" Relationship="InventorySystemModel.FK__OrderItem__Produ__00200768" FromRole="ProductVariante" ToRole="OrderItem" />
+          <NavigationProperty Name="Product" Relationship="InventorySystemModel.FK__ProductVa__Produ__6A30C649" FromRole="ProductVariante" ToRole="Product" />
+          <NavigationProperty Name="UserRegister" Relationship="InventorySystemModel.FK__ProductVa__Creat__6B24EA82" FromRole="ProductVariante" ToRole="UserRegister" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="SaleId" />
+          </Key>
+          <Property Name="SaleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuantityOfSales" Type="Int32" Nullable="false" />
+          <Property Name="PricePerUnit" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="SalesByUserId" Type="Int32" Nullable="false" />
+          <Property Name="SalesDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserRegister" Relationship="InventorySystemModel.FK__Sales__SalesByUs__60A75C0F" FromRole="Sale" ToRole="UserRegister" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+          </Key>
+          <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="InventorySystemModel.FK__Products__Suppli__14270015" FromRole="Supplier" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__Brands__BrandUpd__6477ECF3">
+          <End Type="InventorySystemModel.UserRegister" Role="UserRegister" Multiplicity="1" />
+          <End Type="InventorySystemModel.Brand" Role="Brand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Brand">
+              <PropertyRef Name="BrandUpdateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__BrandI__6754599E">
+          <End Type="InventorySystemModel.Brand" Role="Brand" Multiplicity="1" />
+          <End Type="InventorySystemModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="BrandId" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Customer__797309D9">
+          <End Type="InventorySystemModel.CustomerDetail" Role="CustomerDetail" Multiplicity="0..1" />
+          <End Type="InventorySystemModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerDetail">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Order__7F2BE32F">
+          <End Type="InventorySystemModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="InventorySystemModel.OrderItem" Role="OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Produ__00200768">
+          <End Type="InventorySystemModel.ProductVariante" Role="ProductVariante" Multiplicity="0..1" />
+          <End Type="InventorySystemModel.OrderItem" Role="OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductVariante">
+              <PropertyRef Name="ProductVariantId" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__OrderCre__7C4F7684">
+          <End Type="InventorySystemModel.UserRegister" Role="UserRegister" Multiplicity="1" />
+          <End Type="InventorySystemModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="OrderCreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__OrderSta__7A672E12">
+          <End Type="InventorySystemModel.OrderStatu" Role="OrderStatu" Multiplicity="1" />
+          <End Type="InventorySystemModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderStatu">
+              <PropertyRef Name="OrderStatusId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="OrderStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__PaymentM__7B5B524B">
+          <End Type="InventorySystemModel.PayMentMethod" Role="PayMentMethod" Multiplicity="1" />
+          <End Type="InventorySystemModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayMentMethod">
+              <PropertyRef Name="PaymentMethodsId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PaymentMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__Suppli__14270015">
+          <End Type="InventorySystemModel.Supplier" Role="Supplier" Multiplicity="0..1" />
+          <End Type="InventorySystemModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductVa__Produ__6A30C649">
+          <End Type="InventorySystemModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="InventorySystemModel.ProductVariante" Role="ProductVariante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductVariante">
+              <PropertyRef Name="ProductsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductVa__Creat__6B24EA82">
+          <End Type="InventorySystemModel.UserRegister" Role="UserRegister" Multiplicity="1" />
+          <End Type="InventorySystemModel.ProductVariante" Role="ProductVariante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductVariante">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Sales__SalesByUs__60A75C0F">
+          <End Type="InventorySystemModel.UserRegister" Role="UserRegister" Multiplicity="1" />
+          <End Type="InventorySystemModel.Sale" Role="Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRegister">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="SalesByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -246,17 +932,150 @@ warning 6002: The table/view 'InventorySystem.dbo.CustomeDetails' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="CustomeDetails">
-            <EntityTypeMapping TypeName="InventorySystemModel.CustomeDetail">
-              <MappingFragment StoreEntitySet="CustomeDetails">
-                <ScalarProperty Name="CreatDate" ColumnName="CreatDate" />
-                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
-                <ScalarProperty Name="CustomerContactInfo" ColumnName="CustomerContactInfo" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <EntitySetMapping Name="Brands">
+            <EntityTypeMapping TypeName="InventorySystemModel.Brand">
+              <MappingFragment StoreEntitySet="Brands">
+                <ScalarProperty Name="BrandUpdateBy" ColumnName="BrandUpdateBy" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CustomerDetails">
+            <EntityTypeMapping TypeName="InventorySystemModel.CustomerDetail">
+              <MappingFragment StoreEntitySet="CustomerDetails">
+                <ScalarProperty Name="CrateDate" ColumnName="CrateDate" />
+                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+                <ScalarProperty Name="CustomerPhoneNumber" ColumnName="CustomerPhoneNumber" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="InventorySystemModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItems">
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderItemsId" ColumnName="OrderItemsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="InventorySystemModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="OrderCreateBy" ColumnName="OrderCreateBy" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderStatus">
+            <EntityTypeMapping TypeName="InventorySystemModel.OrderStatu">
+              <MappingFragment StoreEntitySet="OrderStatus">
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PayMentMethods">
+            <EntityTypeMapping TypeName="InventorySystemModel.PayMentMethod">
+              <MappingFragment StoreEntitySet="PayMentMethods">
+                <ScalarProperty Name="PaymentMethod1" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="PaymentMethodsId" ColumnName="PaymentMethodsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="InventorySystemModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductVariantes">
+            <EntityTypeMapping TypeName="InventorySystemModel.ProductVariante">
+              <MappingFragment StoreEntitySet="ProductVariante">
+                <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+                <ScalarProperty Name="PriceModifier" ColumnName="PriceModifier" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="VariantDescription" ColumnName="VariantDescription" />
+                <ScalarProperty Name="ProductsId" ColumnName="ProductsId" />
+                <ScalarProperty Name="ProductVariantId" ColumnName="ProductVariantId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sales">
+            <EntityTypeMapping TypeName="InventorySystemModel.Sale">
+              <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="SalesDateTime" ColumnName="SalesDateTime" />
+                <ScalarProperty Name="SalesByUserId" ColumnName="SalesByUserId" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="PricePerUnit" ColumnName="PricePerUnit" />
+                <ScalarProperty Name="QuantityOfSales" ColumnName="QuantityOfSales" />
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="InventorySystemModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="SupplierStatus" ColumnName="SupplierStatus" />
+                <ScalarProperty Name="SupplierDescription" ColumnName="SupplierDescription" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="InventorySystemModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="InventorySystemModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="InventorySystemModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="InventorySystemModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="InventorySystemModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="InventorySystemModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="InventorySystemModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="InventorySystemModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="InventorySystemModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="InventorySystemModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

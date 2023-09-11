@@ -5,12 +5,11 @@ using System.Web;
 
 namespace InventoryManagmentSystem.Models
 {
-    public class CustomerView
+    public class CustomerDetailsModel
     {
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
-        public string PhoneNumber { get; set; }
+        public string CustomerPhoneNumber { get; set; }
         public string CustomerAddress { get; set; }
-        public DateTime CreateDateTime { get; set; }
     }
 }

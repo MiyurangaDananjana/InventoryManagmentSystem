@@ -65,17 +65,32 @@
 
 <script>
     $(document).ready(function () {
+
         function checkCookieExists(cookieName) {
             return document.cookie.indexOf(cookieName + '=') !== -1;
         }
         const cookieName = "Session";
         const cookieExists = checkCookieExists(cookieName);
+
         if (cookieExists) {
             $("#logoutLink").show();
         } else {
             $("#logoutLink").hide();
+            // Redirect to the Home/Login page
+            window.location.href = '/'; // Specify the complete relative URL
+        }
+
+        // Clear the back button history
+        if (window.history && window.history.pushState) {
+            window.history.pushState(null, null, window.location.href);
+            window.onpopstate = function () {
+                window.history.pushState(null, null, window.location.href);
+            };
         }
     });
+
+ 
+
 
     $(document).ready(function () {
         var sessionKey = Cookies.get('Session');

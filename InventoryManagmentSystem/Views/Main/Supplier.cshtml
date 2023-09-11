@@ -1,27 +1,37 @@
-﻿<div class="row">
+﻿
+@{
+    ViewBag.Title = "Supplier";
+}
+
+<div class="row">
     <div class="col-md-12">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                        <h2 class="ml-lg-2">Manage  Customers</h2>
+                        <h2 class="ml-lg-2">Manage Supplier</h2>
                     </div>
                     <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
                         <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
                             <i class="material-icons">&#xE147;</i>
-                            <span>Add New Customer</span>
+                            <span>Add New Supplier</span>
                         </a>
+                        @*<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
+                                <i class="material-icons">&#xE15C;</i>
+                                <span>Delete</span>
+                            </a>*@
                     </div>
                 </div>
             </div>
             <table id="userDetailsTable" class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>CUSTOMER NAME</th>
-                        <th>CONTACT NUMBER</th>
-                        <th>ADDRESS</th>
-                        <th>ACTION</th>
+                        <th>Supplier ID</th>
+                        <th>Supplier Name</th>
+                        <th>Address</th>
+                        <th>Contact Number</th>
+                        <th>Description</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,39 +73,46 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Customer</h5>
+                    <h5 class="modal-title">Add New Supplier</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" id="addName" name="addName" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Contact Numebr</label>
-                        <input type="text" class="form-control" id="addContactNumber" name="addContactNumber" required>
+                        <label>Supplier Name</label>
+                        <input type="text" class="form-control" id="addSupllierName" name="addSupllierName" required>
                     </div>
                     <div class="form-group">
                         <label>Address</label>
-                        <textarea class="form-control" id="addAddress" name="addAddress" required></textarea>
+                        <textarea type="text" class="form-control" id="addSuppllierAddress" name="addSuppllierAddress" required> </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="number" class="form-control" id="addContactNumber" name="addContactNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" id="addDescription" name="addDescription" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary " id="cancel" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-success">Add</button>
                 </div>
             </div>
         </div>
     </div>
-    <!----edit-modal end--------->
+    <!--Add model end-->
+
+
+
     <!----edit-modal start--------->
     <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Customer</h5>
+                    <h5 class="modal-title">Edit Supplier</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -103,20 +120,25 @@
                 <div class="modal-body">
                     <form id="editEmployeeForm">
                         <div class="form-group">
-                            <label for="editUserId">Customer ID:</label>
-                            <input type="text" class="form-control" id="editUserId" name="editUserId" required disabled>
+                            <label for="editUserId">Supplier ID:</label>
+                            <input type="text" class="form-control" id="editSuplierId" name="editSuplierId" required disabled>
                         </div>
                         <div class="form-group">
-                            <label for="editUserName">User Name:</label>
-                            <input type="text" class="form-control" id="editUserName" name="editUserName" required>
+                            <label for="editSupplierName">Supplier Name:</label>
+                            <input type="text" class="form-control" id="editSupplierName" name="editSupplierName" required>
                         </div>
                         <div class="form-group">
-                            <label for="editContactNumebr">Contact Number:</label>
-                            <input type="text" class="form-control" id="editContactNumebr" name="editContactNumebr" required>
+                            <label for="editSupplierAddress">Address:</label>
+                            <textarea type="text" class="form-control" id="editSupplierAddress" name="editSupplierAddress" required> </textarea>
                         </div>
                         <div class="form-group">
-                            <label for="editAddress">Address:</label>
-                            <textarea type="text" class="form-control" id="editAddress" name="editAddress" required> </textarea>
+                            <label for="editPhoneNumber">Phone Number:</label>
+                            <input type="text" class="form-control" id="editPhoneNumber" name="editPhoneNumber" required> 
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editDescription">Description:</label>
+                            <textarea type="text" class="form-control" id="editDescription" name="editDescription" required> </textarea>
                         </div>
                     </form>
                 </div>
@@ -127,49 +149,28 @@
             </div>
         </div>
     </div>
-    <!----edit-modal end--------->
-    <!----delete-modal start--------->
-    <div class="modal fade" tabindex="-1" id="deleteEmployeeModal" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Employees</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this Records</p>
-                    <p class="text-warning"><small>this action Cannot be Undone,</small></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!----delete-modal End--------->
+  <!----edit-modal end--------->
 </div>
 
 <script>
     $(document).ready(function () {
-        // Add new customer
+        // Add new supplier
         $("#addEmployeeModal").on('click', '.btn-success', function () {
             var data = {
-                CustomerName: $("#addEmployeeModal input[name='addName']").val(),
-                PhoneNumber: $("#addEmployeeModal input[name='addContactNumber']").val(),
-                CustomerAddress: $("#addEmployeeModal textarea[name='addAddress']").val()
+                SupplierName: $("#addEmployeeModal input[name='addSupllierName']").val(),
+                PhoneNumber: $("#addEmployeeModal textarea[name='addSuppllierAddress']").val(),
+                Address: $("#addEmployeeModal input[name='addContactNumber']").val(),
+                Description: $("#addEmployeeModal textarea[name='addDescription']").val()
             };
             $.ajax({
                 type: "POST",
-                url: "/Customer/SaveCustomer", // Replace 'ControllerName' with your actual controller name
+                url: "/Supplier/NewSupplier", 
                 data: data,
                 dataType: "json",
                 success: function (result) {
                     if (result.success) {
                         // Handle success, e.g., show a success message and close the modal
-                        alert("Customer added successfully");
+                        alert("Supplier added successfully");
                         loadDataIntoTable(); // Load table data
                         $("#addEmployeeModal").modal('hide');
                     } else {
@@ -183,9 +184,19 @@
                 }
             });
         });
+
+        // cancel edit menu
+        $("#cancelButton").click(function () {
+            $("#editEmployeeModal").modal("hide");
+        });
+
+        $("#cancelButton").click(function () {
+            $("#editEmployeeModal").modal("hide");
+        });
+
         function loadDataIntoTable() {
             $.ajax({
-                url: '/Customer/GetCustomerDetails',
+                url: '/Supplier/GetSupplierDetails',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -193,13 +204,14 @@
                     $.each(data, function (index, item) {
                         var row =
                             '<tr>' +
-                            '<td>' + item.CustomerId + '</td>' +
-                            '<td>' + item.CustomerName + '</td>' +
-                            '<td>' + item.CustomerAddress + '</td>' +
-                            '<td>' + item.CustomerPhoneNumber + '</td>' +
+                            '<td>' + item.SupplierID + '</td>' +
+                            '<td>' + item.SupplierName + '</td>' +
+                            '<td>' + item.PhoneNumber + '</td>' +
+                            '<td>' + item.Address + '</td>' +
+                            '<td>' + item.Description + '</td>' +
                             '<td>' +
-                            '<button class="btn btn-info edit-button btn-sm" data-id="' + item.CustomerId + '">Edit</button>' +
-                            '<button class="btn btn-danger delete-button btn-sm" data-id="' + item.CustomerId + '">Delete</button>' +
+                            '<button class="btn btn-info edit-button btn-sm" data-id="' + item.SupplierID + '">Edit</button>' +
+                            '<button class="btn btn-danger delete-button btn-sm" data-id="' + item.SupplierID + '">Delete</button>' +
                             '</td>' +
                             '</tr>';
                         $('#userDetailsTable tbody').append(row);
@@ -213,35 +225,38 @@
 
         $.ajax({
             //Start Data load the table
-            url: '/Customer/GetCustomerDetails',
+            url: '/Supplier/GetSupplierDetails',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
+
                 $('#userDetailsTable tbody').empty();
                 $.each(data, function (index, item) {
                     var row =
                         '<tr>' +
-                        '<td>' + item.CustomerId + '</td>' +
-                        '<td>' + item.CustomerName + '</td>' +
-                        '<td>' + item.CustomerAddress + '</td>' +
-                        '<td>' + item.CustomerPhoneNumber + '</td>' +
+                        '<td>' + item.SupplierID + '</td>' +
+                        '<td>' + item.SupplierName + '</td>' +
+                        '<td>' + item.PhoneNumber + '</td>' +
+                        '<td>' + item.Address + '</td>' +
+                        '<td>' + item.Description + '</td>' +
                         '<td>' +
-                        '<button class="btn btn-info edit-button btn-sm" data-id="' + item.CustomerId + '">Edit</button>' +
-                        '<button class="btn btn-danger delete-button btn-sm" data-id="' + item.CustomerId + '">Delete</button>' +
+                        '<button class="btn btn-info edit-button btn-sm" data-id="' + item.SupplierID + '">Edit</button>' +
+                        '<button class="btn btn-danger delete-button btn-sm" data-id="' + item.SupplierID + '">Delete</button>' +
                         '</td>' +
                         '</tr>';
                     $('#userDetailsTable tbody').append(row);
                 });
+
                 $('.delete-button').click(function () {
-                    var CustomerId = $(this).data('id');
+                    var SupplierID = $(this).data('id');
                     // Confirm with the user before proceeding with the deletion
                     var confirmation = confirm('Are you sure you want to delete this user?');
                     if (confirmation) {
                         // Send an AJAX request to delete the user
                         $.ajax({
-                            url: '/Customer/DeleteCustomer',
+                            url: '/Supplier/DeleteSupplierDetails',
                             type: 'POST',
-                            data: { CustomerId: CustomerId }, // Pass the userId as data
+                            data: { SupplierID: SupplierID }, // Pass the userId as data
                             success: function (response) {
                                 if (response === 'Delete') {
                                     alert('User deleted successfully');
@@ -260,50 +275,43 @@
                 });
                 // Add click event handler for the "Edit" button
                 $('.edit-button').click(function () {
-                    var CustomerId = $(this).data('id');
-
+                    var SupplierID = $(this).data('id');
                     // Fetch user details by ID using another AJAX request
                     $.ajax({
-                        url: '/Customer/GetCustomerDetailsById/' + CustomerId,
+                        url: '/Supplier/GetSupplierDetailsById/' + SupplierID,
                         type: 'GET',
                         dataType: 'json',
                         success: function (userData) {
                             // Populate the modal with user data
-                            $('#editEmployeeModal input[name="editUserId"]').val(userData.CustomerId);
-                            $('#editEmployeeModal input[name="editUserName"]').val(userData.CustomerName);
-                            $('#editEmployeeModal input[name="editContactNumebr"]').val(userData.PhoneNumber);
-                            $('#editEmployeeModal textarea[name="editAddress"]').val(userData.CustomerAddress);
+                            $('#editEmployeeModal input[name="editSuplierId"]').val(userData.SupplierID);
+                            $('#editEmployeeModal input[name="editSupplierName"]').val(userData.SupplierName);
+                            $('#editEmployeeModal textarea[name="editSupplierAddress"]').val(userData.Address);
+                            $('#editEmployeeModal input[name="editPhoneNumber"]').val(userData.PhoneNumber);
+                            $('#editEmployeeModal textarea[name="editDescription"]').val(userData.Description);
                             $('#editEmployeeModal').modal('show');
                         },
                         error: function () {
                             alert('Error fetching user data');
                         }
                     });
-                });
-
-                // cancel edit menu
-                $("#cancelButton").click(function () {
-                    $("#editEmployeeModal").modal("hide");
-                });
-                $("#cancel").click(function () {
-                    $("#editEmployeeModal").modal("hide");
-                });
+                }); 
                 $("#saveEditButton").click(function () {
-                    var CustomerId = $("#editUserId").val();
-                    var CustomerName = $("#editUserName").val();
-                    var CustomerPhoneNumber = $("#editContactNumebr").val();
-                    var CustomerAddress = $("#editAddress").val();
-
+                    var SupplierID = $("#editSuplierId").val();
+                    var SupplierName = $("#editSupplierName").val();
+                    var Address = $("#editSupplierAddress").val();
+                    var PhoneNumber = $("#editPhoneNumber").val();
+                    var Description = $("#editDescription").val();
                     // create a data object to send server
                     var Data = {
-                        CustomerId: CustomerId,
-                        CustomerName: CustomerName,
-                        PhoneNumber: CustomerPhoneNumber,
-                        CustomerAddress: CustomerAddress
+                        SupplierID: SupplierID,
+                        SupplierName: SupplierName,
+                        Address: Address,
+                        PhoneNumber: PhoneNumber,
+                        Description: Description
                     }
                     // Send an ajax request to update the user details
                     $.ajax({
-                        url: "/Customer/EditCustomerDetails",
+                        url: "/Supplier/EditSupplierDetails",
                         method: "POST",
                         data: Data,
                         success: function (response) {
@@ -330,3 +338,4 @@
         });
     });
 </script>
+

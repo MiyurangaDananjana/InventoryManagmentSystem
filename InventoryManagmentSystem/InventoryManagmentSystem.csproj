@@ -180,13 +180,18 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CustomeDetail.cs">
+    <Compile Include="Models\Brand.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerDetail.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomerDetailsModel.cs" />
     <Compile Include="Models\CustomerView.cs" />
     <Compile Include="Models\C__EFMigrationsHistory.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
@@ -207,6 +212,40 @@
       <DependentUpon>InventorySystemDbContext.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\Order.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderItem.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderStatu.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayMentMethod.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductVariante.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sale.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierDetailsModel.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserDetailsSp_Result.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
@@ -479,12 +518,14 @@
     <Content Include="Views\Main\HomePage.cshtml" />
     <Content Include="Views\Main\SystemUsersView.cshtml" />
     <Content Include="Views\Main\Customer.cshtml" />
+    <Content Include="Views\Main\Supplier.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Img\ProfileImg\" />
     <Folder Include="Models\Domain\" />
     <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Supplier\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

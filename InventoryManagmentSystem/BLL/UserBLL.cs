@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using InventoryManagmentSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,12 @@ namespace InventoryManagmentSystem.BLL
 {
     public class UserBLL
     {
+        private readonly InventorySystemEntities1 _DbContext;
+        public UserBLL(InventorySystemEntities1 dbContext)
+        {
+            this._DbContext = dbContext;
+        }
+
         public static string RenameImage(HttpPostedFileBase profile, string targetDirectory)
         {
             if (profile != null && profile.ContentLength > 0)
@@ -45,5 +52,32 @@ namespace InventoryManagmentSystem.BLL
             string newFileName = Path.GetFileNameWithoutExtension(originalFileName) + "_" + uniquePart;
             return newFileName;
         }
+
+
+        // Check user session in session Tb and pass true or false
+        public bool CheckUserInDatabase(string session)
+        {
+            var isCheckUser = _DbContext.UserSessions.FirstOrDefault(x => x.SessionKey == session);
+            if (isCheckUser != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ChackCustomer(int customerId)
+        {
+            var isCustomer = _DbContext.CustomerDetails.FirstOrDefault(x => x.CustomerId == customerId);
+            if (isCustomer != null)
+            {
+                return true;
+            }
+            else { return false; }
+
+        }
+
     }
 }

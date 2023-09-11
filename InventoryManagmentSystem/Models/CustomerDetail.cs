@@ -12,12 +12,21 @@ namespace InventoryManagmentSystem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CustomeDetail
+    public partial class CustomerDetail
     {
-        public int Id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustomerDetail()
+        {
+            this.Orders = new HashSet<Order>();
+        }
+    
+        public int CustomerId { get; set; }
         public string CustomerName { get; set; }
-        public string CustomerContactInfo { get; set; }
+        public string CustomerPhoneNumber { get; set; }
         public string CustomerAddress { get; set; }
-        public Nullable<System.DateTime> CreatDate { get; set; }
+        public Nullable<System.DateTime> CrateDate { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

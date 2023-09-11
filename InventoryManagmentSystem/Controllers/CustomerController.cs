@@ -1,4 +1,5 @@
-﻿using InventoryManagmentSystem.Models;
+﻿using InventoryManagmentSystem.BLL;
+using InventoryManagmentSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,7 +19,6 @@ namespace InventoryManagmentSystem.Controllers
         {
             this._DbContext = inventorySystemEntities;
         }
-
         // save new customer
         public ActionResult SaveCustomer(CustomerView model)
         {
@@ -26,54 +26,56 @@ namespace InventoryManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(400, "Bad Request");
             }
-
             //Check customer phone number 
-            var isCustomer = _DbContext.CustomeDetails.FirstOrDefault(x => x.CustomerContactInfo == model.PhoneNumber);
+            var isCustomer = _DbContext.CustomerDetails.FirstOrDefault(x => x.CustomerPhoneNumber == model.PhoneNumber);
             if (isCustomer == null)
             {
-                var CustomerReg = new CustomeDetail
+                var CustomerReg = new CustomerDetail
                 {
                     CustomerName = model.CustomerName,
-                    CustomerContactInfo = model.PhoneNumber,
+                    CustomerPhoneNumber = model.PhoneNumber,
                     CustomerAddress = model.CustomerAddress,
-                    CreatDate = DateTime.Now
+                    CrateDate = DateTime.Now
                 };
-
-                _DbContext.CustomeDetails.Add(CustomerReg);
+                _DbContext.CustomerDetails.Add(CustomerReg);
                 _DbContext.SaveChanges();
+                return Json(new { success = true, message = "Successfully added a new customer" });
             }
-            return Content("Already Exit");
+            return Json(new { success = false, message = "Customer already exists" });
         }
 
         // get customer details
         [HttpGet]
-        public async Task<ActionResult> GetCustomerDetails()
+        public ActionResult GetCustomerDetails()
         {
-            var isCustomerDetails = await _DbContext.CustomeDetails.ToListAsync();
-            if (isCustomerDetails != null)
+            var userDetails = _DbContext.CustomerDetails.ToList();
+            // Map the data to UserDetailsModel objects
+            var userDetailModels = userDetails.Select(u => new CustomerDetailsModel
             {
-                return Json(isCustomerDetails);
-            }
-            return new HttpStatusCodeResult(400, "Bad Request");
+                CustomerId = u.CustomerId,
+                CustomerName = u.CustomerName,
+                CustomerPhoneNumber = u.CustomerPhoneNumber,
+                CustomerAddress = u.CustomerAddress
+            }).ToList();
+            return Json(userDetailModels, JsonRequestBehavior.AllowGet);
         }
 
         // get customer details OrderBy Id
         [HttpGet]
         public ActionResult GetCustomerDetailsById(int Id)
         {
-            var list = (from cus in _DbContext.CustomeDetails
-                        where cus.Id == Id
+            var list = (from cus in _DbContext.CustomerDetails
+                        where cus.CustomerId == Id
                         select new CustomerView
                         {
-                            CustomerId = cus.Id,
+                            CustomerId = cus.CustomerId,
                             CustomerName = cus.CustomerName,
                             CustomerAddress = cus.CustomerAddress,
-                            PhoneNumber = cus.CustomerContactInfo
+                            PhoneNumber = cus.CustomerPhoneNumber
                         }).FirstOrDefault();
             if (list != null)
             {
                 return Json(list, JsonRequestBehavior.AllowGet);
-
             }
             return HttpNotFound();
         }
@@ -81,18 +83,30 @@ namespace InventoryManagmentSystem.Controllers
         [HttpPost]
         public ActionResult EditCustomerDetails(CustomerView model)
         {
-            var isCustomer = _DbContext.CustomeDetails.FirstOrDefault(x => x.Id == model.CustomerId);
-
+            var isCustomer = _DbContext.CustomerDetails.FirstOrDefault(x => x.CustomerId == model.CustomerId); 
             if (isCustomer != null)
             {
                 isCustomer.CustomerName = model.CustomerName;
-                isCustomer.CustomerContactInfo = model.PhoneNumber;
+                isCustomer.CustomerPhoneNumber = model.PhoneNumber;
                 isCustomer.CustomerAddress = model.CustomerAddress;
-                isCustomer.CreatDate = DateTime.Now;
+                isCustomer.CrateDate = DateTime.Now;
                 _DbContext.SaveChanges();
                 return Content("Success");
             }
             return Content("Faild");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteCustomer(int CustomerId)
+        {
+            var isCustomer = _DbContext.CustomerDetails.FirstOrDefault(x => x.CustomerId == CustomerId);
+            if(isCustomer != null)
+            {
+                _DbContext.CustomerDetails.Remove(isCustomer);
+                _DbContext.SaveChanges();
+                return Content("Delete");
+            }
+            return Content("fail");
         }
     }
 
