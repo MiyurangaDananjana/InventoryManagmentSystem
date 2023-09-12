@@ -6,19 +6,14 @@
 <link href="~/wwwroot/css/custom.css" rel="stylesheet" />
 <!--google material icon-->
 <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-
 @{
     ViewData["Title"] = "Dashbord";
 }
-
 <body>
     <div class="wrapper">
-
         <div class="body-overlay"></div>
-
         <!--Side menu start-->
         <!-------sidebar--design------------>
-
         <div id="sidebar">
             <div class="sidebar-header">
                 <h3><img src="~/Img/ICBT Logo.jpg" class="img-fluid" /><span>Inventory</span></h3>
@@ -57,8 +52,8 @@
                         <i class="material-icons">extension</i>Product
                     </a>
                     <ul class="collapse list-unstyled menu" id="homeSubmenu4">
+                        <li><a href="/Main/Brand">Brand</a></li>
                         <li><a>Product</a></li>
-                        <li><a>Brand</a></li>
                         <li><a>Product Variant</a></li>
                     </ul>
                 </li>
@@ -74,7 +69,6 @@
                 </li>
             </ul>
         </div>
-
         <!--Side menu end-->
         <!-------page-content start----------->
         <div id="content">
@@ -91,7 +85,6 @@
             <!--footer end-->
         </div>
     </div>
-
     <!-------complete html----------->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -100,8 +93,6 @@
     <script src="~/wwwroot/js/bootstrap.min.js"></script>
     <script src="~/wwwroot/js/jquery-3.3.1.slim.min.js"></script>
     <script type="text/javascript">
-
-
         $(document).ready(function () {
             $(".xp-menubar").on('click', function () {
                 $("#sidebar").toggleClass('active');
@@ -111,7 +102,6 @@
                 $("#sidebar,.body-overlay").toggleClass('show-nav');
             });
         });
-
         $(document).ready(function () {
             $('.collapse#homeSubmenu1 li a[href="/Main/SystemUsersView"]').click(function (e) {
                 e.preventDefault();
@@ -128,7 +118,6 @@
                 });
             });
         });
-
         $('.collapse#homeSubmenu2 li a[href="/Main/Customer"]').click(function (e) {
             e.preventDefault();
             $.ajax({
@@ -143,8 +132,6 @@
                 }
             });
         });
-
-
         $('.collapse#homeSubmenu3 li a[href="/Main/Supplier"]').click(function (e) {
             e.preventDefault();
             $.ajax({
@@ -160,12 +147,19 @@
             });
         });
 
-
-
+        $('.collapse#homeSubmenu4 li a[href="/Main/Brand"]').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Main/Brand',
+                method: 'GET',
+                dataType: 'html',
+                success: function (data) {
+                    $('.main-content').html(data);
+                },
+                error: function () {
+                    alert('Error loading content.');
+                }
+            });
+        });
     </script>
-
-
-
-
-
 </body>

@@ -1,0 +1,314 @@
+﻿
+@{
+    ViewBag.Title = "Supplier";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                        <h2 class="ml-lg-2">Manage Brand</h2>
+                    </div>
+                    <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
+                        <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
+                            <i class="material-icons">&#xE147;</i>
+                            <span>Add New Brand</span>
+                        </a>
+                        @*<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
+                                <i class="material-icons">&#xE15C;</i>
+                                <span>Delete</span>
+                            </a>*@
+                    </div>
+                </div>
+            </div>
+            <table id="userDetailsTable" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Brand ID</th>
+                        <th>Brand Name</th>
+                        <th>Create By</th>
+                        <th>Edit/Delete</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" id="checkbox1" name="option[]" value="1">
+                                <label for="checkbox1"></label>
+                            </span>
+                        </th>
+                        <th>
+                            <a href="#editEmployeeModal" class="edit" data-toggle="modal">
+                                <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                            </a>
+                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
+                                <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                            </a>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <div class="hint-text">showing <b>5</b> out of <b>25</b></div>
+                <ul class="pagination">
+                    <li class="page-item disabled"><a href="#">Previous</a></li>
+                    <li class="page-item "><a class="page-link">1</a></li>
+                    <li class="page-item "><a class="page-link">2</a></li>
+                    <li class="page-item active"><a class="page-link">3</a></li>
+                    <li class="page-item "><a class="page-link">4</a></li>
+                    <li class="page-item "><a class="page-link">5</a></li>
+                    <li class="page-item "><a class="page-link">Next</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!----add-modal start--------->
+    <div class="modal fade" tabindex="-1" id="addEmployeeModal" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Barnd</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Brand Name</label>
+                        <input type="text" class="form-control" id="addBrandName" name="addBrandName" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Add model end-->
+
+    <!----edit-modal start--------->
+    <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Brand</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editEmployeeForm">
+                        <div class="form-group">
+                            <label for="editUserId">Brand ID:</label>
+                            <input type="text" class="form-control" id="editBrandId" name="editBrandId" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSupplierName">Brand Name:</label>
+                            <input type="text" class="form-control" id="editBrandName" name="editBrandName" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelButton" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" id="saveEditButton">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!----edit-modal end--------->
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Add new supplier
+        $("#addEmployeeModal").on('click', '.btn-success', function () {
+            var cookieValue = getCookie("Session");
+            if (cookieValue) {
+                var data = {
+                    BrandName: $("#addEmployeeModal input[name='addBrandName']").val()
+                };
+                var url = "/Product/AddNewBrand?sessionKey=" + cookieValue;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.success) {
+                            // Handle success, e.g., show a success message and close the modal
+                            alert("Product added successfully");
+                            loadDataIntoTable(); // Load table data
+                            $("#addEmployeeModal").modal('hide');
+                        } else {
+                            // Handle failure, e.g., display an error message
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        // Handle AJAX error
+                        alert("An error occurred while processing your request.");
+                    }
+                });
+            }
+        });
+        // cancel edit menu
+        $("#cancelButton").click(function () {
+            $("#editEmployeeModal").modal("hide");
+        });
+        $("#cancelButton").click(function () {
+            $("#editEmployeeModal").modal("hide");
+        });
+
+        function loadDataIntoTable() {
+            $.ajax({
+                url: '/Product/GetBrandDetails',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#userDetailsTable tbody').empty();
+                    $.each(data, function (index, item) {
+                        var row =
+                            '<tr>' +
+                            '<td>' + item.BrandId + '</td>' +
+                            '<td>' + item.BrandName + '</td>' +
+                            '<td>' + item.CreateBy + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-info edit-button btn-sm" data-id="' + item.BrandId + '">Edit</button>' +
+                            '<button class="btn btn-danger delete-button btn-sm" data-id="' + item.BrandId + '">Delete</button>' +
+                            '</td>' +
+                            '</tr>';
+                        $('#userDetailsTable tbody').append(row);
+                    });
+                },
+                error: function () {
+                    alert("An error occurred while loading data.");
+                }
+            });
+        }
+        $.ajax({
+            //Start Data load the table
+            url: '/Product/GetBrandDetails',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#userDetailsTable tbody').empty();
+                $.each(data, function (index, item) {
+                    var row =
+                        '<tr>' +
+                        '<td>' + item.BrandId + '</td>' +
+                        '<td>' + item.BrandName + '</td>' +
+                        '<td>' + item.CreateBy + '</td>' +
+                        '<td>' +
+                        '<button class="btn btn-info edit-button btn-sm" data-id="' + item.BrandId + '">Edit</button>' +
+                        '<button class="btn btn-danger delete-button btn-sm" data-id="' + item.BrandId + '">Delete</button>' +
+                        '</td>' +
+                        '</tr>';
+                    $('#userDetailsTable tbody').append(row);
+                });
+                $('.delete-button').click(function () {
+                    var BrandId = $(this).data('id');
+                    // Confirm with the user before proceeding with the deletion
+                    var confirmation = confirm('Are you sure you want to delete this user?');
+                    if (confirmation) {
+                        // Send an AJAX request to delete the user
+                        $.ajax({
+                            url: '/Product/DeleteBrandDetails',
+                            type: 'POST',
+                            data: { barndId: BrandId }, // Pass the userId as data
+                            success: function (response) {
+                                if (response === 'Delete') {
+                                    alert('User deleted successfully');
+                                    loadDataIntoTable(); // Load table data
+
+                                } else {
+                                    alert('Failed to delete user');
+                                }
+                            },
+                            error: function () {
+                                // Handle error here
+                                alert('Error deleting user');
+                            }
+                        });
+                    }
+                });
+                // Add click event handler for the "Edit" button
+                $('.edit-button').click(function () {
+                    var BrandId = $(this).data('id');
+                    // Fetch user details by ID using another AJAX request
+                    $.ajax({
+                        url: '/Product/GetBrandDetailsById/'+ BrandId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (userData) {
+                            $('#editEmployeeModal input[name="editBrandId"]').val(userData.Id);
+                            $('#editEmployeeModal input[name="editBrandName"]').val(userData.BrandName);
+                            $('#editEmployeeModal').modal('show');
+                        },
+                        error: function () {
+                            alert('Error fetching user data');
+                        }
+                    });
+                });
+
+                $("#saveEditButton").click(function () {
+                    var cookieValue = getCookie("Session");
+                    if (cookieValue) {
+                        var Id = $("#editBrandId").val();
+                        var BrandName = $("#editBrandName").val();    
+                        var data = {
+                            Id: Id,
+                            BrandName: BrandName
+                        }
+                        var url = "/Product/UpdateBrand?sessionKey=" + cookieValue;
+                        $.ajax({
+                            url: url,
+                            method: "POST",
+                            data: data,
+                            success: function (response) {
+                                if (response === "Success") {
+                                    $("#editEmployeeModal").modal("hide");
+                                    alert("Brand is update pleas check the data")
+                                    loadDataIntoTable();
+                                }
+                                else {
+                                    alert("User is not update pleas check the data")
+                                }
+                                console.log("Employee details updated successfully");
+                            },
+                            error: function (error) {
+                                console.error("Error updating employee details: " + error.responseText);
+                            }
+                        });
+                    }
+                    else {
+                        console.log("404 Error")
+                    }
+                })
+            },
+            error: function () {
+                // Handle error here
+                alert('Error fetching data');
+            }
+        });
+    });
+    function getCookie(cookieName) {
+        var name = cookieName + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var cookieArray = decodedCookie.split(';');
+        for (var i = 0; i < cookieArray.length; i++) {
+            var cookie = cookieArray[i];
+            while (cookie.charAt(0) == ' ') {
+                cookie = cookie.substring(1);
+            }
+            if (cookie.indexOf(name) == 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+        return null;
+    }
+</script>
+

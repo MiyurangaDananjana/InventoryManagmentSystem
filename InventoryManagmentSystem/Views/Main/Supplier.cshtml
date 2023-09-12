@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Supplier";
 }
-
 <div class="row">
     <div class="col-md-12">
         <div class="table-wrapper">
@@ -67,7 +66,6 @@
             </div>
         </div>
     </div>
-
     <!----add-modal start--------->
     <div class="modal fade" tabindex="-1" id="addEmployeeModal" role="dialog">
         <div class="modal-dialog" role="document">
@@ -104,9 +102,6 @@
         </div>
     </div>
     <!--Add model end-->
-
-
-
     <!----edit-modal start--------->
     <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
         <div class="modal-dialog" role="document">
@@ -184,7 +179,6 @@
                 }
             });
         });
-
         // cancel edit menu
         $("#cancelButton").click(function () {
             $("#editEmployeeModal").modal("hide");
@@ -222,7 +216,6 @@
                 }
             });
         }
-
         $.ajax({
             //Start Data load the table
             url: '/Supplier/GetSupplierDetails',

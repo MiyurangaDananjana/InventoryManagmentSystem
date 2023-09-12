@@ -1,4 +1,7 @@
-﻿<div class="row">
+﻿@{
+    ViewBag.Title = "System Users";
+}
+<div class="row">
     <div class="col-md-12">
         <div class="table-wrapper">
             <div class="table-title">
@@ -114,7 +117,7 @@
                         '<td>' + item.Nic + '</td>' +
                         '<td>' + item.EPFNumber + '</td>' +
                         '<td>' + item.Address + '</td>' +
-                        '<td>' +
+                        '<td>'+
                         '<button class="btn btn-info edit-button btn-sm " data-id="' + item.Id + '">Edit</button>' +
                         '<button class="btn btn-danger delete-button btn-sm" data-id="' + item.Id + '">Delete</button>' +
                         '</td>' +
@@ -146,32 +149,32 @@
                             }
                         });
                     }
-                });-
-                // Add click event handler for the "Edit" button
-                $('.edit-button').click(function () {
-                    var userId = $(this).data('id');
+                }); -
+                    // Add click event handler for the "Edit" button
+                    $('.edit-button').click(function () {
+                        var userId = $(this).data('id');
 
-                    // Fetch user details by ID using another AJAX request
-                    $.ajax({
-                        url: '/Main/GetUserDetailsById/' + userId, // Adjust the URL as needed
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (userData) {
-                            // Populate the modal with user data
-                            $('#editEmployeeModal input[name="editUserId"]').val(userData.Id);
-                            $('#editEmployeeModal input[name="editUserName"]').val(userData.UserName);
-                            $('#editEmployeeModal input[name="editEpfNumber"]').val(userData.EPFNumber);
-                            $('#editEmployeeModal textarea[name="editAddress"]').val(userData.Address);
-                            $('#editEmployeeModal input[name="editNic"]').val(userData.Nic);
-                            // Open the modal
-                            $('#editEmployeeModal').modal('show');
-                        },
-                        error: function () {
-                            // Handle error here
-                            alert('Error fetching user data');
-                        }
+                        // Fetch user details by ID using another AJAX request
+                        $.ajax({
+                            url: '/Main/GetUserDetailsById/' + userId, // Adjust the URL as needed
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (userData) {
+                                // Populate the modal with user data
+                                $('#editEmployeeModal input[name="editUserId"]').val(userData.Id);
+                                $('#editEmployeeModal input[name="editUserName"]').val(userData.UserName);
+                                $('#editEmployeeModal input[name="editEpfNumber"]').val(userData.EPFNumber);
+                                $('#editEmployeeModal textarea[name="editAddress"]').val(userData.Address);
+                                $('#editEmployeeModal input[name="editNic"]').val(userData.Nic);
+                                // Open the modal
+                                $('#editEmployeeModal').modal('show');
+                            },
+                            error: function () {
+                                // Handle error here
+                                alert('Error fetching user data');
+                            }
+                        });
                     });
-                });
                 // cancel edit menu
                 $("#cancelButton").click(function () {
                     $("#editEmployeeModal").modal("hide");

@@ -1,0 +1,7 @@
+﻿@rootURL = http://localhost:55811
+
+GET {{rootURL}}/Product/GetBrandDetails/
+
+###
+
+POST {{rootURL}}/Product/

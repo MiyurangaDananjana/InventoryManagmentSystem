@@ -180,6 +180,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="Global.asax.cs">
@@ -188,6 +189,8 @@
     <Compile Include="Models\Brand.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BrandDetailsModel.cs" />
+    <Compile Include="Models\BrandViewModel.cs" />
     <Compile Include="Models\CustomerDetail.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
@@ -224,6 +227,7 @@
     <Compile Include="Models\PayMentMethod.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProdactViewModel.cs" />
     <Compile Include="Models\Product.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
@@ -263,6 +267,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AboutMe.txt" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -440,6 +445,7 @@
     <Content Include="Models\InventorySystemDbContext.edmx.diagram">
       <DependentUpon>InventorySystemDbContext.edmx</DependentUpon>
     </Content>
+    <Content Include="CheckEndPoint.http" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -519,12 +525,14 @@
     <Content Include="Views\Main\SystemUsersView.cshtml" />
     <Content Include="Views\Main\Customer.cshtml" />
     <Content Include="Views\Main\Supplier.cshtml" />
+    <Content Include="Views\Main\Brand.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Img\ProfileImg\" />
     <Folder Include="Models\Domain\" />
     <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Product\" />
     <Folder Include="Views\Supplier\" />
   </ItemGroup>
   <ItemGroup>

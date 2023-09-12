@@ -34,6 +34,11 @@ namespace InventoryManagmentSystem.Controllers
             return View();
         }
 
+        public ActionResult Brand()
+        {
+            return View();
+        }
+
         //get user details 
         [HttpGet]
         public ActionResult UserDetails()

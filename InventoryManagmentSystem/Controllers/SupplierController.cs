@@ -57,7 +57,6 @@ namespace InventoryManagmentSystem.Controllers
             return Json(supplierDetailsModel, JsonRequestBehavior.AllowGet);
         }
 
-        
         [HttpGet]
         public ActionResult GetSupplierDetailsById(int Id)
         {
@@ -99,10 +98,14 @@ namespace InventoryManagmentSystem.Controllers
             return Content("Faild");
         }
 
-        //Delete Suppler // Test Pass
+        //Delete Supplier // Test Pass
         [HttpPost]
         public ActionResult DeleteSupplierDetails(int SupplierID)
         {
+            if(SupplierID == 0)
+            {
+                return new HttpStatusCodeResult(400, "Bad Request");
+            }
             var isSupplier = _DbContext.Suppliers.FirstOrDefault(x => x.SupplierID == SupplierID);
             if(isSupplier != null)
             {

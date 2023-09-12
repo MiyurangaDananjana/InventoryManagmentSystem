@@ -65,7 +65,6 @@
 
 <script>
     $(document).ready(function () {
-
         function checkCookieExists(cookieName) {
             return document.cookie.indexOf(cookieName + '=') !== -1;
         }
@@ -118,6 +117,7 @@
             console.log('Session cookie not found.');
         }
     });
+
     function fetchImage(imageName) {
         var imageElement = document.getElementById('imageName');
         var imageUrl = 'http://localhost:55811/Auth/GetImage?imageName=' + imageName; // Replace with the actual image URL
