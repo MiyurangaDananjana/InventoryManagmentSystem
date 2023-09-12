@@ -11,6 +11,8 @@ namespace InventoryManagmentSystem.Models
 
         public int brandId { get; set; }
 
+        public string prductName { get; set; }
+
         public string ProductDescription { get; set; }
 
         public decimal unitPrice { get; set; }

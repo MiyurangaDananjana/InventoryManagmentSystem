@@ -116,5 +116,23 @@ namespace InventoryManagmentSystem.Controllers
             return Content("Fail");
 
         }
+
+        [HttpGet]
+        public ActionResult SupplierNameAndId()
+        {
+            var list = (from supplier in _DbContext.Suppliers
+                                orderby supplier.SupplierName ascending
+                                select new
+                                {
+                                    SupplierID = supplier.SupplierID,
+                                    SupplierName = supplier.SupplierName
+                                }).ToList();
+            if (list != null)
+            {
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
+        }
+
     }
 }

@@ -109,7 +109,7 @@ namespace InventoryManagmentSystem.Controllers
 
                 if (existingBrand != null)
                 {
-                    if(existingBrand.BrandName == model.BrandName)
+                    if (existingBrand.BrandName == model.BrandName)
                     {
                         return new HttpStatusCodeResult(400, "Bad Request: Brand exist.");
                     }
@@ -124,8 +124,6 @@ namespace InventoryManagmentSystem.Controllers
 
             return new HttpStatusCodeResult(400, "Bad Request: SessionKey not found.");
         }
-
-
 
         //Delete Brand
         [HttpPost]
@@ -143,6 +141,45 @@ namespace InventoryManagmentSystem.Controllers
                 return Content("Delete");
             }
             return Content("Fail");
+        }
+
+        [HttpGet]
+        public ActionResult BrandIdName()
+        {
+            var brandDetails = (from brand in _DbContext.Brands
+                                orderby brand.BrandName ascending
+                                select new
+                                {
+                                    BrandId = brand.BrandId,
+                                    BrandName = brand.BrandName
+
+                                }).ToList();
+            if (brandDetails != null)
+            {
+                return Json(brandDetails, JsonRequestBehavior.AllowGet);
+            }
+            return new HttpStatusCodeResult(400, "Bad Request");
+        }
+
+
+        [HttpPost]
+        public ActionResult AddNewProduct(ProdactViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(400, "Bad Request");
+            }
+            var newProduct = new Product
+            {
+                ProductName = model.prductName,
+                ProductDescription = model.ProductDescription,
+                Price = model.unitPrice,
+                SupplierID = model.supplierId,
+                BrandId = model.brandId
+            };
+            _DbContext.Products.Add(newProduct);
+            _DbContext.SaveChanges();
+            return Content("Successfully added a new Brand");
         }
 
 

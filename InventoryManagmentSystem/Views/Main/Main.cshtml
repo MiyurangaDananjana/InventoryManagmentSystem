@@ -53,7 +53,7 @@
                     </a>
                     <ul class="collapse list-unstyled menu" id="homeSubmenu4">
                         <li><a href="/Main/Brand">Brand</a></li>
-                        <li><a>Product</a></li>
+                        <li><a href="/Main/Product">Product</a></li>
                         <li><a>Product Variant</a></li>
                     </ul>
                 </li>
@@ -151,6 +151,21 @@
             e.preventDefault();
             $.ajax({
                 url: '/Main/Brand',
+                method: 'GET',
+                dataType: 'html',
+                success: function (data) {
+                    $('.main-content').html(data);
+                },
+                error: function () {
+                    alert('Error loading content.');
+                }
+            });
+        });
+
+        $('.collapse#homeSubmenu4 li a[href="/Main/Product"]').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Main/Product',
                 method: 'GET',
                 dataType: 'html',
                 success: function (data) {
