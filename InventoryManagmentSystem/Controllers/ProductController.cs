@@ -1,4 +1,5 @@
 ﻿using InventoryManagmentSystem.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Web.Mvc;
@@ -143,6 +144,28 @@ namespace InventoryManagmentSystem.Controllers
             return Content("Fail");
         }
 
+       
+
+        [HttpPost]
+        public ActionResult AddNewProduct(ProdactViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(400, "Bad Request");
+            }
+            var newProduct = new Product
+            {
+                ProductName = model.ProductName,
+                ProductDescription = model.ProductDescription,
+                Price = model.UnitPrice,
+                SupplierID = model.SupplierId,
+                BrandId = model.BrandId
+            };
+            _DbContext.Products.Add(newProduct);
+            _DbContext.SaveChanges();
+            return Json(new { success = true, message = "Successfully added a new Brand" });
+        }
+
         [HttpGet]
         public ActionResult BrandIdName()
         {
@@ -161,26 +184,89 @@ namespace InventoryManagmentSystem.Controllers
             return new HttpStatusCodeResult(400, "Bad Request");
         }
 
+        // add to the collection and return the data
+        public ActionResult GetProduct()
+        {
+            List<ProductView> products = new List<ProductView>();
 
+            var productL = (from product in _DbContext.Products
+                                join brand in _DbContext.Brands on product.BrandId equals brand.BrandId
+                                join supplier in _DbContext.Suppliers on product.SupplierID equals supplier.SupplierID
+                                select new
+                                {
+                                    ProductId = product.ProductId,
+                                    BrandName = brand.BrandName,
+                                    ProductName = product.ProductName,
+                                    ProductDescription = product.ProductDescription,
+                                    Price = product.Price,
+                                    SupplierName = supplier.SupplierName
+                                });
+           foreach (var product in productL)
+            {
+                ProductView view = new ProductView();
+                view.ProductId = product.ProductId;
+                view.BrandName = product.BrandName;
+                view.ProductName = product.ProductName;
+                view.ProductDescription = product.ProductDescription;
+                view.UnitPrice = (decimal)product.Price;
+                view.SupplierName = product.SupplierName;
+                products.Add(view);
+            }
+            return Json(products, JsonRequestBehavior.AllowGet);
+
+        }
+
+        // Product details get by the id
+        [HttpGet]
+        public ActionResult GetProductById(int productId)
+        {
+            var productList = (from product in _DbContext.Products where product.ProductId == productId
+                            join brand in _DbContext.Brands on product.BrandId equals brand.BrandId
+                            join supplier in _DbContext.Suppliers on product.SupplierID equals supplier.SupplierID
+                            select new
+                            {
+                                ProductId = product.ProductId,
+                                BrandName = brand.BrandName,
+                                ProductName = product.ProductName,
+                                ProductDescription = product.ProductDescription,
+                                Price = product.Price,
+                                SupplierName = supplier.SupplierName
+
+                            }).FirstOrDefault();
+
+            if (productList == null)
+            {
+                 return new HttpStatusCodeResult(404, "Not Found");
+            }
+
+            return Json(productList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        // Update Product
         [HttpPost]
-        public ActionResult AddNewProduct(ProdactViewModel model)
+        public ActionResult UpdateProduct(ProdactViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return new HttpStatusCodeResult(400, "Bad Request");
             }
-            var newProduct = new Product
+            var existingProduct = _DbContext.Products.Find(model.ProductId);
+            if (existingProduct == null)
             {
-                ProductName = model.prductName,
-                ProductDescription = model.ProductDescription,
-                Price = model.unitPrice,
-                SupplierID = model.supplierId,
-                BrandId = model.brandId
-            };
-            _DbContext.Products.Add(newProduct);
+                return new HttpStatusCodeResult(404, "Not Found");
+            }
+            existingProduct.ProductName = model.ProductName;
+            existingProduct.ProductDescription = model.ProductDescription;
+            existingProduct.Price = model.UnitPrice;
+            existingProduct.SupplierID = model.SupplierId;
+            existingProduct.BrandId = model.BrandId;
+
             _DbContext.SaveChanges();
-            return Content("Successfully added a new Brand");
+
+            return Json(new { success = true, message = "Successfully updated the product" });
         }
+
 
 
     }

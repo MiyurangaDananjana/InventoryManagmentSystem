@@ -234,6 +234,7 @@
     <Compile Include="Models\ProductVariante.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductView.cs" />
     <Compile Include="Models\Sale.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
@@ -305,6 +306,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\JavaScript.js" />
     <Content Include="wwwroot\assets\arrowleft.png" />
     <Content Include="wwwroot\assets\arrowright.png" />
     <Content Include="wwwroot\assets\arrow_large_left.png" />

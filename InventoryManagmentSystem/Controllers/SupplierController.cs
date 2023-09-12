@@ -70,11 +70,12 @@ namespace InventoryManagmentSystem.Controllers
                             PhoneNumber= supplier.PhoneNumber,
                             Description= supplier.SupplierDescription
                         }).FirstOrDefault();
-            if(list != null)
+            if(list == null)
             {
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return HttpNotFound();
             }
-            return HttpNotFound();
+            return Json(list, JsonRequestBehavior.AllowGet);
+           
         }
 
         // Update by supplier details 
