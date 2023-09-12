@@ -526,6 +526,7 @@
     <Content Include="Views\Main\Customer.cshtml" />
     <Content Include="Views\Main\Supplier.cshtml" />
     <Content Include="Views\Main\Brand.cshtml" />
+    <Content Include="Views\Main\Product.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
