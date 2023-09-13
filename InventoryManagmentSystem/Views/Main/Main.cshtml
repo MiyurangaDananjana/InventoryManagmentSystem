@@ -67,11 +67,10 @@
                 <li class="dropdown">
                     <a href="#homeSubmenu5" data-toggle="collapse" aria-expanded="false"
                        class="dropdown-toggle">
-                        <i class="material-icons">border_color</i>Stock
+                        <i class="material-icons">border_color</i>Order
                     </a>
                     <ul class="collapse list-unstyled menu" id="homeSubmenu5">
-                        <li><a>Main Stock</a></li>
-                        <li><a>Invoice</a></li>
+                        <li><a href="/Main/OrderItem" >Order Items</a></li>
                     </ul>
                 </li>
             </ul>
@@ -190,6 +189,22 @@
             e.preventDefault();
             $.ajax({
                 url: '/Main/ProductVariant',
+                method: 'GET',
+                dataType: 'html',
+                success: function (data) {
+                    $('.main-content').html(data);
+                },
+                error: function () {
+                    alert('Error loading content.');
+                }
+            });
+
+          
+        });
+        $('.collapse#homeSubmenu5 li a[href="/Main/OrderItem"]').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Main/OrderItem',
                 method: 'GET',
                 dataType: 'html',
                 success: function (data) {

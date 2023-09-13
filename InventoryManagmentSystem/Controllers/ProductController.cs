@@ -1,4 +1,5 @@
 ﻿using InventoryManagmentSystem.Models;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -122,7 +123,6 @@ namespace InventoryManagmentSystem.Controllers
                 }
                 return new HttpStatusCodeResult(400, "Bad Request: Brand does not exist.");
             }
-
             return new HttpStatusCodeResult(400, "Bad Request: SessionKey not found.");
         }
 
@@ -186,7 +186,6 @@ namespace InventoryManagmentSystem.Controllers
         public ActionResult GetProduct()
         {
             List<ProductView> products = new List<ProductView>();
-
             var productL = (from product in _DbContext.Products
                             join brand in _DbContext.Brands on product.BrandId equals brand.BrandId
                             join supplier in _DbContext.Suppliers on product.SupplierID equals supplier.SupplierID
@@ -211,7 +210,6 @@ namespace InventoryManagmentSystem.Controllers
                 products.Add(view);
             }
             return Json(products, JsonRequestBehavior.AllowGet);
-
         }
 
         // Product details get by the id
@@ -232,7 +230,6 @@ namespace InventoryManagmentSystem.Controllers
                                    SupplierName = supplier.SupplierName
 
                                }).FirstOrDefault();
-
             if (productList == null)
             {
                 return new HttpStatusCodeResult(404, "Not Found");
@@ -277,7 +274,6 @@ namespace InventoryManagmentSystem.Controllers
                 return Content("Delete");
             }
             return Content("Fail");
-
         }
 
         // add new product variant details
@@ -302,7 +298,7 @@ namespace InventoryManagmentSystem.Controllers
 
         //Get Product variant details
         [HttpGet]
-        public ActionResult GetProductVariants()
+        public ActionResult GetProductVariantsIdAndName()
         {
             List<ProductView> products = new List<ProductView>();
             var list = (from product in _DbContext.Products
@@ -320,6 +316,138 @@ namespace InventoryManagmentSystem.Controllers
             }
             return Json(products, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult GetProductVariants()
+        {
+            List<ProductVariantView> productVariantViews = new List<ProductVariantView>();
+            var list = (from productVariant in _DbContext.ProductVariantes
+                        join prduct in _DbContext.Products on productVariant.ProductsId equals prduct.ProductId
+                        select new
+                        {
+                            ProductVariantId = productVariant.ProductVariantId,
+                            ProductName = prduct.ProductName,
+                            Description = productVariant.Description,
+                            Quantity = productVariant.StockQuantity,
+                            UnitPrice = prduct.Price
+                        });
+            foreach (var product in list)
+            {
+                ProductVariantView view = new ProductVariantView();
+                view.ProductVariantId = product.ProductVariantId;
+                view.ProductName = product.ProductName;
+                view.Description = product.Description;
+                view.Quantity = (int)product.Quantity;
+                view.UnitPrice = (decimal)product.UnitPrice;
+                productVariantViews.Add(view);
+            }
+            return Json(productVariantViews, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        public ActionResult GetProductVariantsGetById(int Id)
+        {
+            var list = (from productVariant in _DbContext.ProductVariantes where productVariant.ProductVariantId == Id
+                        join prduct in _DbContext.Products on productVariant.ProductsId equals prduct.ProductId
+                        select new
+                        {
+                            ProductVariantId = productVariant.ProductVariantId,
+                            ProductName = prduct.ProductName,
+                            Description = productVariant.Description,
+                            Quantity = productVariant.StockQuantity
+
+                        }).FirstOrDefault(); ;
+            
+            if (list == null)
+            {
+                return new HttpStatusCodeResult(404, "Not Found");
+            }
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProductVariant(ProductVariantViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(400, "Bad Request");
+            }
+            var existingProductVariant = _DbContext.ProductVariantes.Find(model.ProductVariantId);
+            if (existingProductVariant == null)
+            {
+                return new HttpStatusCodeResult(404, "Not Found");
+            }
+            existingProductVariant.Description = model.Description;
+            existingProductVariant.StockQuantity = model.Quantity;
+            _DbContext.SaveChanges();
+            return Json(new { success = true, message = "Successfully updated the product" });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteProductVariant(int Id)
+        {
+            if (Id <= 0)
+            {
+                return new HttpStatusCodeResult(400, "Bad Request");
+            }
+            var isProduct = _DbContext.ProductVariantes.FirstOrDefault(x => x.ProductVariantId == Id);
+            if (isProduct != null)
+            {
+                _DbContext.ProductVariantes.Remove(isProduct);
+                _DbContext.SaveChanges();
+                return Content("Delete");
+            }
+            return Content("Fail");
+        }
+
+        [HttpGet]
+        public ActionResult ProductOrderByBrand(int brandId)
+        {
+            var filteredProducts = _DbContext.Products
+            .Where(p => p.BrandId == brandId)
+            .Select(p => new { p.ProductId, p.ProductName })
+            .ToList();
+
+            return Json(filteredProducts, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpGet]
+        public ActionResult ProductVariantOrderByBrand(int productId)
+        {
+            var filteredProducts = _DbContext.ProductVariantes
+            .Where(p => p.ProductsId == productId)
+            .Select(p => new { p.ProductVariantId, p.Description })
+            .ToList();
+
+            return Json(filteredProducts, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpGet]
+        public ActionResult ProductVariant(int productId)
+        {
+            var list = (from productVariant in _DbContext.ProductVariantes
+                        where productVariant.ProductVariantId == productId
+                        join prduct in _DbContext.Products on productVariant.ProductsId equals prduct.ProductId
+                        select new
+                        {
+                            Quantity = productVariant.StockQuantity,
+                            Price = prduct.Price,
+
+                        }).FirstOrDefault(); ;
+
+            if (list == null)
+            {
+                return new HttpStatusCodeResult(404, "Not Found");
+            }
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+
+        }
+
 
     }
 }

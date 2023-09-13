@@ -214,7 +214,6 @@
                     // Confirm with the user before proceeding with the deletion
                     var confirmation = confirm('Are you sure you want to delete this user?');
                     if (confirmation) {
-                        // Send an AJAX request to delete the user
                         $.ajax({
                             url: '/Product/DeleteBrandDetails',
                             type: 'POST',
@@ -229,16 +228,13 @@
                                 }
                             },
                             error: function () {
-                                // Handle error here
                                 alert('Error deleting user');
                             }
                         });
                     }
                 });
-                // Add click event handler for the "Edit" button
                 $('.edit-button').click(function () {
                     var BrandId = $(this).data('id');
-                    // Fetch user details by ID using another AJAX request
                     $.ajax({
                         url: '/Product/GetBrandDetailsById/'+ BrandId,
                         type: 'GET',

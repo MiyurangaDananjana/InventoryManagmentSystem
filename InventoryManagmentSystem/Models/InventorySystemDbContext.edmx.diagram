@@ -4,19 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="569249d2f2a74da88649cd380a7f7d2a" Name="Diagram1" ZoomLevel="80">
-        <EntityTypeShape EntityType="InventorySystemModel.Brand" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.CustomerDetail" Width="1.5" PointX="3.75" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.OrderItem" Width="1.5" PointX="9.875" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.Order" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.OrderStatu" Width="1.5" PointX="12" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.PayMentMethod" Width="1.5" PointX="12.375" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.Product" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.ProductVariante" Width="1.5" PointX="7.625" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.Sale" Width="1.5" PointX="5.5" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="569249d2f2a74da88649cd380a7f7d2a" Name="Diagram1" ZoomLevel="92">
+        <EntityTypeShape EntityType="InventorySystemModel.Brand" Width="1.5" PointX="7.625" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.CustomerDetail" Width="1.5" PointX="11.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.OrderItem" Width="1.5" PointX="5.875" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.Order" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.OrderStatu" Width="1.5" PointX="8.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.PayMentMethod" Width="2.25" PointX="10.375" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.Product" Width="1.5" PointX="4.125" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.ProductVariante" Width="1.5" PointX="5.875" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.Sale" Width="1.5" PointX="3.375" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="InventorySystemModel.Supplier" Width="1.5" PointX="2.375" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.UserRegister" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.UserSession" Width="1.5" PointX="12.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.UserRegister" Width="1.5" PointX="0.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.UserSession" Width="1.5" PointX="9.375" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="InventorySystemModel.FK__Brands__BrandUpd__6477ECF3" ManuallyRouted="false" />
         <AssociationConnector Association="InventorySystemModel.FK__Products__BrandI__6754599E" ManuallyRouted="false" />
         <AssociationConnector Association="InventorySystemModel.FK__Orders__Customer__797309D9" ManuallyRouted="false" />
