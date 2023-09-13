@@ -280,6 +280,7 @@ namespace InventoryManagmentSystem.Controllers
 
         }
 
+        // add new product variant details
         [HttpPost]
         public ActionResult AddProductVariant(ProductVariantViewModel model)
         {
@@ -298,6 +299,27 @@ namespace InventoryManagmentSystem.Controllers
             return Json(new { success = true, message = "Successfully added a new Brand" });
         }
 
+
+        //Get Product variant details
+        [HttpGet]
+        public ActionResult GetProductVariants()
+        {
+            List<ProductView> products = new List<ProductView>();
+            var list = (from product in _DbContext.Products
+                        select new
+                        {
+                            ProductId = product.ProductId,
+                            ProductName = product.ProductName
+                        });
+            foreach (var product in list)
+            {
+                ProductView view = new ProductView();
+                view.ProductId = product.ProductId;
+                view.ProductName = product.ProductName;
+                products.Add(view);
+            }
+            return Json(products, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
