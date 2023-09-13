@@ -9,6 +9,13 @@
 @{
     ViewData["Title"] = "Dashbord";
 }
+
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+
 <body>
     <div class="wrapper">
         <div class="body-overlay"></div>
@@ -54,7 +61,7 @@
                     <ul class="collapse list-unstyled menu" id="homeSubmenu4">
                         <li><a href="/Main/Brand">Brand</a></li>
                         <li><a href="/Main/Product">Product</a></li>
-                        <li><a>Product Variant</a></li>
+                        <li><a href="/Main/ProductVariant">Product Variant</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -168,6 +175,21 @@
             e.preventDefault();
             $.ajax({
                 url: '/Main/Product',
+                method: 'GET',
+                dataType: 'html',
+                success: function (data) {
+                    $('.main-content').html(data);
+                },
+                error: function () {
+                    alert('Error loading content.');
+                }
+            });
+        });
+
+        $('.collapse#homeSubmenu4 li a[href="/Main/ProductVariant"]').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Main/ProductVariant',
                 method: 'GET',
                 dataType: 'html',
                 success: function (data) {

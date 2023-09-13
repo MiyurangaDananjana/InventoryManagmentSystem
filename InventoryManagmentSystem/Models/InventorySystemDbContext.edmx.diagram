@@ -4,34 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="feef44b855494419bc12f42b9d2596df" Name="Diagram1" ZoomLevel="96">
-        <EntityTypeShape EntityType="InventorySystemModel.C__EFMigrationsHistory" Width="1.5" PointX="0.5" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.UserRegister" Width="1.5" PointX="0.75" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventorySystemModel.UserSession" Width="1.5" PointX="3" PointY="0.5" IsExpanded="true" />
+      <Diagram DiagramId="569249d2f2a74da88649cd380a7f7d2a" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="InventorySystemModel.Brand" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.CustomerDetail" Width="1.5" PointX="3.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.OrderItem" Width="1.5" PointX="9.875" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.Order" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.OrderStatu" Width="1.5" PointX="12" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.PayMentMethod" Width="1.5" PointX="12.375" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.Product" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.ProductVariante" Width="1.5" PointX="7.625" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.Sale" Width="1.5" PointX="5.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.Supplier" Width="1.5" PointX="2.375" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.UserRegister" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventorySystemModel.UserSession" Width="1.5" PointX="12.375" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="InventorySystemModel.FK__Brands__BrandUpd__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__Products__BrandI__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__Orders__Customer__797309D9" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__OrderItem__Order__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__OrderItem__Produ__00200768" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__Orders__OrderCre__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__Orders__OrderSta__7A672E12" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__Orders__PaymentM__7B5B524B" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__Products__Suppli__14270015" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__ProductVa__Produ__6A30C649" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__ProductVa__Creat__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="InventorySystemModel.FK__Sales__SalesByUs__60A75C0F" ManuallyRouted="false" />
         <AssociationConnector Association="InventorySystemModel.FK__UserSessi__UserI__4D94879B" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="InventorySystemModel.Brand" Width="1.5" PointX="6.875" PointY="0.5" />
-        <EntityTypeShape EntityType="InventorySystemModel.CustomerDetail" Width="1.5" PointX="12.5" PointY="4" />
-        <EntityTypeShape EntityType="InventorySystemModel.OrderItem" Width="1.5" PointX="8.375" PointY="3.875" />
-        <EntityTypeShape EntityType="InventorySystemModel.Order" Width="1.5" PointX="4.125" PointY="3.625" />
-        <EntityTypeShape EntityType="InventorySystemModel.OrderStatu" Width="1.5" PointX="4.125" PointY="7.375" />
-        <EntityTypeShape EntityType="InventorySystemModel.PayMentMethod" Width="1.5" PointX="2.25" PointY="5.75" />
-        <EntityTypeShape EntityType="InventorySystemModel.Product" Width="1.5" PointX="10.75" PointY="0.5" />
-        <EntityTypeShape EntityType="InventorySystemModel.ProductVariante" Width="1.5" PointX="6.125" PointY="3.625" />
-        <EntityTypeShape EntityType="InventorySystemModel.Sale" Width="1.5" PointX="10.5" PointY="4" />
-        <EntityTypeShape EntityType="InventorySystemModel.Supplier" Width="1.5" PointX="13.625" PointY="1.125" />
-        <EntityTypeShape EntityType="InventorySystemModel.sysdiagram" Width="1.5" PointX="4.875" PointY="0.5" />
-        <AssociationConnector Association="InventorySystemModel.FK__Brands__BrandUpd__6477ECF3" />
-        <AssociationConnector Association="InventorySystemModel.FK__Products__BrandI__6754599E" />
-        <AssociationConnector Association="InventorySystemModel.FK__Orders__Customer__797309D9" />
-        <AssociationConnector Association="InventorySystemModel.FK__OrderItem__Order__7F2BE32F" />
-        <AssociationConnector Association="InventorySystemModel.FK__OrderItem__Produ__00200768" />
-        <AssociationConnector Association="InventorySystemModel.FK__Orders__OrderCre__7C4F7684" />
-        <AssociationConnector Association="InventorySystemModel.FK__Orders__OrderSta__7A672E12" />
-        <AssociationConnector Association="InventorySystemModel.FK__Orders__PaymentM__7B5B524B" />
-        <AssociationConnector Association="InventorySystemModel.FK__Products__Suppli__14270015" />
-        <AssociationConnector Association="InventorySystemModel.FK__ProductVa__Produ__6A30C649" />
-        <AssociationConnector Association="InventorySystemModel.FK__ProductVa__Creat__6B24EA82" />
-        <AssociationConnector Association="InventorySystemModel.FK__Sales__SalesByUs__60A75C0F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

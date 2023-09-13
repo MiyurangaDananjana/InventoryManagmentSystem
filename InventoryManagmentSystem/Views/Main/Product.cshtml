@@ -266,15 +266,15 @@
                 });
 
                 $('.delete-button').click(function () {
-                    var SupplierID = $(this).data('id');
+                    var ProductId = $(this).data('id');
                     // Confirm with the user before proceeding with the deletion
                     var confirmation = confirm('Are you sure you want to delete this user?');
                     if (confirmation) {
                         // Send an AJAX request to delete the user
                         $.ajax({
-                            url: '/Supplier/DeleteSupplierDetails',
+                            url: '/Product/DeleteProduct',
                             type: 'POST',
-                            data: { SupplierID: SupplierID }, // Pass the userId as data
+                            data: { id: ProductId }, // Pass the userId as data
                             success: function (response) {
                                 if (response === 'Delete') {
                                     alert('User deleted successfully');

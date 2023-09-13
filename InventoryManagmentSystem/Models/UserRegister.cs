@@ -17,11 +17,11 @@ namespace InventoryManagmentSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserRegister()
         {
-            this.UserSessions = new HashSet<UserSession>();
             this.Brands = new HashSet<Brand>();
             this.Orders = new HashSet<Order>();
             this.ProductVariantes = new HashSet<ProductVariante>();
             this.Sales = new HashSet<Sale>();
+            this.UserSessions = new HashSet<UserSession>();
         }
     
         public int Id { get; set; }
@@ -37,8 +37,6 @@ namespace InventoryManagmentSystem.Models
         public Nullable<int> LastUpdateUserId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserSession> UserSessions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Brand> Brands { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
@@ -46,5 +44,7 @@ namespace InventoryManagmentSystem.Models
         public virtual ICollection<ProductVariante> ProductVariantes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sale> Sales { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserSession> UserSessions { get; set; }
     }
 }

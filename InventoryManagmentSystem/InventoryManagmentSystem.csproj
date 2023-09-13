@@ -196,9 +196,6 @@
     </Compile>
     <Compile Include="Models\CustomerDetailsModel.cs" />
     <Compile Include="Models\CustomerView.cs" />
-    <Compile Include="Models\C__EFMigrationsHistory.cs">
-      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\InventorySystemDbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -231,6 +228,7 @@
     <Compile Include="Models\Product.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductVariantViewModel.cs" />
     <Compile Include="Models\ProductVariante.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
@@ -248,9 +246,6 @@
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierDetailsModel.cs" />
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\UserDetailsSp_Result.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
@@ -440,6 +435,7 @@
     <Content Include="wwwroot\lib\jquery\dist\jquery.js" />
     <Content Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <Content Include="wwwroot\lib\jquery\LICENSE.txt" />
+    <Content Include="CheckEndPoint.http" />
     <EntityDeploy Include="Models\InventorySystemDbContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>InventorySystemDbContext.Designer.cs</LastGenOutput>
@@ -447,7 +443,6 @@
     <Content Include="Models\InventorySystemDbContext.edmx.diagram">
       <DependentUpon>InventorySystemDbContext.edmx</DependentUpon>
     </Content>
-    <Content Include="CheckEndPoint.http" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -529,6 +524,7 @@
     <Content Include="Views\Main\Supplier.cshtml" />
     <Content Include="Views\Main\Brand.cshtml" />
     <Content Include="Views\Main\Product.cshtml" />
+    <Content Include="Views\Main\ProductVariant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -24,7 +24,7 @@ namespace InventoryManagmentSystem.Models
         public int ProductsId { get; set; }
         public string VariantDescription { get; set; }
         public string Description { get; set; }
-        public int CreateBy { get; set; }
+        public Nullable<int> CreateBy { get; set; }
         public Nullable<decimal> PriceModifier { get; set; }
         public Nullable<int> StockQuantity { get; set; }
     

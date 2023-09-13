@@ -144,8 +144,6 @@ namespace InventoryManagmentSystem.Controllers
             return Content("Fail");
         }
 
-       
-
         [HttpPost]
         public ActionResult AddNewProduct(ProdactViewModel model)
         {
@@ -190,18 +188,18 @@ namespace InventoryManagmentSystem.Controllers
             List<ProductView> products = new List<ProductView>();
 
             var productL = (from product in _DbContext.Products
-                                join brand in _DbContext.Brands on product.BrandId equals brand.BrandId
-                                join supplier in _DbContext.Suppliers on product.SupplierID equals supplier.SupplierID
-                                select new
-                                {
-                                    ProductId = product.ProductId,
-                                    BrandName = brand.BrandName,
-                                    ProductName = product.ProductName,
-                                    ProductDescription = product.ProductDescription,
-                                    Price = product.Price,
-                                    SupplierName = supplier.SupplierName
-                                });
-           foreach (var product in productL)
+                            join brand in _DbContext.Brands on product.BrandId equals brand.BrandId
+                            join supplier in _DbContext.Suppliers on product.SupplierID equals supplier.SupplierID
+                            select new
+                            {
+                                ProductId = product.ProductId,
+                                BrandName = brand.BrandName,
+                                ProductName = product.ProductName,
+                                ProductDescription = product.ProductDescription,
+                                Price = product.Price,
+                                SupplierName = supplier.SupplierName
+                            });
+            foreach (var product in productL)
             {
                 ProductView view = new ProductView();
                 view.ProductId = product.ProductId;
@@ -220,27 +218,26 @@ namespace InventoryManagmentSystem.Controllers
         [HttpGet]
         public ActionResult GetProductById(int productId)
         {
-            var productList = (from product in _DbContext.Products where product.ProductId == productId
-                            join brand in _DbContext.Brands on product.BrandId equals brand.BrandId
-                            join supplier in _DbContext.Suppliers on product.SupplierID equals supplier.SupplierID
-                            select new
-                            {
-                                ProductId = product.ProductId,
-                                BrandName = brand.BrandName,
-                                ProductName = product.ProductName,
-                                ProductDescription = product.ProductDescription,
-                                Price = product.Price,
-                                SupplierName = supplier.SupplierName
+            var productList = (from product in _DbContext.Products
+                               where product.ProductId == productId
+                               join brand in _DbContext.Brands on product.BrandId equals brand.BrandId
+                               join supplier in _DbContext.Suppliers on product.SupplierID equals supplier.SupplierID
+                               select new
+                               {
+                                   ProductId = product.ProductId,
+                                   BrandName = brand.BrandName,
+                                   ProductName = product.ProductName,
+                                   ProductDescription = product.ProductDescription,
+                                   Price = product.Price,
+                                   SupplierName = supplier.SupplierName
 
-                            }).FirstOrDefault();
+                               }).FirstOrDefault();
 
             if (productList == null)
             {
-                 return new HttpStatusCodeResult(404, "Not Found");
+                return new HttpStatusCodeResult(404, "Not Found");
             }
-
             return Json(productList, JsonRequestBehavior.AllowGet);
-
         }
 
         // Update Product
@@ -261,12 +258,45 @@ namespace InventoryManagmentSystem.Controllers
             existingProduct.Price = model.UnitPrice;
             existingProduct.SupplierID = model.SupplierId;
             existingProduct.BrandId = model.BrandId;
-
             _DbContext.SaveChanges();
-
             return Json(new { success = true, message = "Successfully updated the product" });
         }
 
+        [HttpPost]
+        public ActionResult DeleteProduct(int id)
+        {
+            if (id <= 0)
+            {
+                return new HttpStatusCodeResult(400, "Bad Request");
+            }
+            var isProduct = _DbContext.Products.FirstOrDefault(x => x.ProductId == id);
+            if (isProduct != null)
+            {
+                _DbContext.Products.Remove(isProduct);
+                _DbContext.SaveChanges();
+                return Content("Delete");
+            }
+            return Content("Fail");
+
+        }
+
+        [HttpPost]
+        public ActionResult AddProductVariant(ProductVariantViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(400, "Bad Request");
+            }
+            var newProductVariant = new ProductVariante
+            {
+               ProductsId = model.ProductId,
+               Description = model.Description,
+               StockQuantity = model.Quantity
+            };
+            _DbContext.ProductVariantes.Add(newProductVariant);
+            _DbContext.SaveChanges();
+            return Json(new { success = true, message = "Successfully added a new Brand" });
+        }
 
 
     }
