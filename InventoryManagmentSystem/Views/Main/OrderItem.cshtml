@@ -136,15 +136,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Total Amount</label>
-                        <input type="number" class="form-control" id="txtTotal" name="txtTotal" required>
+                        <input type="number" class="form-control" id="txtTotal" name="txtTotal" required disabled>
                     </div>
                     <div class="form-group">
                         <label>Total Quantity</label>
-                        <input type="number" class="form-control" id="txtTotalQuantity" name="txtTotalQuantity" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Discount</label>
-                        <textarea type="text" class="form-control" id="txtDiscount" name="txtDiscount" required> </textarea>
+                        <input type="number" class="form-control" id="txtTotalQuantity" name="txtTotalQuantity" required disabled>
                     </div>
                     <div class="form-group">
                         <label>Customer Name</label>
@@ -318,7 +314,6 @@
                     data.splice(index, 1);
                     saveDataToLocalStorage(data);
                 });
-
             // Add the remove button to the last column of the row
             var removeCell = $("<td>").append(removeButton);
             newRow.append(removeCell);
@@ -344,7 +339,63 @@
     var formData = getDataFromLocalStorage();
     displayDataInTable(formData);
 
-    // Click event handler for the "Add" button
+    function CustomerOrder(data) {
+        var dataList;
+        try {
+
+            dataList = data; // Assuming formData is in JSON format
+            var orderQuantitySum = calculateSum(dataList, "orderQuantity");
+
+            // Set the sum in the input field
+            var txtTotalQuantity = document.getElementById("txtTotalQuantity");
+            if (txtTotalQuantity) {
+                txtTotalQuantity.value = orderQuantitySum;
+            } else {
+                console.error('Element with id "txtTotalQuantity" not found.');
+            }
+
+            var totalAmountSum = calculateTotalAmount(dataList);
+
+            // Set the total sum in the input field
+            var txtTotal = document.getElementById("txtTotal");
+            if (txtTotal) {
+                txtTotal.value = totalAmountSum;
+            } else {
+                console.error('Element with id "txtTotal" not found.');
+            }
+
+        } catch (error) {
+            console.error('Error parsing formData:', error);
+            dataList = []; 
+        }
+    }
+
+    function calculateSum(dataArray, property) {
+        var sum = 0;
+        for (var i = 0; i < dataArray.length; i++) {
+            var item = dataArray[i];
+            // Ensure the property exists and is a valid number
+            if (item.hasOwnProperty(property) && !isNaN(parseFloat(item[property]))) {
+                sum += parseFloat(item[property]);
+            }
+        }
+        return sum;
+    }
+
+    function calculateTotalAmount(dataArray) {
+        var totalAmountSum = 0;
+        for (var i = 0; i < dataArray.length; i++) {
+            var item = dataArray[i];
+            // Ensure "Quantity" and "Price" properties exist and are valid numbers
+            if (item.hasOwnProperty("quantity") && item.hasOwnProperty("price") &&
+                !isNaN(parseFloat(item["quantity"])) && !isNaN(parseFloat(item["price"]))) {
+                totalAmountSum += parseFloat(item["quantity"]) * parseFloat(item["price"]);
+            }
+        }
+        return totalAmountSum;
+    }
+
+
     $("#saveEditButton").click(function () {
         // Get the form data
         var brandValue = $("#BrandList").val();
@@ -381,38 +432,9 @@
         $("#Price").val('');
         $("#OrderQuantity").val('');
     });
-
-
-
     $(".btn-success").click(function () {
-        // Get the form data for "addEmployeeModal"
-        var key1Value = $("#txtKey1").val();
-        var key2Value = $("#txtKey2").val();
-        var key3Value = $("#txtKey3").val();
-
-        // Create an object with the form data for "addEmployeeModal"
-        var formItem = {
-            key1: key1Value,
-            key2: key2Value,
-            key3: key3Value
-        };
-
-        // Add the form data to the array for "addEmployeeModal"
-        addEmployeeFormData.push(formItem);
-
-        // Save the updated array to local storage for "addEmployeeModal"
-        saveDataToLocalStorageForAddModal(addEmployeeFormData);
-
-        // Display the updated data in the table for "addEmployeeModal"
-        displayDataInTableForAddModal(addEmployeeFormData);
-
-        // Clear the form fields for "addEmployeeModal"
-        $("#txtKey1").val('');
-        $("#txtKey2").val('');
-        $("#txtKey3").val('');
+        var formData = getDataFromLocalStorage();
+        CustomerOrder(formData);
     });
-
-
-
 </script>
 
