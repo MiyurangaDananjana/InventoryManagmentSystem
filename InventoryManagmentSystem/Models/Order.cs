@@ -14,12 +14,6 @@ namespace InventoryManagmentSystem.Models
     
     public partial class Order
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Order()
-        {
-            this.OrderItems = new HashSet<OrderItem>();
-        }
-    
         public int OrderId { get; set; }
         public System.DateTime OrderDate { get; set; }
         public Nullable<int> CustomerId { get; set; }
@@ -29,8 +23,6 @@ namespace InventoryManagmentSystem.Models
         public int OrderCreateBy { get; set; }
     
         public virtual CustomerDetail CustomerDetail { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual UserRegister UserRegister { get; set; }
         public virtual OrderStatu OrderStatu { get; set; }
         public virtual PayMentMethod PayMentMethod1 { get; set; }

@@ -17,6 +17,7 @@ namespace InventoryManagmentSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Brand()
         {
+            this.OrderItems = new HashSet<OrderItem>();
             this.Products = new HashSet<Product>();
         }
     
@@ -25,6 +26,8 @@ namespace InventoryManagmentSystem.Models
         public int BrandUpdateBy { get; set; }
     
         public virtual UserRegister UserRegister { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
     }

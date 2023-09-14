@@ -17,6 +17,7 @@ namespace InventoryManagmentSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
+            this.OrderItems = new HashSet<OrderItem>();
             this.ProductVariantes = new HashSet<ProductVariante>();
         }
     
@@ -28,6 +29,8 @@ namespace InventoryManagmentSystem.Models
         public Nullable<int> SupplierID { get; set; }
     
         public virtual Brand Brand { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual Supplier Supplier { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductVariante> ProductVariantes { get; set; }

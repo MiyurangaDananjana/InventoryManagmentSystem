@@ -14,13 +14,19 @@ namespace InventoryManagmentSystem.Models
     
     public partial class OrderItem
     {
-        public int OrderItemsId { get; set; }
-        public Nullable<int> OrderId { get; set; }
-        public Nullable<int> ProductId { get; set; }
+        public int OrderId { get; set; }
+        public int BrandId { get; set; }
+        public int ProductId { get; set; }
+        public int ProductVariantId { get; set; }
+        public decimal ItemPrice { get; set; }
         public int Quantity { get; set; }
-        public Nullable<decimal> UnitPrice { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<int> CustomerId { get; set; }
+        public Nullable<int> PaymentMethod { get; set; }
     
-        public virtual Order Order { get; set; }
+        public virtual Brand Brand { get; set; }
+        public virtual CustomerDetail CustomerDetail { get; set; }
+        public virtual Product Product { get; set; }
         public virtual ProductVariante ProductVariante { get; set; }
     }
 }

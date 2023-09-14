@@ -49,6 +49,9 @@
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.Extensions, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Extensions.0.0.2\lib\net40\EntityFramework.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
@@ -162,6 +165,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Z.EntityFramework.Extensions, Version=7.100.0.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Extensions.7.100.0\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -197,6 +203,9 @@
     </Compile>
     <Compile Include="Models\CustomerDetailsModel.cs" />
     <Compile Include="Models\CustomerView.cs" />
+    <Compile Include="Models\C__EFMigrationsHistory.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InventorySystemDbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -219,21 +228,23 @@
     <Compile Include="Models\OrderItem.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderItems.cs" />
     <Compile Include="Models\OrderStatu.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PayMentMethod.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PaymentMethodViewModel.cs" />
     <Compile Include="Models\ProdactViewModel.cs" />
     <Compile Include="Models\Product.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ProductVariantView.cs" />
-    <Compile Include="Models\ProductVariantViewModel.cs" />
     <Compile Include="Models\ProductVariante.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductVariantView.cs" />
+    <Compile Include="Models\ProductVariantViewModel.cs" />
     <Compile Include="Models\ProductView.cs" />
     <Compile Include="Models\Sale.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
@@ -248,6 +259,9 @@
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierDetailsModel.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserDetailsSp_Result.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>

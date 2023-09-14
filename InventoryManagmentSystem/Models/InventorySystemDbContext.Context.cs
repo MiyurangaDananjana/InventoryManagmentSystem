@@ -27,6 +27,7 @@ namespace InventoryManagmentSystem.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<C__EFMigrationsHistory> C__EFMigrationsHistory { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<CustomerDetail> CustomerDetails { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
@@ -37,6 +38,7 @@ namespace InventoryManagmentSystem.Models
         public virtual DbSet<ProductVariante> ProductVariantes { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<UserRegister> UserRegisters { get; set; }
         public virtual DbSet<UserSession> UserSessions { get; set; }
     
