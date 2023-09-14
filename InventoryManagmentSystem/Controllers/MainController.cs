@@ -18,6 +18,20 @@ namespace InventoryManagmentSystem.Controllers
         {
             return View();
         }
+        
+        public ActionResult Dashbord()
+        {
+            var viewModel = new DashboardViewModel
+            {
+                TotalCustomers = _DbContext.CustomerDetails.Count(),
+                TotalProductVariants = _DbContext.ProductVariantes.Count(),
+                TotalProducts = _DbContext.Products.Count(),
+                TotalSystemUsers = _DbContext.UserRegisters.Count()
+            };
+
+
+            return View(viewModel);
+        }
 
         public ActionResult SystemUsersView()
         {
@@ -49,6 +63,10 @@ namespace InventoryManagmentSystem.Controllers
             return View();
         }
         public ActionResult OrderItem()
+        {
+            return View();
+        }
+        public ActionResult InvoiceView()
         {
             return View();
         }

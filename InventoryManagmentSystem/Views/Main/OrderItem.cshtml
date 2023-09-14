@@ -103,7 +103,6 @@
                         <th>Brand Id</th>
                         <th>Product Id</th>
                         <th>Product Variant Id</th>
-                        <th>Quantity</th>
                         <th>Price</th>
                         <th>Order Quantity</th>
                         <th>Remove</th>
@@ -313,9 +312,13 @@
             }
         });
 
+        $("#addEmployeeModal").on('click', '.btn-success', function () {
+            var CustomerId = $("#CustomerList").val();
+            var jsonString = localStorage.getItem('formData');
+            var data = JSON.parse(jsonString);
 
-
-
+            sendDataToServer(CustomerId,data);
+        });
     });
 
 
@@ -342,7 +345,6 @@
             newRow.append("<td>" + item.BrandId + "</td>");
             newRow.append("<td>" + item.ProductId + "</td>");
             newRow.append("<td>" + item.ProductVariantId + "</td>");
-            newRow.append("<td>" + item.quantity + "</td>");
             newRow.append("<td>" + item.ItemPrice + "</td>");
             newRow.append("<td>" + item.Quantity + "</td>");
 
@@ -386,7 +388,7 @@
         try {
 
             dataList = data; // Assuming formData is in JSON format
-            var orderQuantitySum = calculateSum(dataList, "orderQuantity");
+            var orderQuantitySum = calculateSum(dataList, "Quantity");
 
             // Set the sum in the input field
             var txtTotalQuantity = document.getElementById("txtTotalQuantity");
@@ -429,14 +431,13 @@
         for (var i = 0; i < dataArray.length; i++) {
             var item = dataArray[i];
             // Ensure "Quantity" and "Price" properties exist and are valid numbers
-            if (item.hasOwnProperty("orderQuantity") && item.hasOwnProperty("price") &&
-                !isNaN(parseFloat(item["orderQuantity"])) && !isNaN(parseFloat(item["price"]))) {
-                totalAmountSum += parseFloat(item["orderQuantity"]) * parseFloat(item["price"]);
+            if (item.hasOwnProperty("Quantity") && item.hasOwnProperty("ItemPrice") &&
+                !isNaN(parseFloat(item["Quantity"])) && !isNaN(parseFloat(item["ItemPrice"]))) {
+                totalAmountSum += parseFloat(item["Quantity"]) * parseFloat(item["ItemPrice"]);
             }
         }
         return totalAmountSum;
     }
-
     $("#saveEditButton").click(function () {
 
 
@@ -444,24 +445,20 @@
         var brandValue = parseInt($("#BrandList").val(), 10);
         var productValue = parseInt($("#ProductList").val(), 10);
         var productVariantValue = parseInt($("#ProductVariantList").val(), 10);
-        var quantityValue = parseInt($("#Quantity").val(), 10);
         var priceValue = parseInt($("#Price").val(), 10);
         var orderQuantityValue = parseInt($("#OrderQuantity").val(), 10);
 
 
-        // Check if the values are null or empty
-        if (brandValue === null || brandValue === "") {
+        if (isNaN(brandValue) || brandValue === "") {
             alert("Brand is required.");
-        } else if (productValue === null || productValue === "") {
+        } else if (isNaN(productValue) || productValue === "") {
             alert("Product is required.");
-        } else if (productVariantValue === null || productVariantValue === "") {
-            y
+        } else if (isNaN(productVariantValue) || productVariantValue === "") {
             alert("Product Variant is required.");
-        } else if (quantityValue === null || quantityValue === "") {
-            alert("Quantity is required.");
-        } else if (priceValue === null || priceValue === "") {
+     
+        } else if (isNaN(priceValue) || priceValue === "") {
             alert("Price is required.");
-        } else if (orderQuantityValue === null || orderQuantityValue === "") {
+        } else if (isNaN(orderQuantityValue) || orderQuantityValue === "") {
             alert("Order Quantity is required.");
         } else {
             // Create an object with the form data
@@ -469,11 +466,9 @@
                 BrandId: brandValue,
                 ProductId: productValue,
                 ProductVariantId: productVariantValue,
-                quantity: quantityValue,
                 ItemPrice: priceValue,
                 Quantity: orderQuantityValue
             };
-
             // Add the form data to the array
             formData.push(formItem);
 
@@ -491,19 +486,20 @@
             $("#Price").val('');
             $("#OrderQuantity").val('');
         }
-
-
     });
-
     $(".btn-success").click(function () {
         var formData = getDataFromLocalStorage();
         CustomerOrder(formData);
     });
 
     $('#claer').click(function () {
+        removeDataFromLocalStorage();
+    });
+
+    function removeDataFromLocalStorage() {
         localStorage.removeItem('formData');
         var formData = getDataFromLocalStorage();
         displayDataInTable(formData);
-    });
+    }
 </script>
 

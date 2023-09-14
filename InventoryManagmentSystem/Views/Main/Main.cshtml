@@ -26,6 +26,17 @@
                 <h3><img src="~/Img/ICBT Logo.jpg" class="img-fluid" /><span>Inventory</span></h3>
             </div>
             <ul class="list-unstyled component m-0">
+
+                <li class="dropdown">
+                    <a href="#homeSubmenu6" data-toggle="collapse" aria-expanded="false"
+                       class="dropdown-toggle">
+                        <i class="material-icons">border_color</i>Dashboard
+                    </a>
+                    <ul class="collapse list-unstyled menu" id="homeSubmenu6">
+                        <li><a href="/Main/Dashbord">Dashboard</a></li>
+                    </ul>
+                </li>
+
                 <li class="dropdown">
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false"
                        class="dropdown-toggle">
@@ -70,7 +81,7 @@
                         <i class="material-icons">border_color</i>Order
                     </a>
                     <ul class="collapse list-unstyled menu" id="homeSubmenu5">
-                        <li><a href="/Main/OrderItem" >Order Items</a></li>
+                        <li><a href="/Main/OrderItem">Order Items</a></li>
                     </ul>
                 </li>
             </ul>
@@ -215,5 +226,21 @@
                 }
             });
         });
+
+        $('.collapse#homeSubmenu6 li a[href="/Main/Dashbord"]').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Main/Dashbord',
+                method: 'GET',
+                dataType: 'html',
+                success: function (data) {
+                    $('.main-content').html(data);
+                },
+                error: function () {
+                    alert('Error loading content.');
+                }
+            });
+        });
+
     </script>
 </body>

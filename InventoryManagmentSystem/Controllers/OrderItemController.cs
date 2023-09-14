@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using EntityFramework.Extensions;
 using System.Web.Mvc;
+using System.Web.Configuration;
 
 namespace InventoryManagmentSystem.Controllers
 {
@@ -59,16 +60,32 @@ namespace InventoryManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(400, "Bad Request: Invalid customerid.");
             }
-
             if (!ModelState.IsValid)
             {
                 return new HttpStatusCodeResult(400, "Bad Request: ModelState is not valid.");
             }
-
             var orderItemsList = new List<OrderItem>();
-
             foreach (var order in orders)
             {
+                int ProductId = order.ProductVariantId;
+                int Quantity = order.Quantity;
+                var productVariant = _DbContext.ProductVariantes.FirstOrDefault(x => x.ProductVariantId == ProductId);
+                if (productVariant != null)
+                {
+                    if (Quantity <= productVariant.StockQuantity)
+                    {
+                        productVariant.StockQuantity -= Quantity;
+                        _DbContext.SaveChanges();
+                    }
+                    else
+                    {
+                        return new HttpStatusCodeResult(400, "Bad Request");
+                    }
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(400, "Bad Request");
+                }
                 var orderItem = new OrderItem
                 {
                     BrandId = order.BrandId,
@@ -79,18 +96,11 @@ namespace InventoryManagmentSystem.Controllers
                     CreateDate = DateTime.Now,
                     CustomerId = customerid
                 };
-
-                orderItemsList.Add(orderItem); 
+                orderItemsList.Add(orderItem);
             }
-
-
             _DbContext.OrderItems.AddRange(orderItemsList); 
             _DbContext.SaveChanges();
-
-
-            // Optionally, return a success response
             return new HttpStatusCodeResult(200, "Orders saved successfully.");
-
         }
 
         [HttpGet]

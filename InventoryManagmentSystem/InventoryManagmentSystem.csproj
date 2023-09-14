@@ -184,6 +184,7 @@
     <Compile Include="BLL\UserBLL.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\OrderItemController.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Models\C__EFMigrationsHistory.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\InventorySystemDbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -296,6 +298,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\dataTables.bootstrap5.min.css" />
+    <Content Include="Content\Invoice-style.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -542,12 +547,15 @@
     <Content Include="Views\Main\Product.cshtml" />
     <Content Include="Views\Main\ProductVariant.cshtml" />
     <Content Include="Views\Main\OrderItem.cshtml" />
+    <Content Include="Views\Main\Dashbord.cshtml" />
+    <Content Include="Views\Main\InvoiceView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Img\ProfileImg\" />
     <Folder Include="Models\Domain\" />
     <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Dashboard\" />
     <Folder Include="Views\OrderItem\" />
     <Folder Include="Views\Product\" />
     <Folder Include="Views\Supplier\" />

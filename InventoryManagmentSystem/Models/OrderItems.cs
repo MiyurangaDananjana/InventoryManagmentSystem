@@ -15,10 +15,8 @@ namespace InventoryManagmentSystem.Models
         public int ProductVariantId { get; set; }
         
         public decimal ItemPrice { get; set; }
-        
-        public int Quantity { get; set; }
 
-        public int PaymentMethod { get; set; }
+        public int Quantity { get; set; }
 
     }
 }
