@@ -363,7 +363,6 @@ namespace InventoryManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(404, "Not Found");
             }
-
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -411,7 +410,6 @@ namespace InventoryManagmentSystem.Controllers
             .ToList();
 
             return Json(filteredProducts, JsonRequestBehavior.AllowGet);
-
         }
 
         [HttpGet]
@@ -423,7 +421,6 @@ namespace InventoryManagmentSystem.Controllers
             .ToList();
 
             return Json(filteredProducts, JsonRequestBehavior.AllowGet);
-
         }
 
         [HttpGet]
@@ -437,17 +434,12 @@ namespace InventoryManagmentSystem.Controllers
                             Quantity = productVariant.StockQuantity,
                             Price = prduct.Price,
 
-                        }).FirstOrDefault(); ;
-
+                        }).FirstOrDefault();
             if (list == null)
             {
                 return new HttpStatusCodeResult(404, "Not Found");
             }
-
             return Json(list, JsonRequestBehavior.AllowGet);
-
         }
-
-
     }
 }

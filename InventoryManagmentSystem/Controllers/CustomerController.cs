@@ -60,6 +60,19 @@ namespace InventoryManagmentSystem.Controllers
             return Json(userDetailModels, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult GetCustomerIdAndName()
+        {
+            var userDetails = _DbContext.CustomerDetails.ToList();
+            var userDetailModels = userDetails.Select(u => new CustomerDetailsModel
+            {
+                CustomerId = u.CustomerId,
+                CustomerName = u.CustomerName
+
+            }).ToList();
+            return Json(userDetailModels, JsonRequestBehavior.AllowGet);
+        }
+
         // get customer details OrderBy Id
         [HttpGet]
         public ActionResult GetCustomerDetailsById(int Id)

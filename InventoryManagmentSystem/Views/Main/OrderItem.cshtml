@@ -7,50 +7,47 @@
     .modal-body {
         margin-top: 1rem;
     }
+    #claer {
+        background-color: blueviolet;
+    }
 </style>
+
 <div class="row">
     <div class="col-md-12">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                        <h2 class="ml-lg-2">Manage Supplier</h2>
+                        <h2 class="ml-lg-2">Manage Order</h2>
                     </div>
                     <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
-
                     </div>
                 </div>
             </div>
-
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                     </div>
                     <div class="modal-body">
                         <form id="editEmployeeForm">
-
                             <div class="form-group">
                                 <label>Product</label>
                                 <select class="form-select form-control" id="BrandList" name="BrandList" required>
-                                    <option selected>Choose a Product</option>
+                                    
                                 </select>
                             </div>
-
                             <div class="form-group">
                                 <label>Product</label>
                                 <select class="form-select form-control" id="ProductList" name="ProductList" required>
-                                    <option selected>Choose a Product</option>
+                                    
                                 </select>
                             </div>
-
                             <div class="form-group">
                                 <label>Product Variant</label>
                                 <select class="form-select form-control" id="ProductVariantList" name="ProductVariantList" required>
-                                    <option selected>Product Variant</option>
+                                   
                                 </select>
                             </div>
-
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -65,14 +62,10 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="form-group">
                                 <label>Order Quantity</label>
                                 <input type="number" class="form-control" id="OrderQuantity" name="OrderQuantity" required>
                             </div>
-
-
                         </form>
                     </div>
                     <div class="modal-footer" style="margin-bottom:1rem;">
@@ -85,19 +78,23 @@
         </div>
     </div>
 
-
     <div class="col-md-12">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                        <h2 class="ml-lg-2">Manage Supplier</h2>
+                        <h2 class="ml-lg-2">Manage Order List</h2>
                     </div>
                     <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
                         <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
                             <i class="material-icons">&#xE147;</i>
                             <span>Add New Supplier</span>
                         </a>
+                       <a  class="btn btn-success" id="claer" data-toggle="modal">
+                           <i class="material-icons">cached</i>
+                            <span>Clear</span>
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -157,8 +154,6 @@
     </div>
     <!--Add model end-->
 </div>
-
-
 
 <script>
     $.ajax
@@ -248,7 +243,6 @@
             }
         });
 
-
         $("#ProductVariantList").change(function () {
             var selectedProductId = $(this).val();
             if (selectedProductId !== "") {
@@ -274,6 +268,10 @@
                 $("#Price").val("");
             }
         });
+
+     
+
+     
     });
 
 
@@ -387,16 +385,17 @@
         for (var i = 0; i < dataArray.length; i++) {
             var item = dataArray[i];
             // Ensure "Quantity" and "Price" properties exist and are valid numbers
-            if (item.hasOwnProperty("quantity") && item.hasOwnProperty("price") &&
-                !isNaN(parseFloat(item["quantity"])) && !isNaN(parseFloat(item["price"]))) {
-                totalAmountSum += parseFloat(item["quantity"]) * parseFloat(item["price"]);
+            if (item.hasOwnProperty("orderQuantity") && item.hasOwnProperty("price") &&
+                !isNaN(parseFloat(item["orderQuantity"])) && !isNaN(parseFloat(item["price"]))) {
+                totalAmountSum += parseFloat(item["orderQuantity"]) * parseFloat(item["price"]);
             }
         }
         return totalAmountSum;
     }
 
-
     $("#saveEditButton").click(function () {
+
+
         // Get the form data
         var brandValue = $("#BrandList").val();
         var productValue = $("#ProductList").val();
@@ -405,36 +404,60 @@
         var priceValue = $("#Price").val();
         var orderQuantityValue = $("#OrderQuantity").val();
 
-        // Create an object with the form data
-        var formItem = {
-            brand: brandValue,
-            product: productValue,
-            productVariant: productVariantValue,
-            quantity: quantityValue,
-            price: priceValue,
-            orderQuantity: orderQuantityValue
-        };
+        // Check if the values are null or empty
+        if (brandValue === null || brandValue === "") {
+            alert("Brand is required.");
+        } else if (productValue === null || productValue === "") {
+            alert("Product is required.");
+        } else if (productVariantValue === null || productVariantValue === "") {y
+            alert("Product Variant is required.");
+        } else if (quantityValue === null || quantityValue === "") {
+            alert("Quantity is required.");
+        } else if (priceValue === null || priceValue === "") {
+            alert("Price is required.");
+        } else if (orderQuantityValue === null || orderQuantityValue === "") {     
+            alert("Order Quantity is required.");
+        } else {
+            // Create an object with the form data
+            var formItem = {
+                brand: brandValue,
+                product: productValue,
+                productVariant: productVariantValue,
+                quantity: quantityValue,
+                price: priceValue,
+                orderQuantity: orderQuantityValue
+            };
 
-        // Add the form data to the array
-        formData.push(formItem);
+            // Add the form data to the array
+            formData.push(formItem);
 
-        // Save the updated array to local storage
-        saveDataToLocalStorage(formData);
+            // Save the updated array to local storage
+            saveDataToLocalStorage(formData);
 
-        // Display the updated data in the table
-        displayDataInTable(formData);
+            // Display the updated data in the table
+            displayDataInTable(formData);
 
-        // Clear the form fields
-        $("#BrandList").val('');
-        $("#ProductList").val('');
-        $("#ProductVariantList").val('');
-        $("#Quantity").val('');
-        $("#Price").val('');
-        $("#OrderQuantity").val('');
+            // Clear the form fields
+            $("#BrandList").val('');
+            $("#ProductList").val('');
+            $("#ProductVariantList").val('');
+            $("#Quantity").val('');
+            $("#Price").val('');
+            $("#OrderQuantity").val('');
+        }
+
+       
     });
+
     $(".btn-success").click(function () {
         var formData = getDataFromLocalStorage();
         CustomerOrder(formData);
+    });
+
+    $('#claer').click(function () {
+        localStorage.removeItem('formData');
+        var formData = getDataFromLocalStorage();
+        displayDataInTable(formData);
     });
 </script>
 
