@@ -72,7 +72,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -85,14 +84,13 @@
                     </div>
                     <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
                         <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
-                            <i class="material-icons">&#xE147;</i>
-                            <span>Add New Supplier</span>
+                            <i class="material-icons">inbox</i>
+                            <span>Open Order Page</span>
                         </a>
                         <a class="btn btn-success" id="claer" data-toggle="modal">
                             <i class="material-icons">cached</i>
                             <span>Clear</span>
                         </a>
-
                     </div>
                 </div>
             </div>
@@ -146,12 +144,10 @@
                         <select class="form-select form-control" id="PaymentMethodList" name="PaymentMethodList" required>
                         </select>
                     </div>
-
-
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-light">Print Bill</button>
                     <button type="button" class="btn btn-success">Add</button>
                 </div>
             </div>
@@ -223,7 +219,6 @@
             alert("Error occurred while fetching PaymentMethod Details.");
         }
     });
-
 
     $(document).ready(function () {
         $("#BrandList").change(function () {
@@ -372,24 +367,19 @@
                     $(row).find("td:first").text(index + 1);
                 });
             }
-
             // Update the item count column initially
             updateItemCountColumn();
         });
 
     }
-
     // Load data from local storage and display in the table
     var formData = getDataFromLocalStorage();
     displayDataInTable(formData);
-
     function CustomerOrder(data) {
         var dataList;
         try {
-
             dataList = data; // Assuming formData is in JSON format
             var orderQuantitySum = calculateSum(dataList, "Quantity");
-
             // Set the sum in the input field
             var txtTotalQuantity = document.getElementById("txtTotalQuantity");
             if (txtTotalQuantity) {
@@ -397,9 +387,7 @@
             } else {
                 console.error('Element with id "txtTotalQuantity" not found.');
             }
-
             var totalAmountSum = calculateTotalAmount(dataList);
-
             // Set the total sum in the input field
             var txtTotal = document.getElementById("txtTotal");
             if (txtTotal) {
@@ -407,7 +395,6 @@
             } else {
                 console.error('Element with id "txtTotal" not found.');
             }
-
         } catch (error) {
             console.error('Error parsing formData:', error);
             dataList = [];
@@ -448,7 +435,7 @@
         var priceValue = parseInt($("#Price").val(), 10);
         var orderQuantityValue = parseInt($("#OrderQuantity").val(), 10);
 
-
+        //Validate TextBox
         if (isNaN(brandValue) || brandValue === "") {
             alert("Brand is required.");
         } else if (isNaN(productValue) || productValue === "") {

@@ -56,6 +56,7 @@ namespace InventoryManagmentSystem.Controllers
         [HttpPost]
         public ActionResult SaveOrder(int customerid, List<OrderItems> orders)
         {
+
             if (customerid <= 0)
             {
                 return new HttpStatusCodeResult(400, "Bad Request: Invalid customerid.");
@@ -64,7 +65,15 @@ namespace InventoryManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(400, "Bad Request: ModelState is not valid.");
             }
+
             var orderItemsList = new List<OrderItem>();
+
+            var orderDetailsList = new List<object>();
+
+            DateTime CreateDate = DateTime.Now;
+
+            string formattedDate = CreateDate.ToString("yyyy-MM-dd HH:mm:ss");
+
             foreach (var order in orders)
             {
                 int ProductId = order.ProductVariantId;
@@ -77,15 +86,8 @@ namespace InventoryManagmentSystem.Controllers
                         productVariant.StockQuantity -= Quantity;
                         _DbContext.SaveChanges();
                     }
-                    else
-                    {
-                        return new HttpStatusCodeResult(400, "Bad Request");
-                    }
                 }
-                else
-                {
-                    return new HttpStatusCodeResult(400, "Bad Request");
-                }
+
                 var orderItem = new OrderItem
                 {
                     BrandId = order.BrandId,
@@ -93,14 +95,29 @@ namespace InventoryManagmentSystem.Controllers
                     ProductVariantId = order.ProductVariantId,
                     ItemPrice = order.ItemPrice,
                     Quantity = order.Quantity,
-                    CreateDate = DateTime.Now,
+                    CreateDate = formattedDate,
                     CustomerId = customerid
                 };
+
                 orderItemsList.Add(orderItem);
+                // Create an anonymous object with order details for JSON response
+                var orderDetails = new
+                {
+                    ProductVariantId = order.ProductVariantId,
+                    ItemPrice = order.ItemPrice,
+                    Quantity = order.Quantity,
+                    CreateDate = formattedDate,
+                    CustomerId = customerid
+                };
+                orderDetailsList.Add(orderDetails);
             }
-            _DbContext.OrderItems.AddRange(orderItemsList); 
+            _DbContext.OrderItems.AddRange(orderItemsList);
             _DbContext.SaveChanges();
-            return new HttpStatusCodeResult(200, "Orders saved successfully.");
+            
+            var success = true;
+            var redirectUrl = Url.Action("InvoiceView", "Main");
+            return Json(new { success, redirectUrl });
+
         }
 
         [HttpGet]
@@ -115,6 +132,7 @@ namespace InventoryManagmentSystem.Controllers
             }).ToList();
             return Json(paymentMethods, JsonRequestBehavior.AllowGet);
         }
+
 
     }
 }

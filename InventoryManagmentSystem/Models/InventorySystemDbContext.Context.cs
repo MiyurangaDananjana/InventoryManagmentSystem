@@ -30,6 +30,7 @@ namespace InventoryManagmentSystem.Models
         public virtual DbSet<C__EFMigrationsHistory> C__EFMigrationsHistory { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<CustomerDetail> CustomerDetails { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderStatu> OrderStatus { get; set; }

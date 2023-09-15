@@ -1,5 +1,6 @@
 ﻿using InventoryManagmentSystem.DAL;
 using InventoryManagmentSystem.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -18,7 +19,7 @@ namespace InventoryManagmentSystem.Controllers
         {
             return View();
         }
-        
+
         public ActionResult Dashbord()
         {
             var viewModel = new DashboardViewModel

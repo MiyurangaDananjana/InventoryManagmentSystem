@@ -20,7 +20,7 @@ namespace InventoryManagmentSystem.Models
         public int ProductVariantId { get; set; }
         public decimal ItemPrice { get; set; }
         public int Quantity { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        public string CreateDate { get; set; }
         public Nullable<int> CustomerId { get; set; }
         public Nullable<int> PaymentMethod { get; set; }
     

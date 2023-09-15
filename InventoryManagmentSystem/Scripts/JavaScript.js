@@ -11,12 +11,17 @@
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(data),
         success: function (result) {
-            if (result.success) {
-                alert("Supplier added successfully");
-                removeDataFromLocalStorage();
-                $("#addEmployeeModal").modal('hide');
+            if (result != null) {
+                if (result.success) {
+                    alert("Orders saved successfully");
+                    removeDataFromLocalStorage();
+                    // Redirect to the InvoiceView action in the Main controller
+                    window.location.href = result.redirectUrl;
+                } else {
+                    alert("Orders were not saved successfully: " + result.message);
+                }
             } else {
-                alert(result.message);
+                alert("No response data received.");
             }
         },
         error: function () {

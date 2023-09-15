@@ -18,6 +18,7 @@ namespace InventoryManagmentSystem.Models
         public UserRegister()
         {
             this.Brands = new HashSet<Brand>();
+            this.Invoices = new HashSet<Invoice>();
             this.Orders = new HashSet<Order>();
             this.ProductVariantes = new HashSet<ProductVariante>();
             this.Sales = new HashSet<Sale>();
@@ -38,6 +39,8 @@ namespace InventoryManagmentSystem.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Brand> Brands { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Invoice> Invoices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
