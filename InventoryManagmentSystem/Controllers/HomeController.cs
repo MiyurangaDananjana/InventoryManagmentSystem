@@ -26,6 +26,10 @@ namespace InventoryManagmentSystem.Controllers
                 {
                     return RedirectToAction("Main", "Main");
                 }
+                else
+                {
+                    return View();
+                }
             }
             return View();
         }

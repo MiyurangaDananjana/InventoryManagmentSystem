@@ -17,6 +17,7 @@ namespace InventoryManagmentSystem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CustomerDetail()
         {
+            this.Invoices = new HashSet<Invoice>();
             this.OrderItems = new HashSet<OrderItem>();
             this.Orders = new HashSet<Order>();
         }
@@ -27,6 +28,8 @@ namespace InventoryManagmentSystem.Models
         public string CustomerAddress { get; set; }
         public Nullable<System.DateTime> CrateDate { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Invoice> Invoices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

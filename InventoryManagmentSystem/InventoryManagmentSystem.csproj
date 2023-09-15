@@ -226,6 +226,7 @@
     <Compile Include="Models\Invoice.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvoiceViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Order.cs">
       <DependentUpon>InventorySystemDbContext.tt</DependentUpon>

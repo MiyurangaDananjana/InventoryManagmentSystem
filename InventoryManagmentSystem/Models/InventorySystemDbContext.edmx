@@ -173,12 +173,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Invoice__Custome__3C34F16F">
-          <End Role="UserRegister" Type="Self.UserRegister" Multiplicity="0..1" />
+        <Association Name="FK__Invoice__Custome__3F115E1A">
+          <End Role="CustomerDetails" Type="Self.CustomerDetails" Multiplicity="0..1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UserRegister">
-              <PropertyRef Name="Id" />
+            <Principal Role="CustomerDetails">
+              <PropertyRef Name="CustomerId" />
             </Principal>
             <Dependent Role="Invoice">
               <PropertyRef Name="CustomerId" />
@@ -411,8 +411,8 @@
             <End Role="UserRegister" EntitySet="UserRegister" />
             <End Role="Brands" EntitySet="Brands" />
           </AssociationSet>
-          <AssociationSet Name="FK__Invoice__Custome__3C34F16F" Association="Self.FK__Invoice__Custome__3C34F16F">
-            <End Role="UserRegister" EntitySet="UserRegister" />
+          <AssociationSet Name="FK__Invoice__Custome__3F115E1A" Association="Self.FK__Invoice__Custome__3F115E1A">
+            <End Role="CustomerDetails" EntitySet="CustomerDetails" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
           <AssociationSet Name="FK__OrderItem__Brand__29221CFB" Association="Self.FK__OrderItem__Brand__29221CFB">
@@ -504,6 +504,7 @@
           <Property Name="CustomerPhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="CustomerAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CrateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoice__Custome__3F115E1A" FromRole="CustomerDetails" ToRole="Invoice" />
           <NavigationProperty Name="OrderItems" Relationship="Self.FK__OrderItem__Custo__2BFE89A6" FromRole="CustomerDetails" ToRole="OrderItems" />
           <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Customer__797309D9" FromRole="CustomerDetails" ToRole="Orders" />
         </EntityType>
@@ -516,7 +517,7 @@
           <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="CustomerId" Type="Int32" />
           <Property Name="Date" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserRegister" Relationship="Self.FK__Invoice__Custome__3C34F16F" FromRole="Invoice" ToRole="UserRegister" />
+          <NavigationProperty Name="CustomerDetail" Relationship="Self.FK__Invoice__Custome__3F115E1A" FromRole="Invoice" ToRole="CustomerDetails" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -648,7 +649,6 @@
           <Property Name="ProfileImgName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdateUserId" Type="Int32" />
           <NavigationProperty Name="Brands" Relationship="Self.FK__Brands__BrandUpd__6477ECF3" FromRole="UserRegister" ToRole="Brands" />
-          <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoice__Custome__3C34F16F" FromRole="UserRegister" ToRole="Invoice" />
           <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__OrderCre__7C4F7684" FromRole="UserRegister" ToRole="Orders" />
           <NavigationProperty Name="ProductVariantes" Relationship="Self.FK__ProductVa__Creat__6B24EA82" FromRole="UserRegister" ToRole="ProductVariante" />
           <NavigationProperty Name="Sales" Relationship="Self.FK__Sales__SalesByUs__60A75C0F" FromRole="UserRegister" ToRole="Sales" />
@@ -701,6 +701,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Invoice__Custome__3F115E1A">
+          <End Role="CustomerDetails" Type="Self.CustomerDetail" Multiplicity="0..1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerDetails">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__OrderItem__Custo__2BFE89A6">
           <End Role="CustomerDetails" Type="Self.CustomerDetail" Multiplicity="0..1" />
           <End Role="OrderItems" Type="Self.OrderItem" Multiplicity="*" />
@@ -721,18 +733,6 @@
               <PropertyRef Name="CustomerId" />
             </Principal>
             <Dependent Role="Orders">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Invoice__Custome__3C34F16F">
-          <End Role="UserRegister" Type="Self.UserRegister" Multiplicity="0..1" />
-          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserRegister">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Invoice">
               <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
@@ -885,6 +885,10 @@
             <End Role="Brands" EntitySet="Brands" />
             <End Role="Products" EntitySet="Products" />
           </AssociationSet>
+          <AssociationSet Name="FK__Invoice__Custome__3F115E1A" Association="Self.FK__Invoice__Custome__3F115E1A">
+            <End Role="CustomerDetails" EntitySet="CustomerDetails" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
           <AssociationSet Name="FK__OrderItem__Custo__2BFE89A6" Association="Self.FK__OrderItem__Custo__2BFE89A6">
             <End Role="CustomerDetails" EntitySet="CustomerDetails" />
             <End Role="OrderItems" EntitySet="OrderItems" />
@@ -892,10 +896,6 @@
           <AssociationSet Name="FK__Orders__Customer__797309D9" Association="Self.FK__Orders__Customer__797309D9">
             <End Role="CustomerDetails" EntitySet="CustomerDetails" />
             <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Invoice__Custome__3C34F16F" Association="Self.FK__Invoice__Custome__3C34F16F">
-            <End Role="UserRegister" EntitySet="UserRegisters" />
-            <End Role="Invoice" EntitySet="Invoices" />
           </AssociationSet>
           <AssociationSet Name="FK__OrderItem__Produ__2A164134" Association="Self.FK__OrderItem__Produ__2A164134">
             <End Role="Products" EntitySet="Products" />

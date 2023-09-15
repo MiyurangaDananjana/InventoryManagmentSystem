@@ -1,4 +1,4 @@
-﻿
+﻿@model InventoryManagmentSystem.Models.InvoiceViewModel
 @{
     ViewBag.Title = "InvoiceView";
 }
@@ -22,7 +22,7 @@
                         <p>Invoice</p>
                     </div>
                     <div class="position-relative">
-                        <p>Invoice No. <span>XXXX</span></p>
+                        <p>Invoice No. <span>0007</span></p>
                     </div>
                 </div>
             </section>
@@ -30,25 +30,26 @@
                 <div class="col-10">
                     <div class="row bb pb-3">
                         <div class="col-7">
-                            <p>Supplier,</p>
+                            @*<p>Supplier,</p>*@
                             <h5>INVENTORY MANAGMENT</h5>
-                            <p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>
-                            <div class="txn mt-2">TXN: XXXXXXX</div>
+                            @*<p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>
+                            <div class="txn mt-2">TXN: XXXXXXX</div>*@
                         </div>
                         <div class="col-5">
-                            <p>Client,</p>
-                            <h5>INVENTORY MANAGMENT</h5>
-                            <p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>
-                            <div class="txn mt-2">TXN: XXXXXXX</div>
+
+                            @*<p>Client,</p>*@
+                            <h5>@Model.CustomerDetails.CustomerName</h5>
+                            <p class="address">@Model.CustomerDetails.CustomerAddress <br>  </p>
+                            <div class="txn mt-2">@Model.CustomerDetails.CustomerPhoneNumber</div>
                         </div>
                     </div>
                     <div class="row extra-info pt-3">
                         <div class="col-7">
-                            <p>Payment Method: <span>bKash</span></p>
+                            <p>Payment Method: <span>Cash </span></p>
                             <p>Order Number: <span>#868</span></p>
                         </div>
                         <div class="col-5">
-                            <p>Deliver Date: <span>10-04.2021</span></p>
+                            <p>Date: <span>@DateTime.Now.ToString("yyyy-MM-dd")</span></p>
                         </div>
                     </div>
                 </div>
@@ -57,39 +58,26 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <td>Item Description</td>
-                            <td>Price</td>
-                            <td>Quantity</td>
-                            <td>Total</td>
+                            <th>Brand Name</th>
+                            <th>Product Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Total Quantity</th>
+                            <th>Total Price</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div class="media">
-                                    <div class="media-body">
-                                        <p class="mt-0 title">Media heading</p>
-                                        Cras sit amet nibh libero, in gravida nulla.
-                                    </div>
-                                </div>
-                            </td>
-                            <td>200$</td>
-                            <td>1</td>
-                            <td>200$</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="media">
-                                    <div class="media-body">
-                                        <p class="mt-0 title">Media heading</p>
-                                        Cras sit amet nibh libero, in gravida nulla.
-                                    </div>
-                                </div>
-                            </td>
-                            <td>300$</td>
-                            <td>2</td>
-                            <td>600$</td>
-                        </tr>
+                        @foreach (var item in Model.InvoiceItems)
+                        {
+                            <tr>
+                                <td>@item.BrandName</td>
+                                <td>@item.ProductName</td>
+                                <td>@item.Description</td>
+                                <td>@item.Price</td>
+                                <td>@item.TotalQuantity</td>
+                                <td>@item.TotalPrice</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </section>

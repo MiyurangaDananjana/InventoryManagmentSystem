@@ -20,6 +20,6 @@ namespace InventoryManagmentSystem.Models
         public Nullable<int> CustomerId { get; set; }
         public string Date { get; set; }
     
-        public virtual UserRegister UserRegister { get; set; }
+        public virtual CustomerDetail CustomerDetail { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using InventoryManagmentSystem.DAL;
 using InventoryManagmentSystem.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace InventoryManagmentSystem.Controllers
@@ -67,9 +70,51 @@ namespace InventoryManagmentSystem.Controllers
         {
             return View();
         }
-        public ActionResult InvoiceView()
+        public ActionResult InvoiceView(int invoiceIds)
         {
-            return View();
+            if (invoiceIds > 0)
+            {
+                var query = from invoice in _DbContext.Invoices
+                            join customer in _DbContext.CustomerDetails on invoice.CustomerId equals customer.CustomerId
+                            where invoice.InvoiceId == invoiceIds
+                            select new CustomerDetailsModel
+                            {
+                                CustomerName = customer.CustomerName,
+                                CustomerPhoneNumber = customer.CustomerPhoneNumber,
+                                CustomerAddress = customer.CustomerAddress,
+                            };
+                var result = query.SingleOrDefault();
+
+                var invoiceIdToSearch = invoiceIds;
+
+                var list = from i in _DbContext.Invoices
+                           from o in _DbContext.OrderItems where o.CustomerId == i.CustomerId && o.CreateDate == i.Date
+                           join b in _DbContext.Brands on o.BrandId equals b.BrandId
+                           join p in _DbContext.Products on o.ProductId equals p.ProductId
+                           join pv in _DbContext.ProductVariantes on o.ProductVariantId equals pv.ProductVariantId
+                           where i.InvoiceId == invoiceIdToSearch
+                           select new InvoiceItemModel
+                           {
+                               InvoiceId = i.InvoiceId,
+                               BrandName = b.BrandName,
+                               ProductName = p.ProductName,
+                               Description = pv.Description,
+                               Price = (decimal)p.Price,
+                               TotalQuantity = i.TotalQuantity,
+                               TotalPrice = (decimal)i.TotalPrice
+                           };
+
+                var Listresult = list.ToList();
+
+                var viewModel = new InvoiceViewModel
+                {
+                    CustomerDetails = result,
+                    InvoiceItems = Listresult
+                };
+
+                return View(viewModel);
+            }
+            return Content("tets");
         }
         //get user details 
         [HttpGet]
@@ -101,7 +146,6 @@ namespace InventoryManagmentSystem.Controllers
             else
             {
                 return HttpNotFound();
-                // return a 404 Not Found response or another appropriate response.
             }
         }
 

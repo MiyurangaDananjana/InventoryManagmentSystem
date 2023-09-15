@@ -15,8 +15,8 @@
                 if (result.success) {
                     alert("Orders saved successfully");
                     removeDataFromLocalStorage();
-                    // Redirect to the InvoiceView action in the Main controller
-                    window.location.href = result.redirectUrl;
+                    var invoiceId = result.invoiceIds; // Replace with the actual invoice ID
+                    window.location.href = '/Main/InvoiceView?invoiceIds=' + invoiceId;
                 } else {
                     alert("Orders were not saved successfully: " + result.message);
                 }

@@ -72,12 +72,24 @@ namespace InventoryManagmentSystem.Controllers
 
             DateTime CreateDate = DateTime.Now;
 
-            string formattedDate = CreateDate.ToString("yyyy-MM-dd HH:mm:ss");
+            int customerId = customerid; // set to the customer id
+
+            decimal totalPrice = 0; // Get the total price 
+
+            string formattedDate = CreateDate.ToString("yyyy-MM-dd HH:mm:ss"); // set to the date range
+
+            int totalQuantity = 0; // Set to the Order total quantity
 
             foreach (var order in orders)
             {
                 int ProductId = order.ProductVariantId;
+
                 int Quantity = order.Quantity;
+
+                totalQuantity += Quantity;
+
+                totalPrice = Quantity * order.ItemPrice;
+
                 var productVariant = _DbContext.ProductVariantes.FirstOrDefault(x => x.ProductVariantId == ProductId);
                 if (productVariant != null)
                 {
@@ -87,7 +99,6 @@ namespace InventoryManagmentSystem.Controllers
                         _DbContext.SaveChanges();
                     }
                 }
-
                 var orderItem = new OrderItem
                 {
                     BrandId = order.BrandId,
@@ -109,15 +120,33 @@ namespace InventoryManagmentSystem.Controllers
                     CreateDate = formattedDate,
                     CustomerId = customerid
                 };
+
                 orderDetailsList.Add(orderDetails);
             }
             _DbContext.OrderItems.AddRange(orderItemsList);
             _DbContext.SaveChanges();
-            
-            var success = true;
-            var redirectUrl = Url.Action("InvoiceView", "Main");
-            return Json(new { success, redirectUrl });
 
+            // Invoicing Table
+            var Invoicing = new Invoice
+            {
+                TotalQuantity = totalQuantity,
+                TotalPrice = totalPrice,
+                CustomerId = customerid,
+                Date = formattedDate,
+            };
+
+            _DbContext.Invoices.Add(Invoicing);
+            _DbContext.SaveChanges();
+
+            var selectedInvoiceIds = _DbContext.Invoices
+           .Where(x => x.CustomerId == customerId && x.Date == formattedDate)
+           .Select(x => x.InvoiceId).FirstOrDefault();
+
+
+            var success = true;
+
+            return Json(new { success, invoiceIds = selectedInvoiceIds });
+            //
         }
 
         [HttpGet]
@@ -132,6 +161,7 @@ namespace InventoryManagmentSystem.Controllers
             }).ToList();
             return Json(paymentMethods, JsonRequestBehavior.AllowGet);
         }
+
 
 
     }
