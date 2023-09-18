@@ -79,6 +79,7 @@
                     <div class="form-group">
                         <label>Brand Name</label>
                         <input type="text" class="form-control" id="addBrandName" name="addBrandName" required>
+                        <label id="lbladdBrandName" class="text-danger"></label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -89,7 +90,6 @@
         </div>
     </div>
     <!--Add model end-->
-
     <!----edit-modal start--------->
     <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
         <div class="modal-dialog" role="document">
@@ -127,33 +127,36 @@
         // Add new supplier
         $("#addEmployeeModal").on('click', '.btn-success', function () {
             var cookieValue = getCookie("Session");
-            if (cookieValue) {
-                var data = {
-                    BrandName: $("#addEmployeeModal input[name='addBrandName']").val()
-                };
-                var url = "/Product/AddNewBrand?sessionKey=" + cookieValue;
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: data,
-                    dataType: "json",
-                    success: function (result) {
-                        if (result.success) {
-                            // Handle success, e.g., show a success message and close the modal
-                            alert("Product added successfully");
-                            loadDataIntoTable(); // Load table data
-                            $("#addEmployeeModal").modal('hide');
-                        } else {
-                            // Handle failure, e.g., display an error message
-                            alert(result.message);
+            if (validateForm()) {
+                if (cookieValue) {
+                    var data = {
+                        BrandName: $("#addEmployeeModal input[name='addBrandName']").val()
+                    };
+                    var url = "/Product/AddNewBrand?sessionKey=" + cookieValue;
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: data,
+                        dataType: "json",
+                        success: function (result) {
+                            if (result.success) {
+                                // Handle success, e.g., show a success message and close the modal
+                                alert("Product added successfully");
+                                loadDataIntoTable(); // Load table data
+                                $("#addEmployeeModal").modal('hide');
+                            } else {
+                                // Handle failure, e.g., display an error message
+                                alert(result.message);
+                            }
+                        },
+                        error: function () {
+                            // Handle AJAX error
+                            alert("An error occurred while processing your request.");
                         }
-                    },
-                    error: function () {
-                        // Handle AJAX error
-                        alert("An error occurred while processing your request.");
-                    }
-                });
+                    });
+                }
             }
+
         });
         // cancel edit menu
         $("#cancelButton").click(function () {
@@ -236,7 +239,7 @@
                 $('.edit-button').click(function () {
                     var BrandId = $(this).data('id');
                     $.ajax({
-                        url: '/Product/GetBrandDetailsById/'+ BrandId,
+                        url: '/Product/GetBrandDetailsById/' + BrandId,
                         type: 'GET',
                         dataType: 'json',
                         success: function (userData) {
@@ -251,38 +254,42 @@
                 });
 
                 $("#saveEditButton").click(function () {
-                    var cookieValue = getCookie("Session");
-                    if (cookieValue) {
-                        var Id = $("#editBrandId").val();
-                        var BrandName = $("#editBrandName").val();    
-                        var data = {
-                            Id: Id,
-                            BrandName: BrandName
-                        }
-                        var url = "/Product/UpdateBrand?sessionKey=" + cookieValue;
-                        $.ajax({
-                            url: url,
-                            method: "POST",
-                            data: data,
-                            success: function (response) {
-                                if (response === "Success") {
-                                    $("#editEmployeeModal").modal("hide");
-                                    alert("Brand is update pleas check the data")
-                                    loadDataIntoTable();
-                                }
-                                else {
-                                    alert("User is not update pleas check the data")
-                                }
-                                console.log("Employee details updated successfully");
-                            },
-                            error: function (error) {
-                                console.error("Error updating employee details: " + error.responseText);
+                    if (validateEditForm()) {
+                        var cookieValue = getCookie("Session");
+                        if (cookieValue) {
+                            var Id = $("#editBrandId").val();
+                            var BrandName = $("#editBrandName").val();
+                            var data = {
+                                Id: Id,
+                                BrandName: BrandName
                             }
-                        });
+                            var url = "/Product/UpdateBrand?sessionKey=" + cookieValue;
+                            $.ajax({
+                                url: url,
+                                method: "POST",
+                                data: data,
+                                success: function (response) {
+                                    if (response === "Success") {
+                                        $("#editEmployeeModal").modal("hide");
+                                        alert("Brand is update pleas check the data")
+                                        loadDataIntoTable();
+                                    }
+                                    else {
+                                        alert("User is not update pleas check the data")
+                                    }
+                                    console.log("Employee details updated successfully");
+                                },
+                                error: function (error) {
+                                    console.error("Error updating employee details: " + error.responseText);
+                                }
+                            });
+                        }
+                        else {
+                            console.log("404 Error")
+                        }
                     }
-                    else {
-                        console.log("404 Error")
-                    }
+
+
                 })
             },
             error: function () {
@@ -305,6 +312,32 @@
             }
         }
         return null;
+    }
+
+    function validateForm() {
+        var isValid = true;
+        $('.text-danger').text('');
+        // Validate Brand Name
+        var brandName = $('#addBrandName').val();
+        if (brandName.trim() === '') {
+            $('#lbladdBrandName').text('Brand Name is required');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function validateEditForm() {
+        var isValid = true;
+        $('.text-danger').text('');
+
+        // Validate Brand Name
+        var brandName = $('#editBrandName').val();
+        if (brandName.trim() === '') {
+            $('#lblEditBrandName').text('Brand Name is required');
+            isValid = false;
+        }
+        return isValid;
     }
 </script>
 

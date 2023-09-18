@@ -1,5 +1,6 @@
 ﻿using InventoryManagmentSystem.BLL;
 using InventoryManagmentSystem.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace InventoryManagmentSystem.Controllers
             string session = Cookie?.Value;
             if (user.CheckSession(session))
             {
+                
                 return RedirectToAction("Main", "Main");
             }
             else

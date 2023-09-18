@@ -46,8 +46,6 @@ namespace InventoryManagmentSystem.Controllers
                 TotalProducts = _DbContext.Products.Count(),
                 TotalSystemUsers = _DbContext.UserRegisters.Count()
             };
-
-
             return View(viewModel);
         }
 

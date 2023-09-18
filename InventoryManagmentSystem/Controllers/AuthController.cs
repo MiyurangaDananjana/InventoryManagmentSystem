@@ -1,5 +1,6 @@
 ﻿using InventoryManagmentSystem.BLL;
 using InventoryManagmentSystem.Models;
+using Serilog;
 using System;
 using System.Data.Entity;
 using System.IO;
@@ -35,65 +36,75 @@ namespace InventoryManagmentSystem.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(LoginViewModel loginViewModel)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return new HttpStatusCodeResult(400, "Bad Request");
-            }
-
-            // Check if the user with the provided EPFNumber exists in the database.
-            var isUser = await _DbContext.UserRegisters.FirstOrDefaultAsync(x => x.EPFNumber == loginViewModel.EpfNumber);
-            if (isUser == null) // If the user is not found in the database.
-            {
-                TempData["Message"] = "EPF Number is not registered!";
-                return RedirectToAction("Index", "Home");
-            }
-            if (!string.IsNullOrEmpty(loginViewModel.Password))
-            {
-                var salt = isUser.SaltPass;
-                var password = BLL.AuthBLL.RandomStringGenerator.ComputeSHA256Hash(loginViewModel.Password);
-                var saltPass = password + salt;
-                if (isUser.Password == saltPass)
+                if (!ModelState.IsValid)
                 {
-                    DateTime currentDate = DateTime.Now;
-                    string Value = RandomStringGenerator.GenerateRandomString(20);
+                    return new HttpStatusCodeResult(400, "Bad Request");
+                }
 
-                    var isSession = await _DbContext.UserSessions.FirstOrDefaultAsync(x => x.UserId == isUser.Id);
-                    if (isSession != null)
+                // Check if the user with the provided EPFNumber exists in the database.
+                var isUser = await _DbContext.UserRegisters.FirstOrDefaultAsync(x => x.EPFNumber == loginViewModel.EpfNumber);
+                if (isUser == null) // If the user is not found in the database.
+                {
+                    TempData["Message"] = "EPF Number is not registered!";
+                    return RedirectToAction("Index", "Home");
+                }
+                if (!string.IsNullOrEmpty(loginViewModel.Password))
+                {
+                    var salt = isUser.SaltPass;
+                    var password = BLL.AuthBLL.RandomStringGenerator.ComputeSHA256Hash(loginViewModel.Password);
+                    var saltPass = password + salt;
+                    if (isUser.Password == saltPass)
                     {
-                        isSession.SessionKey = Value;
-                        await _DbContext.SaveChangesAsync(); // Update the existing session key. 
+                        DateTime currentDate = DateTime.Now;
+                        string Value = RandomStringGenerator.GenerateRandomString(20);
+
+                        var isSession = await _DbContext.UserSessions.FirstOrDefaultAsync(x => x.UserId == isUser.Id);
+                        if (isSession != null)
+                        {
+                            isSession.SessionKey = Value;
+                            await _DbContext.SaveChangesAsync(); // Update the existing session key. 
+                        }
+                        else
+                        {
+                            UserSession sesstion = new UserSession
+                            {
+                                UserId = isUser.Id,
+                                SessionKey = Value,
+                                SessionDate = currentDate,
+                                expireDate = currentDate.AddDays(1)
+                            };
+                            _DbContext.UserSessions.Add(sesstion);
+                            await _DbContext.SaveChangesAsync(); // Create a new session record.
+                        }
+
+                        HttpCookie cookie = new HttpCookie("Session", Value)
+                        {
+                            Expires = DateTime.Now.AddDays(1)
+                        };
+                        Response.Cookies.Add(cookie);
+                        return RedirectToAction("Main", "Main");
                     }
                     else
                     {
-                        UserSession sesstion = new UserSession
-                        {
-                            UserId = isUser.Id,
-                            SessionKey = Value,
-                            SessionDate = currentDate,
-                            expireDate = currentDate.AddDays(1)
-                        };
-                        _DbContext.UserSessions.Add(sesstion);
-                        await _DbContext.SaveChangesAsync(); // Create a new session record.
+                        TempData["Message"] = "Password is not correct!";
+                        return RedirectToAction("Index", "Home");
                     }
-
-                    HttpCookie cookie = new HttpCookie("Session", Value)
-                    {
-                        Expires = DateTime.Now.AddDays(1)
-                    };
-                    Response.Cookies.Add(cookie);
-                    return RedirectToAction("Main", "Main");
                 }
                 else
                 {
-                    TempData["Message"] = "Password is not correct!";
+                    TempData["Message"] = "Check Password!";
                     return RedirectToAction("Index", "Home");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                TempData["Message"] = "Check Password!";
+
+                Log.Information("Login Error..." + ex);
                 return RedirectToAction("Index", "Home");
             }
+            
         }
 
         [HttpPost]

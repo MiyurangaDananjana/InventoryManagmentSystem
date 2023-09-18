@@ -19,9 +19,9 @@
                             <span>Add New Variant</span>
                         </a>
                         @*<a href="#addProductQuantity" class="btn btn-danger" data-toggle="modal">
-                            <i class="material-icons">add_circle_outline</i>
-                            <span>Add Quantity</span>
-                        </a>*@
+                                <i class="material-icons">add_circle_outline</i>
+                                <span>Add Quantity</span>
+                            </a>*@
                     </div>
                 </div>
             </div>
@@ -86,14 +86,17 @@
                         <select class="form-select form-control" id="addProductId" name="addProductId" required>
                             <option selected>Choose a Product</option>
                         </select>
+                        <label id="lblAddProductId" class="text-danger"></label>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
                         <textarea type="text" class="form-control" id="addDescription" name="addDescription" required> </textarea>
+                        <label id="lblAddDescription" class="text-danger"></label>
                     </div>
                     <div class="form-group">
                         <label>Quantity</label>
                         <input type="number" class="form-control" id="addQuantity" name="addQuantity" required>
+                        <label id="lblAddQuantity" class="text-danger"></label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -104,7 +107,6 @@
         </div>
     </div>
     <!--Add model end-->
-
     <!----edit-modal start--------->
     <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
         <div class="modal-dialog" role="document">
@@ -124,7 +126,7 @@
                         <div class="form-group">
                             <label>Product</label>
                             <input type="text" class="form-control" id="editProduct" name="editProduct" required disabled>
-                            
+
                         </div>
                         <div class="form-group">
                             <label>Description</label>
@@ -151,30 +153,33 @@
     $(document).ready(function () {
         // Add new Product Variant
         $("#addEmployeeModal").on('click', '.btn-success', function () {
-            var data = {
-                ProductId: $("#addProductId").val(),
-                Description: $("#addEmployeeModal textarea[name='addDescription']").val(),
-                Quantity: $("#addEmployeeModal input[name='addQuantity']").val()
-            };
-            $.ajax({
-                type: "POST",
-                url: "/Product/AddProductVariant",
-                data: data,
-                dataType: "json",
-                success: function (result) {
-                    if (result.success) {
-                        alert("Supplier added successfully");
-                        loadDataIntoTable(); // Load table data
-                        $("#addEmployeeModal").modal('hide');
-                    } else {
-                        alert(result.message);
+            if (validateForm()) {
+                var data = {
+                    ProductId: $("#addProductId").val(),
+                    Description: $("#addEmployeeModal textarea[name='addDescription']").val(),
+                    Quantity: $("#addEmployeeModal input[name='addQuantity']").val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Product/AddProductVariant",
+                    data: data,
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.success) {
+                            alert("Supplier added successfully");
+                            loadDataIntoTable(); // Load table data
+                            $("#addEmployeeModal").modal('hide');
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        // Handle AJAX error
+                        alert("An error occurred while processing your request.");
                     }
-                },
-                error: function () {
-                    // Handle AJAX error
-                    alert("An error occurred while processing your request.");
-                }
-            });
+                });
+            }
+
         });
 
         // cancel edit menu
@@ -298,7 +303,7 @@
                         method: "POST",
                         dataType: 'json',
                         contentType: 'application/json',
-                        data: JSON.stringify(Data), 
+                        data: JSON.stringify(Data),
                         success: function (response) {
                             if (response.success === true) {
                                 $("#editEmployeeModal").modal("hide");
@@ -331,7 +336,7 @@
                         text: item.ProductName
                     }));
                 });
-              
+
             },
             error: function () {
                 alert("Failed to load brands.");
@@ -339,5 +344,40 @@
         });
 
     });
+
+    function validateForm() {
+        var isValid = true;
+        $('.text-danger').text('');
+
+        // Validate Product selection
+        var productId = $('#addProductId').val();
+        if (productId === "Choose a Product") {
+            $('#lblAddProductId').text('Please choose a product');
+            isValid = false;
+        }
+
+        // Validate Description
+        var description = $('#addDescription').val();
+        if (description.trim() === '') {
+            $('#lblAddDescription').text('Description is required');
+            isValid = false;
+        }
+
+        // Validate Quantity
+        var quantity = $('#addQuantity').val();
+        if (isNaN(quantity) || quantity <= 0) {
+            $('#lblAddQuantity').text('Quantity must be a positive number');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    $('#addEmployeeModal').on('hidden.bs.modal', function () {
+        // Clear form fields and error labels when the modal is closed
+        $('#addEmployeeModal input, #addEmployeeModal textarea').val('');
+        $('.text-danger').text('');
+    });
+
 </script>
 
