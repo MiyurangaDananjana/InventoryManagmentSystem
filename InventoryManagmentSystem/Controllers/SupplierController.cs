@@ -21,8 +21,14 @@ namespace InventoryManagmentSystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(400, "Bad Request");
+                var errorMessages = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList();
+
+                return Json(new { success = false, message = "Validation failed", errors = errorMessages });
             }
+
             // is check supplier
             var isSupplier = _DbContext.Suppliers.FirstOrDefault(x => x.PhoneNumber == model.PhoneNumber);
             if (isSupplier == null)
@@ -36,7 +42,7 @@ namespace InventoryManagmentSystem.Controllers
                 };
                 _DbContext.Suppliers.Add(SupplierDetrails);
                 _DbContext.SaveChanges();
-                return Json(new { success = false, message = "Successfully added a new Supplier" });
+                return Json(new { success = true, message = "Successfully added a new Supplier" });
             }
             return Json(new { success = false, message = "Supplier already exists" });
         }
@@ -48,11 +54,11 @@ namespace InventoryManagmentSystem.Controllers
             var supplierDetails = _DbContext.Suppliers.ToList();
             var supplierDetailsModel = supplierDetails.Select(u => new SupplierDetailsModel
             {
-                SupplierID=u.SupplierID,
+                SupplierID = u.SupplierID,
                 SupplierName = u.SupplierName,
                 PhoneNumber = u.PhoneNumber,
-                Address= u.Address,
-                Description=u.SupplierDescription
+                Address = u.Address,
+                Description = u.SupplierDescription
             }).ToList();
             return Json(supplierDetailsModel, JsonRequestBehavior.AllowGet);
         }
@@ -65,34 +71,34 @@ namespace InventoryManagmentSystem.Controllers
                         select new SupplierDetailsModel
                         {
                             SupplierID = supplier.SupplierID,
-                            SupplierName= supplier.SupplierName,
-                            Address= supplier.Address,
-                            PhoneNumber= supplier.PhoneNumber,
-                            Description= supplier.SupplierDescription
+                            SupplierName = supplier.SupplierName,
+                            Address = supplier.Address,
+                            PhoneNumber = supplier.PhoneNumber,
+                            Description = supplier.SupplierDescription
                         }).FirstOrDefault();
-            if(list == null)
+            if (list == null)
             {
                 return HttpNotFound();
             }
             return Json(list, JsonRequestBehavior.AllowGet);
-           
+
         }
 
         // Update by supplier details 
         [HttpPost]
         public ActionResult EditSupplierDetails(SupplierDetailsModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return HttpNotFound();
             }
-            var isSupplier =_DbContext.Suppliers.FirstOrDefault(x=>x.SupplierID == model.SupplierID);
-            if(isSupplier != null)
+            var isSupplier = _DbContext.Suppliers.FirstOrDefault(x => x.SupplierID == model.SupplierID);
+            if (isSupplier != null)
             {
                 isSupplier.SupplierName = model.SupplierName;
                 isSupplier.Address = model.Address;
                 isSupplier.PhoneNumber = model.PhoneNumber;
-                isSupplier.SupplierDescription = model.Description; 
+                isSupplier.SupplierDescription = model.Description;
                 _DbContext.SaveChanges();
                 return Content("Success");
             }
@@ -103,12 +109,12 @@ namespace InventoryManagmentSystem.Controllers
         [HttpPost]
         public ActionResult DeleteSupplierDetails(int SupplierID)
         {
-            if(SupplierID == 0)
+            if (SupplierID == 0)
             {
                 return new HttpStatusCodeResult(400, "Bad Request");
             }
             var isSupplier = _DbContext.Suppliers.FirstOrDefault(x => x.SupplierID == SupplierID);
-            if(isSupplier != null)
+            if (isSupplier != null)
             {
                 _DbContext.Suppliers.Remove(isSupplier);
                 _DbContext.SaveChanges();
@@ -122,12 +128,12 @@ namespace InventoryManagmentSystem.Controllers
         public ActionResult SupplierNameAndId()
         {
             var list = (from supplier in _DbContext.Suppliers
-                                orderby supplier.SupplierName ascending
-                                select new
-                                {
-                                    SupplierID = supplier.SupplierID,
-                                    SupplierName = supplier.SupplierName
-                                }).ToList();
+                        orderby supplier.SupplierName ascending
+                        select new
+                        {
+                            SupplierID = supplier.SupplierID,
+                            SupplierName = supplier.SupplierName
+                        }).ToList();
             if (list != null)
             {
                 return Json(list, JsonRequestBehavior.AllowGet);

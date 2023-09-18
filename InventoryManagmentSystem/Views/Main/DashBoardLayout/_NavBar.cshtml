@@ -25,12 +25,18 @@
                             <li class="dropdown nav-item">
                                 <a class="nav-link" data-toggle="dropdown">
                                     <img id="imageName" class="nav-profile" alt="Image">
-                                    <span class="xp-user-live"></span>
+                                    @*<span class="xp-user-live"></span>*@
+                                    <label id="userNameLabel" class="d-none d-md-inline-block ml-2"></label>
                                 </a>
                                 <ul class="dropdown-menu small-menu">
                                     <li>
                                         <a>
                                             @Html.ActionLink("Logout", "RemoveCookie", "Auth", new { area = "" }, new { @class = "link", id = "logoutLink" })
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <label id="userNameLabel" class="d-none d-md-inline-block ml-2"></label>
                                         </a>
                                     </li>
                                 </ul>
@@ -50,56 +56,53 @@
     </div>
 </div>
 <script>
+
     $(document).ready(function () {
-        const cookieName = "Session";
-        const sessionKey = Cookies.get(cookieName);
+        function authenticateUser() {
+            const cookieName = "Session";
+            let sessionKey = Cookies.get(cookieName);
+            if (sessionKey) {
+                // Session cookie exists, fetch user details
+                $.ajax({
+                    url: '/Auth/GetTheUserDetailsBySession',
+                    type: 'GET',
+                    data: { session: sessionKey },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            // Update the user name
+                            $('#userNameLabel').text(data.UserName);
+                            // Fetch and display the user image
+                            fetchImage(data.ImageName);
 
-        if (sessionKey) {
-            // Session cookie exists, fetch user details
-            $.ajax({
-                url: '/Auth/GetTheUserDetailsBySession',
-                type: 'GET',
-                data: { session: sessionKey },
-                dataType: 'json',
-                success: function (data) {
-                    if (data) {
-                        // Update the user name
-                        $('#userName').text(data.UserName);
-
-                        // Fetch and display the user image
-                        fetchImage(data.ImageName);
-
-                        // Show the logout link
-                        $("#logoutLink").show();
-                    } else {
-                        console.log('Session not found or user details not available.');
-                        // Redirect to the login page or handle the situation accordingly
-                        window.location.href = '/login'; // Update with the appropriate login URL
+                            // Show the logout link
+                            $("#logoutLink").show();
+                        } else {
+                            console.log('Session not found or user details not available.');
+                            window.location.href = '/';
+                        }
+                    },
+                    error: function () {
+                        console.log('Error occurred during the AJAX request.');
                     }
-                },
-                error: function () {
-                    console.log('Error occurred during the AJAX request.');
-                    // Handle the error as needed, e.g., display an error message.
-                }
-            });
-        } else {
-            // Session cookie not found, redirect to the login page
-            console.log('Session cookie not found.');
-            window.location.href = '/login'; // Update with the appropriate login URL
-        }
+                });
+            } else {
+                console.log('Session cookie not found.');
+                window.location.href = '/';
+            }
 
-        // Logout link click event
-        $("#logoutLink").click(function () {
-            // Clear the session cookie
-            Cookies.remove(cookieName);
-            // Redirect to the login page or logout endpoint as needed
-            window.location.href = '/logout'; // Update with the appropriate logout URL
-        });
+            // Logout link click event
+            $("#logoutLink").click(function () {
+                Cookies.remove(cookieName);
+                window.location.href = '/';
+            });
+        }
+        authenticateUser();
     });
 
     function fetchImage(imageName) {
         var imageElement = document.getElementById('imageName');
-        var imageUrl = 'http://localhost:55811/Auth/GetImage?imageName=' + imageName; // Replace with the actual image URL
+        var imageUrl = 'http://localhost:55811/Auth/GetImage?imageName=' + imageName; 
         imageElement.src = imageUrl;
     }
 </script>

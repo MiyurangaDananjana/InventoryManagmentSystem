@@ -81,18 +81,22 @@
                     <div class="form-group">
                         <label>Supplier Name</label>
                         <input type="text" class="form-control" id="addSupllierName" name="addSupllierName" required>
+                        <label id="lbladdSupplierName" class="text-danger"></label>
                     </div>
                     <div class="form-group">
                         <label>Address</label>
                         <textarea type="text" class="form-control" id="addSuppllierAddress" name="addSuppllierAddress" required> </textarea>
+                        <label id="lbladdSupplierAddress" class="text-danger"></label>
                     </div>
                     <div class="form-group">
                         <label>Contact Number</label>
                         <input type="number" class="form-control" id="addContactNumber" name="addContactNumber" required>
+                        <label id="lbladdContactNumber" class="text-danger"></label>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
                         <textarea class="form-control" id="addDescription" name="addDescription" required></textarea>
+                        <label id="lbladdDescription" class="text-danger"></label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -118,23 +122,28 @@
                         <div class="form-group">
                             <label for="editUserId">Supplier ID:</label>
                             <input type="text" class="form-control" id="editSuplierId" name="editSuplierId" required disabled>
+                        
                         </div>
                         <div class="form-group">
                             <label for="editSupplierName">Supplier Name:</label>
                             <input type="text" class="form-control" id="editSupplierName" name="editSupplierName" required>
+                            <label id="lblEditSupplierName" class="text-danger"></label>
                         </div>
                         <div class="form-group">
                             <label for="editSupplierAddress">Address:</label>
                             <textarea type="text" class="form-control" id="editSupplierAddress" name="editSupplierAddress" required> </textarea>
+                            <label id="lblEditSupplierAddress" class="text-danger"></label>
                         </div>
                         <div class="form-group">
                             <label for="editPhoneNumber">Phone Number:</label>
-                            <input type="text" class="form-control" id="editPhoneNumber" name="editPhoneNumber" required> 
+                            <input type="text" class="form-control" id="editPhoneNumber" name="editPhoneNumber" required>
+                            <label id="lblEditPhoneNumber" class="text-danger"></label>
                         </div>
 
                         <div class="form-group">
                             <label for="editDescription">Description:</label>
                             <textarea type="text" class="form-control" id="editDescription" name="editDescription" required> </textarea>
+                            <label id="lblEditDescription" class="text-danger"></label>
                         </div>
                     </form>
                 </div>
@@ -145,40 +154,42 @@
             </div>
         </div>
     </div>
-  <!----edit-modal end--------->
+    <!----edit-modal end--------->
 </div>
 
 <script>
     $(document).ready(function () {
-        // Add new supplier
         $("#addEmployeeModal").on('click', '.btn-success', function () {
-            var data = {
-                SupplierName: $("#addEmployeeModal input[name='addSupllierName']").val(),
-                PhoneNumber: $("#addEmployeeModal textarea[name='addSuppllierAddress']").val(),
-                Address: $("#addEmployeeModal input[name='addContactNumber']").val(),
-                Description: $("#addEmployeeModal textarea[name='addDescription']").val()
-            };
-            $.ajax({
-                type: "POST",
-                url: "/Supplier/NewSupplier", 
-                data: data,
-                dataType: "json",
-                success: function (result) {
-                    if (result.success) {
-                        // Handle success, e.g., show a success message and close the modal
-                        alert("Supplier added successfully");
-                        loadDataIntoTable(); // Load table data
-                        $("#addEmployeeModal").modal('hide');
-                    } else {
-                        // Handle failure, e.g., display an error message
-                        alert(result.message);
+            if (validateAddForm()) {
+                var data = {
+                    SupplierName: $("#addEmployeeModal input[name='addSupllierName']").val(),
+                    PhoneNumber: $("#addEmployeeModal textarea[name='addContactNumber']").val(),
+                    Address: $("#addEmployeeModal input[name=' addSuppllierAddress']").val(),
+                    Description: $("#addEmployeeModal textarea[name='addDescription']").val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Supplier/NewSupplier",
+                    data: data,
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.success) {
+                            // Handle success, e.g., show a success message and close the modal
+                            alert("Supplier added successfully");
+                            loadDataIntoTable(); // Load table data
+                            $("#addEmployeeModal").modal('hide');
+                        } else {
+                            // Handle failure, e.g., display an error message
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        // Handle AJAX error
+                        alert("An error occurred while processing your request.");
                     }
-                },
-                error: function () {
-                    // Handle AJAX error
-                    alert("An error occurred while processing your request.");
-                }
-            });
+                });
+            }
+
         });
         // cancel edit menu
         $("#cancelButton").click(function () {
@@ -269,6 +280,8 @@
                 });
                 // Add click event handler for the "Edit" button
                 $('.edit-button').click(function () {
+
+
                     var SupplierID = $(this).data('id');
                     // Fetch user details by ID using another AJAX request
                     $.ajax({
@@ -288,41 +301,44 @@
                             alert('Error fetching user data');
                         }
                     });
-                }); 
+                });
                 $("#saveEditButton").click(function () {
-                    var SupplierID = $("#editSuplierId").val();
-                    var SupplierName = $("#editSupplierName").val();
-                    var Address = $("#editSupplierAddress").val();
-                    var PhoneNumber = $("#editPhoneNumber").val();
-                    var Description = $("#editDescription").val();
-                    // create a data object to send server
-                    var Data = {
-                        SupplierID: SupplierID,
-                        SupplierName: SupplierName,
-                        Address: Address,
-                        PhoneNumber: PhoneNumber,
-                        Description: Description
-                    }
-                    // Send an ajax request to update the user details
-                    $.ajax({
-                        url: "/Supplier/EditSupplierDetails",
-                        method: "POST",
-                        data: Data,
-                        success: function (response) {
-                            if (response === "Success") {
-                                $("#editEmployeeModal").modal("hide");
-                                alert("User is update pleas check the data")
-                                loadDataIntoTable(); // Load table data
-                            }
-                            else {
-                                alert("User is not update pleas check the data")
-                            }
-                            console.log("Employee details updated successfully");
-                        },
-                        error: function (error) {
-                            console.error("Error updating employee details: " + error.responseText);
+                    if (validateEditForm()) {
+                        var SupplierID = $("#editSuplierId").val();
+                        var SupplierName = $("#editSupplierName").val();
+                        var Address = $("#editSupplierAddress").val();
+                        var PhoneNumber = $("#editPhoneNumber").val();
+                        var Description = $("#editDescription").val();
+
+                        var Data = {
+                            SupplierID: SupplierID,
+                            SupplierName: SupplierName,
+                            Address: Address,
+                            PhoneNumber: PhoneNumber,
+                            Description: Description
                         }
-                    });
+                        // Send an ajax request to update the user details
+                        $.ajax({
+                            url: "/Supplier/EditSupplierDetails",
+                            method: "POST",
+                            data: Data,
+                            success: function (response) {
+                                if (response === "Success") {
+                                    $("#editEmployeeModal").modal("hide");
+                                    alert("User is update pleas check the data")
+                                    loadDataIntoTable(); // Load table data
+                                }
+                                else {
+                                    alert("User is not update pleas check the data")
+                                }
+                                console.log("Employee details updated successfully");
+                            },
+                            error: function (error) {
+                                console.error("Error updating employee details: " + error.responseText);
+                            }
+                        });
+                    }
+
                 })
             },
             error: function () {
@@ -330,6 +346,83 @@
                 alert('Error fetching data');
             }
         });
+
+        function validateAddForm() {
+            var isValid = true;
+            $('.text-danger').text('');
+
+            // Validate Supplier Name
+            var supplierName = $('#addSupllierName').val();
+            if (supplierName.trim() === '') {
+                $('#lbladdSupplierName').text('Supplier Name is required');
+                isValid = false;
+            }
+
+            // Validate Address
+            var supplierAddress = $('#addSuppllierAddress').val();
+            if (supplierAddress.trim() === '') {
+                $('#lbladdSupplierAddress').text('Address is required');
+                isValid = false;
+            }
+
+            // Validate Contact Number
+            var contactNumber = $('#addContactNumber').val();
+            if (contactNumber.trim() === '') {
+                $('#lbladdContactNumber').text('Contact Number is required');
+                isValid = false;
+            }
+
+            // Validate Description
+            var description = $('#addDescription').val();
+            if (description.trim() === '') {
+                $('#lbladdDescription').text('Description is required');
+                isValid = false;
+            }
+            return isValid;
+        }
+
+        $('#addEmployeeModal').on('hidden.bs.modal', function () {
+            // Clear form fields and error labels when the modal is closed
+            $('#addEmployeeModal input, #addEmployeeModal textarea').val('');
+            $('.text-danger').text('');
+        });
+
+        function validateEditForm() {
+            var isValid = true;
+            $('.text-danger').text('');
+
+            // Validate Supplier Name
+            var supplierName = $('#editSupplierName').val();
+            if (supplierName.trim() === '') {
+                $('#lblEditSupplierName').text('Supplier Name is required');
+                isValid = false;
+            }
+
+            // Validate Address
+            var supplierAddress = $('#editSupplierAddress').val();
+            if (supplierAddress.trim() === '') {
+                $('#lblEditSupplierAddress').text('Address is required');
+                isValid = false;
+            }
+
+            // Validate Phone Number
+            var phoneNumber = $('#editPhoneNumber').val();
+            if (phoneNumber.trim() === '') {
+                $('#lblEditPhoneNumber').text('Phone Number is required');
+                isValid = false;
+            }
+
+            // Validate Description
+            var description = $('#editDescription').val();
+            if (description.trim() === '') {
+                $('#lblEditDescription').text('Description is required');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+
     });
 </script>
 

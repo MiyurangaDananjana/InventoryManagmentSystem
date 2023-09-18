@@ -76,18 +76,22 @@
                         <div class="form-group">
                             <label for="editUserName">User Name:</label>
                             <input type="text" class="form-control" id="editUserName" name="editUserName" required>
+                            <label id="lblEditUserName" class="text-danger"></label>
                         </div>
                         <div class="form-group">
                             <label for="editNic">NIC:</label>
                             <input type="text" class="form-control" id="editNic" name="editNic" required>
+                            <label id="lblEditNic" class="text-danger"></label>
                         </div>
                         <div class="form-group">
                             <label for="editEpfNumber">EPF Number:</label>
                             <input type="text" class="form-control" id="editEpfNumber" name="editEpfNumber" required>
+                            <label id="lblEditEpfNumber" class="text-danger"></label>
                         </div>
                         <div class="form-group">
                             <label for="editAddress">Address:</label>
                             <textarea class="form-control" id="editAddress" name="editAddress" required></textarea>
+                            <label id="lblEditAddress" class="text-danger"></label>
                         </div>
                     </form>
                 </div>
@@ -117,7 +121,7 @@
                         '<td>' + item.Nic + '</td>' +
                         '<td>' + item.EPFNumber + '</td>' +
                         '<td>' + item.Address + '</td>' +
-                        '<td>'+
+                        '<td>' +
                         '<button class="btn btn-info edit-button btn-sm " data-id="' + item.Id + '">Edit</button>' +
                         '<button class="btn btn-danger delete-button btn-sm" data-id="' + item.Id + '">Delete</button>' +
                         '</td>' +
@@ -190,39 +194,42 @@
                 // Usage:
                 const sessionData = getCookie("Session");
                 $("#saveEditButton").click(function () {
-                    var userId = $("#editUserId").val();
-                    var userName = $("#editUserName").val();
-                    var Nic = $("#editNic").val();
-                    var epfNumber = $("#editEpfNumber").val();
-                    var address = $("#editAddress").val();
+                    if (validateForm()) {
+                        var userId = $("#editUserId").val();
+                        var userName = $("#editUserName").val();
+                        var Nic = $("#editNic").val();
+                        var epfNumber = $("#editEpfNumber").val();
+                        var address = $("#editAddress").val();
 
-                    // create a data object to send server
-                    var Data = {
-                        Id: userId,
-                        UserName: userName,
-                        EPFNumber: epfNumber,
-                        Nic: Nic,
-                        Address: address,
-                        SessionKey: sessionData
-                    }
-                    // Send an ajax request to update the user details
-                    $.ajax({
-                        url: "/Main/EditUserDetails",
-                        method: "POST",
-                        data: Data,
-                        success: function (response) {
-                            if (response === "success") {
-                                $("#editEmployeeModal").modal("hide");
-                            }
-                            else {
-                                alert("User is not update pleas check the data")
-                            }
-                            console.log("Employee details updated successfully");
-                        },
-                        error: function (error) {
-                            console.error("Error updating employee details: " + error.responseText);
+                        // create a data object to send server
+                        var Data = {
+                            Id: userId,
+                            UserName: userName,
+                            EPFNumber: epfNumber,
+                            Nic: Nic,
+                            Address: address,
+                            SessionKey: sessionData
                         }
-                    });
+                        // Send an ajax request to update the user details
+                        $.ajax({
+                            url: "/Main/EditUserDetails",
+                            method: "POST",
+                            data: Data,
+                            success: function (response) {
+                                if (response === "success") {
+                                    $("#editEmployeeModal").modal("hide");
+                                }
+                                else {
+                                    alert("User is not update pleas check the data")
+                                }
+                                console.log("Employee details updated successfully");
+                            },
+                            error: function (error) {
+                                console.error("Error updating employee details: " + error.responseText);
+                            }
+                        });
+                    }
+
                 })
             },
             error: function () {
@@ -230,6 +237,46 @@
                 alert('Error fetching data');
             }
         });
+
+        function validateForm() {
+            var isValid = true;
+            $('.text-danger').text('');
+            // Validate User Name
+            var userName = $('#editUserName').val();
+            if (userName.trim() === '') {
+                $('#lblEditUserName').text('User Name is required');
+                isValid = false;
+            }
+
+            // Validate NIC
+            var nic = $('#editNic').val();
+            if (nic.trim() === '') {
+                $('#lblEditNic').text('NIC is required');
+                isValid = false;
+            }
+
+            // Validate EPF Number
+            var epfNumber = $('#editEpfNumber').val();
+            if (epfNumber.trim() === '') {
+                $('#lblEditEpfNumber').text('EPF Number is required');
+                isValid = false;
+            }
+
+            // Validate Address
+            var address = $('#editAddress').val();
+            if (address.trim() === '') {
+                $('#lblEditAddress').text('Address is required');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+        $('#editEmployeeForm input, #editAddress').focus(function () {
+            $('.text-danger').text('');
+        });
+
+
+
     });
 </script>
 
