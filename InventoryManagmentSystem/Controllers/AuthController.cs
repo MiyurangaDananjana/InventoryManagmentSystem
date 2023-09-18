@@ -162,7 +162,7 @@ namespace InventoryManagmentSystem.Controllers
         [HttpGet]
         public ActionResult GetTheUserDetailsBySession(string session)
         {
-            if(session != null)
+            if (session != null)
             {
                 var isSession = _DbContext.UserSessions.FirstOrDefault(x => x.SessionKey == session);
                 var isUserDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == isSession.UserId);
@@ -175,7 +175,7 @@ namespace InventoryManagmentSystem.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(400);
+                return RedirectToAction("Index", "Home");
             }
 
         }

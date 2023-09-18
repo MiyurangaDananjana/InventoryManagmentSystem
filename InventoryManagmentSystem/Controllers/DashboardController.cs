@@ -15,12 +15,5 @@ namespace InventoryManagmentSystem.Controllers
         {
             this._DbContext = inventorySystemEntities;
         }
-
-        //[HttpGet]
-        //public ActionResult GetTotal()
-        //{
-           
-
-        //}
     }
 }

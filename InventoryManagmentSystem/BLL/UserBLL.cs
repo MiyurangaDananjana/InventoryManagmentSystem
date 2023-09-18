@@ -79,5 +79,26 @@ namespace InventoryManagmentSystem.BLL
 
         }
 
+        public  bool CheckSession(string session)
+        {
+         
+            if (session != null)
+            {
+                var isCheckCookie = _DbContext.UserSessions.FirstOrDefault(x => x.SessionKey == session);
+                if (isCheckCookie != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

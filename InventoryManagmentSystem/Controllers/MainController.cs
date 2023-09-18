@@ -1,4 +1,5 @@
-﻿using InventoryManagmentSystem.DAL;
+﻿using InventoryManagmentSystem.BLL;
+using InventoryManagmentSystem.DAL;
 using InventoryManagmentSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,20 @@ namespace InventoryManagmentSystem.Controllers
 
         public ActionResult Main()
         {
-            return View();
+            string Key = "Session";
+            var Cookie = Request.Cookies[Key];
+            UserBLL user = new UserBLL(_DbContext);
+            string session = Cookie?.Value;
+            if (user.CheckSession(session))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
+
         }
 
         public ActionResult Dashbord()
@@ -88,7 +102,8 @@ namespace InventoryManagmentSystem.Controllers
                 var invoiceIdToSearch = invoiceIds;
 
                 var list = from i in _DbContext.Invoices
-                           from o in _DbContext.OrderItems where o.CustomerId == i.CustomerId && o.CreateDate == i.Date
+                           from o in _DbContext.OrderItems
+                           where o.CustomerId == i.CustomerId && o.CreateDate == i.Date
                            join b in _DbContext.Brands on o.BrandId equals b.BrandId
                            join p in _DbContext.Products on o.ProductId equals p.ProductId
                            join pv in _DbContext.ProductVariantes on o.ProductVariantId equals pv.ProductVariantId
@@ -103,15 +118,12 @@ namespace InventoryManagmentSystem.Controllers
                                TotalQuantity = i.TotalQuantity,
                                TotalPrice = (decimal)i.TotalPrice
                            };
-
                 var Listresult = list.ToList();
-
                 var viewModel = new InvoiceViewModel
                 {
                     CustomerDetails = result,
                     InvoiceItems = Listresult
                 };
-
                 return View(viewModel);
             }
             return Content("tets");

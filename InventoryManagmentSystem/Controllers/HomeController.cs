@@ -1,4 +1,5 @@
-﻿using InventoryManagmentSystem.Models;
+﻿using InventoryManagmentSystem.BLL;
+using InventoryManagmentSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +20,17 @@ namespace InventoryManagmentSystem.Controllers
         {
             string Key = "Session";
             var Cookie = Request.Cookies[Key];
-            if (Cookie != null)
+            UserBLL user = new UserBLL(_DbContext);
+            string session = Cookie?.Value;
+            if (user.CheckSession(session))
             {
-                var isCheckCookie = _DbContext.UserSessions.FirstOrDefault(x => x.SessionKey == Cookie.Value);
-                if (isCheckCookie != null)
-                {
-                    return RedirectToAction("Main", "Main");
-                }
-                else
-                {
-                    return View();
-                }
+                return RedirectToAction("Main", "Main");
             }
-            return View();
+            else
+            {
+                return View();
+            }
+
         }
 
         public ActionResult About()

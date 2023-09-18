@@ -22,21 +22,9 @@
                 <div class="xp-profilebar text-right">
                     <nav class="navbar p-0">
                         <ul class="nav navbar-nav flex-row ml-auto">
-                            <li class="dropdown nav-item active">
-                                <a class="nav-link" data-toggle="dropdown">
-                                    <span class="material-icons">notifications</span>
-                                    <span class="notification">4</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a>You Have 4 New Messages</a></li>
-                                    <li><a>You Have 4 New Messages</a></li>
-                                    <li><a>You Have 4 New Messages</a></li>
-                                    <li><a>You Have 4 New Messages</a></li>
-                                </ul>
-                            </li>
                             <li class="dropdown nav-item">
                                 <a class="nav-link" data-toggle="dropdown">
-                                    <img  id="imageName" class="nav-profile" alt="Image">
+                                    <img id="imageName" class="nav-profile" alt="Image">
                                     <span class="xp-user-live"></span>
                                 </a>
                                 <ul class="dropdown-menu small-menu">
@@ -45,7 +33,6 @@
                                             @Html.ActionLink("Logout", "RemoveCookie", "Auth", new { area = "" }, new { @class = "link", id = "logoutLink" })
                                         </a>
                                     </li>
-
                                 </ul>
                             </li>
                         </ul>
@@ -62,38 +49,13 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
-        function checkCookieExists(cookieName) {
-            return document.cookie.indexOf(cookieName + '=') !== -1;
-        }
         const cookieName = "Session";
-        const cookieExists = checkCookieExists(cookieName);
+        const sessionKey = Cookies.get(cookieName);
 
-        if (cookieExists) {
-            $("#logoutLink").show();
-        } else {
-            $("#logoutLink").hide();
-            // Redirect to the Home/Login page
-            window.location.href = '/'; // Specify the complete relative URL
-        }
-
-        // Clear the back button history
-        if (window.history && window.history.pushState) {
-            window.history.pushState(null, null, window.location.href);
-            window.onpopstate = function () {
-                window.history.pushState(null, null, window.location.href);
-            };
-        }
-    });
-
- 
-
-
-    $(document).ready(function () {
-        var sessionKey = Cookies.get('Session');
         if (sessionKey) {
+            // Session cookie exists, fetch user details
             $.ajax({
                 url: '/Auth/GetTheUserDetailsBySession',
                 type: 'GET',
@@ -101,21 +63,38 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data) {
+                        // Update the user name
                         $('#userName').text(data.UserName);
+
+                        // Fetch and display the user image
                         fetchImage(data.ImageName);
+
+                        // Show the logout link
+                        $("#logoutLink").show();
                     } else {
-                        console.log('Session not found.');
+                        console.log('Session not found or user details not available.');
+                        // Redirect to the login page or handle the situation accordingly
+                        window.location.href = '/login'; // Update with the appropriate login URL
                     }
                 },
                 error: function () {
                     console.log('Error occurred during the AJAX request.');
+                    // Handle the error as needed, e.g., display an error message.
                 }
             });
-        }
-        else
-        {
+        } else {
+            // Session cookie not found, redirect to the login page
             console.log('Session cookie not found.');
+            window.location.href = '/login'; // Update with the appropriate login URL
         }
+
+        // Logout link click event
+        $("#logoutLink").click(function () {
+            // Clear the session cookie
+            Cookies.remove(cookieName);
+            // Redirect to the login page or logout endpoint as needed
+            window.location.href = '/logout'; // Update with the appropriate logout URL
+        });
     });
 
     function fetchImage(imageName) {
@@ -123,6 +102,4 @@
         var imageUrl = 'http://localhost:55811/Auth/GetImage?imageName=' + imageName; // Replace with the actual image URL
         imageElement.src = imageUrl;
     }
-
-
 </script>
