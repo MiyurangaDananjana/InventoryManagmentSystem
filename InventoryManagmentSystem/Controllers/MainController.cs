@@ -4,6 +4,7 @@ using InventoryManagmentSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -163,31 +164,47 @@ namespace InventoryManagmentSystem.Controllers
         [HttpPost]
         public ActionResult DeleteUser(int userId)
         {
-            var isSession = _DbContext.UserSessions.FirstOrDefault(x => x.UserId == userId);
-            if (isSession != null)
+            try
             {
-                _DbContext.UserSessions.Remove(isSession);
-                _DbContext.SaveChanges();
-                var userDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == userId);
-                if (userDetails != null)
+                var isSession = _DbContext.UserSessions.FirstOrDefault(x => x.UserId == userId);
+                if (isSession != null)
                 {
-                    _DbContext.UserRegisters.Remove(userDetails);
+                    _DbContext.UserSessions.Remove(isSession);
                     _DbContext.SaveChanges();
-                    return Content("Delete");
+                    var userDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == userId);
+                    if (userDetails != null)
+                    {
+                        _DbContext.UserRegisters.Remove(userDetails);
+                        _DbContext.SaveChanges();
+                        return Content("Delete");
+                    }
+                    return Content("Fail");
                 }
-                return Content("Fail");
+                else
+                {
+                    var userDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == userId);
+                    if (userDetails != null)
+                    {
+                        _DbContext.UserRegisters.Remove(userDetails);
+                        _DbContext.SaveChanges();
+                        return Content("Delete");
+                    }
+                }
+                return Content("fail");
             }
-            else
+            catch (DbUpdateException ex)
             {
-                var userDetails = _DbContext.UserRegisters.FirstOrDefault(x => x.Id == userId);
-                if (userDetails != null)
+
+                string errorMessage = "An error occurred while updating the entries.";
+                if (ex.InnerException != null)
                 {
-                    _DbContext.UserRegisters.Remove(userDetails);
-                    _DbContext.SaveChanges();
-                    return Content("Delete");
+                    errorMessage += " Inner Exception: " + ex.InnerException.Message;
+                    
                 }
+                return Content(errorMessage);
+
             }
-            return Content("fail");
+           
         }
 
         //User Details Edit

@@ -156,32 +156,48 @@
     $(document).ready(function () {
         // Add new customer
         $("#addEmployeeModal").on('click', '.btn-success', function () {
-            var data = {
-                CustomerName: $("#addEmployeeModal input[name='addName']").val(),
-                PhoneNumber: $("#addEmployeeModal input[name='addContactNumber']").val(),
-                CustomerAddress: $("#addEmployeeModal textarea[name='addAddress']").val()
-            };
-            $.ajax({
-                type: "POST",
-                url: "/Customer/SaveCustomer", // Replace 'ControllerName' with your actual controller name
-                data: data,
-                dataType: "json",
-                success: function (result) {
-                    if (result.success) {
-                        // Handle success, e.g., show a success message and close the modal
-                        alert("Customer added successfully");
-                        $("#addEmployeeModal").modal('hide');
-                        loadDataIntoTable(); // Load table data
-                    } else {
-                        // Handle failure, e.g., display an error message
-                        alert(result.message);
-                    }
-                },
-                error: function () {
-                    // Handle AJAX error
-                    alert("An error occurred while processing your request.");
+            var customerName = $("#addEmployeeModal input[name='addName']").val();
+            var phoneNumber = $("#addEmployeeModal input[name='addContactNumber']").val();
+            var customerAddress = $("#addEmployeeModal textarea[name='addAddress']").val();
+
+            if (!customerName || !phoneNumber || !customerAddress) {
+
+                alert("Please fill in all required fields.");
+            }
+            else
+            {
+                // All fields are filled, proceed with the AJAX request
+                var data = {
+                    CustomerName: customerName,
+                    PhoneNumber: phoneNumber,
+                    CustomerAddress: customerAddress
                 }
-            });
+                $.ajax({
+                    type: "POST",
+                    url: "/Customer/SaveCustomer", // Replace 'ControllerName' with your actual controller name
+                    data: data,
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.success) {
+                            // Handle success, e.g., show a success message and close the modal
+                            alert(result.message);
+                            
+                            loadDataIntoTable(); // Load table data
+                        } else {
+
+                            console.log("Failure response received")
+                           
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        // Handle AJAX error
+                        alert("An error occurred while processing your request.");
+                    }
+                });
+            };
+
+
         });
         function loadDataIntoTable() {
             $.ajax({
@@ -328,5 +344,7 @@
                 alert('Error fetching data');
             }
         });
+
+
     });
 </script>

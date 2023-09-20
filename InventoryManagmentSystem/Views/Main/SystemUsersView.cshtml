@@ -140,11 +140,12 @@
                             data: { userId: userId }, // Pass the userId as data
                             success: function (response) {
                                 if (response === 'Delete') {
-                                    // Optionally, you can remove the user's entry from the UI
-                                    // $(this).closest('tr').remove();
                                     alert('User deleted successfully');
-                                } else {
+                                } else if (response === 'Fail') {
                                     alert('Failed to delete user');
+                                }
+                                else {
+                                    alert(response);
                                 }
                             },
                             error: function () {
@@ -191,8 +192,10 @@
                         return parts.pop().split(';').shift();
                     }
                 }
+
                 // Usage:
                 const sessionData = getCookie("Session");
+
                 $("#saveEditButton").click(function () {
                     if (validateForm()) {
                         var userId = $("#editUserId").val();
@@ -247,28 +250,24 @@
                 $('#lblEditUserName').text('User Name is required');
                 isValid = false;
             }
-
             // Validate NIC
             var nic = $('#editNic').val();
             if (nic.trim() === '') {
                 $('#lblEditNic').text('NIC is required');
                 isValid = false;
             }
-
             // Validate EPF Number
             var epfNumber = $('#editEpfNumber').val();
             if (epfNumber.trim() === '') {
                 $('#lblEditEpfNumber').text('EPF Number is required');
                 isValid = false;
             }
-
             // Validate Address
             var address = $('#editAddress').val();
             if (address.trim() === '') {
                 $('#lblEditAddress').text('Address is required');
                 isValid = false;
             }
-
             return isValid;
         }
         $('#editEmployeeForm input, #editAddress').focus(function () {

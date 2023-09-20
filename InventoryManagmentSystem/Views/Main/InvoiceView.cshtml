@@ -3,6 +3,25 @@
     ViewBag.Title = "InvoiceView";
 }
 
+@{
+    int totalQuantity = 0;
+    decimal totalPrice = 0;
+    int invoiceId = 0; 
+
+    foreach (var item in Model.InvoiceItems)
+    {
+         
+        totalQuantity += item.TotalQuantity;
+        totalPrice += (item.TotalQuantity * item.Price); // Calculate total price for each item
+        invoiceId = item.InvoiceId;
+
+        if (invoiceId == 0)
+        {
+            invoiceId = item.InvoiceId;
+        }
+    }
+}
+
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <!-- Font Awesome -->
@@ -33,10 +52,9 @@
                             @*<p>Supplier,</p>*@
                             <h5>INVENTORY MANAGMENT</h5>
                             @*<p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>
-                            <div class="txn mt-2">TXN: XXXXXXX</div>*@
+                                <div class="txn mt-2">TXN: XXXXXXX</div>*@
                         </div>
                         <div class="col-5">
-
                             @*<p>Client,</p>*@
                             <h5>@Model.CustomerDetails.CustomerName</h5>
                             <p class="address">@Model.CustomerDetails.CustomerAddress <br>  </p>
@@ -83,65 +101,21 @@
             </section>
             <section class="balance-info">
                 <div class="row">
-                    <div class="col-8">
-                        <p class="m-0 font-weight-bold"> Note: </p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In delectus, adipisci vero est dolore praesentium.</p>
-                    </div>
                     <div class="col-4">
                         <table class="table border-0 table-hover">
                             <tr>
-                                <td>Sub Total:</td>
-                                <td>800$</td>
+                                <td>Total Quantity: </td>
+                                <td>@totalQuantity</td>
                             </tr>
                             <tr>
-                                <td>Tax:</td>
-                                <td>15$</td>
+                                <td>Total Price :</td>
+                                <td>@totalPrice</td>
                             </tr>
-                            <tr>
-                                <td>Deliver:</td>
-                                <td>10$</td>
-                            </tr>
-                            <tfoot>
-                                <tr>
-                                    <td>Total:</td>
-                                    <td>825$</td>
-                                </tr>
-                            </tfoot>
                         </table>
-
-                        <!-- Signature -->
-
                     </div>
                 </div>
             </section>
-            <footer>
-                <hr>
-                <p class="m-0 text-center">
-                    View THis Invoice Online At - <a href="#!"> invoice/saburbd.com/#868 </a>
-                </p>
-                <div class="social pt-3">
-                    <span class="pr-2">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span>0123456789</span>
-                    </span>
-                    <span class="pr-2">
-                        <i class="fas fa-envelope"></i>
-                        <span>me@saburali.com</span>
-                    </span>
-                    <span class="pr-2">
-                        <i class="fab fa-facebook-f"></i>
-                        <span>/sabur.7264</span>
-                    </span>
-                    <span class="pr-2">
-                        <i class="fab fa-youtube"></i>
-                        <span>/abdussabur</span>
-                    </span>
-                    <span class="pr-2">
-                        <i class="fab fa-github"></i>
-                        <span>/example</span>
-                    </span>
-                </div>
-            </footer>
+            
         </div>
     </div>
 </body>

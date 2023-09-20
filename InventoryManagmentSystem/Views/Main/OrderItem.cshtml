@@ -161,6 +161,7 @@
 
 <script>
     $.ajax({
+        //load the product details
         pe: "GET",
         url: "/Product/GetBrandDetails",
         dataType: "json",
@@ -186,6 +187,7 @@
     });
 
     $.ajax({
+        // Load the customer details
         url: "/Customer/GetCustomerIdAndName",
         type: "GET",
         dataType: "json",
@@ -205,6 +207,7 @@
     });
 
     $.ajax({
+        //Load the Payment methods
         url: "/OrderItem/GetPaymentMethod",
         type: "GET",
         dataType: "json",
@@ -224,6 +227,8 @@
     });
 
     $(document).ready(function () {
+
+        //load the product order by the Brand Id
         $("#BrandList").change(function () {
             var selectedBrandId = $(this).val();
             if (selectedBrandId !== "") {
@@ -255,6 +260,7 @@
         });
 
         $("#ProductList").change(function () {
+            //Load the producet Variant
             var selectedProductId = $(this).val();
             if (selectedProductId !== "") {
                 $.ajax({
@@ -285,6 +291,7 @@
         });
 
         $("#ProductVariantList").change(function () {
+            // Load the product variant
             var selectedProductId = $(this).val();
             if (selectedProductId !== "") {
                 $.ajax({
@@ -419,10 +426,12 @@
     function calculateTotalAmount(dataArray) {
         var totalAmountSum = 0;
         for (var i = 0; i < dataArray.length; i++) {
+
             var item = dataArray[i];
             // Ensure "Quantity" and "Price" properties exist and are valid numbers
             if (item.hasOwnProperty("Quantity") && item.hasOwnProperty("ItemPrice") &&
-                !isNaN(parseFloat(item["Quantity"])) && !isNaN(parseFloat(item["ItemPrice"]))) {
+                !isNaN(parseFloat(item["Quantity"])) && !isNaN(parseFloat(item["ItemPrice"])))
+            {
                 totalAmountSum += parseFloat(item["Quantity"]) * parseFloat(item["ItemPrice"]);
             }
         }
@@ -436,21 +445,32 @@
         var productVariantValue = parseInt($("#ProductVariantList").val(), 10);
         var priceValue = parseInt($("#Price").val(), 10);
         var orderQuantityValue = parseInt($("#OrderQuantity").val(), 10);
+
         //Validate TextBox
         if (isNaN(brandValue) || brandValue === "") {
+
             alert("Brand is required.");
+
         } else if (isNaN(productValue) || productValue === "") {
+
             alert("Product is required.");
+
         } else if (isNaN(productVariantValue) || productVariantValue === "") {
+
             alert("Product Variant is required.");
      
         } else if (isNaN(priceValue) || priceValue === "") {
+
             alert("Price is required.");
+
         } else if (isNaN(orderQuantityValue) || orderQuantityValue === "") {
+
             alert("Order Quantity is required.");
+
         } else {
             // Create an object with the form data
             var formItem = {
+
                 BrandId: brandValue,
                 ProductId: productValue,
                 ProductVariantId: productVariantValue,
@@ -489,5 +509,6 @@
         var formData = getDataFromLocalStorage();
         displayDataInTable(formData);
     }
+
 </script>
 
