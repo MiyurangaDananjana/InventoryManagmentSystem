@@ -24,7 +24,7 @@ namespace InventoryManagmentSystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(400, "Bad Request");
+                return Json(new { success = false, message = "Error" });
             }
             //Check customer phone number 
             var isCustomer = _DbContext.CustomerDetails.FirstOrDefault(x => x.CustomerPhoneNumber == model.PhoneNumber);

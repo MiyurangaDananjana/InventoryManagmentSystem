@@ -170,8 +170,8 @@
                     if (result.success) {
                         // Handle success, e.g., show a success message and close the modal
                         alert("Customer added successfully");
-                        loadDataIntoTable(); // Load table data
                         $("#addEmployeeModal").modal('hide');
+                        loadDataIntoTable(); // Load table data
                     } else {
                         // Handle failure, e.g., display an error message
                         alert(result.message);

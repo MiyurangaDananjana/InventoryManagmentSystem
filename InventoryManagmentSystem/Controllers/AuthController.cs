@@ -121,7 +121,7 @@ namespace InventoryManagmentSystem.Controllers
                 return RedirectToAction("UserRegister", "Auth");
             }
 
-            // Upload User Profile      
+            // Upload User Profile 
             string NewFileNameWithType = UserBLL.RenameImage(userViewModel.Profile, PATH_PROFILE_PHOTO_UPLOAD);
             if (NewFileNameWithType == null)
             {
@@ -188,7 +188,6 @@ namespace InventoryManagmentSystem.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-
         }
 
 

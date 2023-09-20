@@ -173,7 +173,6 @@ namespace InventoryManagmentSystem.Controllers
                                 {
                                     BrandId = brand.BrandId,
                                     BrandName = brand.BrandName
-
                                 }).ToList();
             if (brandDetails != null)
             {
@@ -228,7 +227,6 @@ namespace InventoryManagmentSystem.Controllers
                                    ProductDescription = product.ProductDescription,
                                    Price = product.Price,
                                    SupplierName = supplier.SupplierName
-
                                }).FirstOrDefault();
             if (productList == null)
             {

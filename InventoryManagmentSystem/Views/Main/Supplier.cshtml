@@ -163,10 +163,11 @@
             if (validateAddForm()) {
                 var data = {
                     SupplierName: $("#addEmployeeModal input[name='addSupllierName']").val(),
-                    PhoneNumber: $("#addEmployeeModal textarea[name='addContactNumber']").val(),
-                    Address: $("#addEmployeeModal input[name=' addSuppllierAddress']").val(),
+                    PhoneNumber: $("#addEmployeeModal input[name='addContactNumber']").val(),
+                    Address: $("#addEmployeeModal textarea[name='addSuppllierAddress']").val(),
                     Description: $("#addEmployeeModal textarea[name='addDescription']").val()
                 };
+                console.log(data.Address);
                 $.ajax({
                     type: "POST",
                     url: "/Supplier/NewSupplier",

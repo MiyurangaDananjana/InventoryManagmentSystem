@@ -34,16 +34,19 @@
                             <div class="form-group">
                                 <label>Product</label>
                                 <select class="form-select form-control" id="BrandList" name="BrandList" required>
+                                    <option>--Select--</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Product</label>
                                 <select class="form-select form-control" id="ProductList" name="ProductList" required>
+                                    <option>--Select--</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Product Variant</label>
                                 <select class="form-select form-control" id="ProductVariantList" name="ProductVariantList" required>
+                                    <option>--Select--</option>
                                 </select>
                             </div>
                             <div class="row">
@@ -427,14 +430,12 @@
     }
     $("#saveEditButton").click(function () {
 
-
         // Get the form data
         var brandValue = parseInt($("#BrandList").val(), 10);
         var productValue = parseInt($("#ProductList").val(), 10);
         var productVariantValue = parseInt($("#ProductVariantList").val(), 10);
         var priceValue = parseInt($("#Price").val(), 10);
         var orderQuantityValue = parseInt($("#OrderQuantity").val(), 10);
-
         //Validate TextBox
         if (isNaN(brandValue) || brandValue === "") {
             alert("Brand is required.");
